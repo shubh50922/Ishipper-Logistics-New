@@ -7,15 +7,13 @@
             <div class="col-md-12 col-12">
                 <div class="row only-deskfrm mb-4">
                     <div class="col-md-6 col-lg-5 col-xl-5 col-xxl-4 col-12">
-                        <div class="form-group">
+                        <div class="form-group" >
                             <label id="carrier-label" for="carrier">Carrier Name <span
                                     class="text-danger">*</span></label>
                             <select class="form-select user_formsdtls"
                                 aria-label="Default select example">
-                                <option selected>Carrier</option>
-                                <option value="Carrier">Carrier</option>
-                                <option value="Carrier">Carrier</option>
-                                <option value="Carrier">Carrier</option>
+                                <option selected *ngFor="let item of serviceProviderSet" [value]="item">{{item}}</option>
+                                
                             </select>
                         </div>
                     </div>
@@ -24,10 +22,8 @@
                             <label id="service-label" for="service">Service Name (Optional)</label>
                             <select class="form-select user_formsdtls"
                                 aria-label="Default select example">
-                                <option selected>Service</option>
-                                <option value="Service">Service</option>
-                                <option value="Service">Service</option>
-                                <option value="Service">Service</option>
+                                <option selected *ngFor="let key of availableServices" [value]="key.serviceName">{{key.serviceName}}</option>
+                                
                             </select>
                         </div>
                     </div>
@@ -41,7 +37,7 @@
                             <div class="commission-align">
                                 <div class="form-check commission-space">
                                     <input class="form-check-input form_checkbg" type="radio"
-                                        name="flexRadioDefault" id="flexRadioDefault1">
+                                        name="flexRadioDefault" id="flexRadioDefault1"  (change)="onRadioChange('dollar')">
                                     <label class="form-check-label fw-bold mb-0"
                                         for="flexRadioDefault1">
                                         By $
@@ -49,7 +45,7 @@
                                 </div>
                                 <div class="form-check commission-space">
                                     <input class="form-check-input form_checkbg" type="radio"
-                                        name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                        name="flexRadioDefault" id="flexRadioDefault2"   (change)="onRadioChange('percent')" checked>
                                     <label class="form-check-label fw-bold mb-0"
                                         for="flexRadioDefault2">
                                         By %
