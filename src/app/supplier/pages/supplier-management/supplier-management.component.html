@@ -1,0 +1,221 @@
+<div class="main_content">
+    <div class="d_htd_content">
+        <div class="htd_head px-4">
+            <div>
+                <h5>Carrier Management</h5>
+                <p class="mb-4">Cut shipping costs and enhance customer delivery experiences by enabling
+                    multiple carriers and iShipper's smart order allocation.</p>
+                <div class="supplier_checkbx d-flex">
+                    <div class="form-check">
+                        <input class="form-check-input new_eabledChecked" type="checkbox" value=""
+                            id="flexCheckDefault" checked>
+                        <label class="form-check-label mb-0 checkbx_labeltxt" for="flexCheckDefault">
+                            Service All
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input new_disabledCheck" type="checkbox" value=""
+                            id="flexCheckCheckedDisabled" checked disabled>
+                        <label class=" mb-0 checkbx_labeltxt" for="flexCheckCheckedDisabled">
+                            Standard
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input new_disabledCheck" type="checkbox" value=""
+                            id="flexCheckCheckedDisabled" checked disabled>
+                        <label class=" mb-0 checkbx_labeltxt" for="flexCheckCheckedDisabled">
+                            Express
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input new_disabledCheck" type="checkbox" value=""
+                            id="flexCheckCheckedDisabled" checked disabled>
+                        <label class=" mb-0 checkbx_labeltxt" for="flexCheckCheckedDisabled">
+                            Priority
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input new_disabledCheck" type="checkbox" value=""
+                            id="flexCheckCheckedDisabled" checked disabled>
+                        <label class=" mb-0 checkbx_labeltxt" for="flexCheckCheckedDisabled">
+                            International
+                        </label>
+                    </div>
+                    <span class="border_rghbx"></span>
+                    <div class="form-check">
+                        <input class="form-check-input new_disabledCheck" type="checkbox" value=""
+                            id="flexCheckCheckedDisabled" checked disabled>
+                        <label class="mb-0 checkbx_labeltxt" for="flexCheckCheckedDisabled">
+                            Mode All
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input new_disabledCheck" type="checkbox" value=""
+                            id="flexCheckCheckedDisabled" checked disabled>
+                        <label class="mb-0 checkbx_labeltxt" for="flexCheckCheckedDisabled">
+                            Road
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input new_eabledChecked" type="checkbox" value=""
+                            id="flexCheckCheckedDisabled" checked>
+                        <label class="form-check-label mb-0 checkbx_labeltxt" for="flexCheckCheckedDisabled">
+                            Air
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input new_disabledCheck" type="checkbox" value=""
+                            id="flexCheckCheckedDisabled" checked disabled>
+                        <label class=" mb-0 checkbx_labeltxt" for="flexCheckCheckedDisabled">
+                            Sea
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="d_right_range_filter career_dcol">
+                <div class="btn_flex">
+                    <!-- <div class="btn-group">
+                        <a type="button" class="btn dropdown-toggle btn_savesetting"
+                            data-bs-toggle="dropdown" aria-expanded="true"> Save Settings
+                        </a> -->
+                        <div class="btn-group">
+                            <a type="button" class="btn " style="background-color: #00B0EA; color: white;"
+                                 (click)="saveSettings()"> Save Settings
+                            </a>
+
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-4">
+                        <p>Advanced Options</p>
+                        <div class="content">
+                            <label class="switch m5">
+                                <input type="checkbox" checked>
+                                <small></small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-4 bg-white pb-5">
+            <div class="row">
+               
+                 <ng-container *ngFor="let serviceProviderType of serviceProviderData | keyvalue">
+            <div class="col-md-6 col-lg-6 col-xl-4 col-sm-12 col-12 hgh_box">
+                <div class="management_carservices">
+                    <div class="standard_services">
+                        <h4 class="mb-2">{{ serviceProviderType.key }} <i class="fa fa-info"></i></h4>
+                        <p class="mb-4">Pick-up time: 1-3 business days after booking</p>
+                    </div>
+                    <!-- Loop through the services for the current serviceProviderType -->
+                    <div  *ngFor="let service of serviceProviderType.value">
+                    <div class="couriers-wtxt d-flex align-items-center justify-content-between">
+                        <div class="only_courierstxt">
+                            <p>{{ service.serviceName }}</p>
+                        </div>
+                        <div class="content">
+                            <!-- Your checkbox code here -->
+                            <label class="switch m5">
+                                <input type="checkbox" [checked]="service.status" (change)="toggleServiceStatus(service,service.id)">
+
+                                <small></small>
+                            </label>
+                        </div>
+                    </div>
+                    <hr class="bg_linecar">
+                </div>
+            </div>
+            </div>
+        </ng-container>
+            </div>
+
+            <div class="advance_opt">
+                <div class="d-flex align-items-center gap-4 mb-3">
+                    <h4>Advanced Options</h4>
+                    <div class="content">
+                        <label class="switch m5">
+                            <input type="checkbox" checked>
+                            <small></small>
+                        </label>
+                    </div>
+                </div>
+                <div class="adv_para d-flex align-items-center gap-4">
+                    <p>Carrier Based Order Allocation</p>
+                    <div class="toggle-opt">
+                        <div class="btn-group btn-toggler">
+                            <button class="btn-toggleopt default-btntgl active">Cheapest</button>
+                            <button class="btn-toggleopt default-btntgl">Fastest</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="line-spacing">
+            <!-- <div class="tgl-wthtxt d-flex align-items-center ps-1"> -->
+            <div class="row">
+                <div class="col-md-6 col-sm-12 col-xl-4 col-lg-6">
+                    <div class="d-flex align-items-center mob-btmspace">
+                        <div class="advance-atltxt me-2">
+                            <p>Set authority to leave (ATL) as a default for all orders</p>
+                        </div>
+                        <div class="content">
+                            <label class="switch m5">
+                                <input type="checkbox">
+                                <small></small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xl-4 col-lg-6">
+                    <div class="d-flex align-items-center justify-content-center mob-btmspace">
+                        <div class="advance-atltxt me-2">
+                            <p>Instruct carriers not leave at collection</p>
+                        </div>
+                        <div class="content">
+                            <label class="switch m5">
+                                <input type="checkbox">
+                                <small></small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xl-4 col-lg-6">
+                    <div class="d-flex align-items-center mob-btmspcend">
+                        <div class="advance-atltxt me-2">
+                            <p>Automatically request a Auto Tall-Lift for bulky freight</p>
+                        </div>
+                        <div class="content">
+                            <label class="switch m5">
+                                <input type="checkbox">
+                                <small></small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="line-spacing">
+        </div>
+
+    </div>
+    <div class="btn_footer px-0">
+        <a href="javascript:void(0)" class="btn_foot">Download</a>
+        <button type="button" (click)="showData()">Show</button>
+        <div class="">
+            <select>
+                <option>Select format</option>
+                <option>Select format</option>
+                <option>Select format</option>
+            </select>
+           
+        </div>
+    </div>
+</div>

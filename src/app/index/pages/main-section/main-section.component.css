@@ -1,0 +1,73 @@
+.custom_radiobtn {
+    display: inline-block;
+    margin-right: 20px; /* Adjust margin as per your need */
+}
+
+.search-container {
+    position: relative;
+    width: 100%; /* Adjust width as needed */
+}
+
+.search-container input[type="text"] {
+    width: 100%; /* Make the input field take full width */
+    padding-right: 30px; /* Add some padding to the right to make space for the icon */
+}
+
+.search-container svg {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Prevent the icon from being clickable */
+    fill: #ccc; /* Color of the icon */
+}
+
+/* Add appropriate styles for dropdown */
+.dropdown-list {
+    position: absolute;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    z-index: 1000; /* Ensure the dropdown is above other elements */
+}
+
+.dropdown-list li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.dropdown-list li:hover {
+    background-color: #f0f0f0;
+}
+.loader {
+    position: absolute;
+    right: 10px; /* Adjust position as needed */
+    top: 35%;
+    transform: translateY(-50%);
+    border: 2px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #3498db;
+    width: 22px;
+    height: 22px;
+    -webkit-animation: spin 1s linear infinite; /* Safari */
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+
+
+
+  

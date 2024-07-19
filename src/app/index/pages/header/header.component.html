@@ -1,0 +1,45 @@
+ <!-- Header End -->
+ <header>
+    <div class="container">
+      <nav class="navbar navbar-expand-lg">
+        <div class="header_icon">
+          <img src="../../../../assets/images/admin/images/main-logo.png" alt="">
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
+          aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse" id="navbarTogglerDemo01">
+          <ul class="menu">
+            <li class="active"><a href="javasacript:void(0)">Home</a></li>
+            <li><a href="javasacript:void(0)">Solutions</a></li>
+            <li><a href="javasacript:void(0)">Services</a></li>
+            <li><a href="javasacript:void(0)">Pricing</a></li>
+            <li><a href="javasacript:void(0)">Contact Us</a></li>
+            
+          </ul>
+          <ul class="login-signup">
+            <li>
+              <button 
+                type="button" 
+                (click)="value === 'logout' ? homeLogout() : null"  
+                [routerLink]="value === 'login' ? '/auth/login' : ''" 
+                class="c_btn c_blue">
+                {{ value === 'logout' ? 'Logout' : 'Login' }}
+              </button>
+            </li>
+            
+            <li>
+              <a [routerLink]="userRole === 'SuperAdmin' ? '/application/commission' : (userRole === 'Admin' ? '/application' : (userRole === 'User' ? '/application/dashboardlayout' : '/auth/signup'))"
+   class="c_btn c_black">
+                {{  userRole === 'SuperAdmin'|| userRole === 'Admin' || userRole === 'User' ? 'Dashboard' : 'Signup' }}
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <!-- Header Start -->

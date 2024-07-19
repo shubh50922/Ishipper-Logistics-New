@@ -1,0 +1,268 @@
+<div class="dashboard_wrapper">
+  <div class="sidebar">
+    <div class="sidebar_logo">
+      <a href="index.html"
+        ><img
+          class="regular_logo"
+          src="../../../../assets/images/admin/images/white_logo.png"
+          alt="logo"
+      /></a>
+      <a href="index.html"
+        ><img
+          class="expand_logo"
+          src="../../../../assets/images/admin/images/expand_logo.png"
+          alt="logo"
+      /></a>
+    </div>
+    <ul class="px-0">
+      <!-- ****** List for Admin *******-->
+      <li
+        *ngIf="userRole === 'Admin' || userRole === 'SuperAdmin'"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a [routerLink]="'/application'"
+          ><img
+            src="../../../../assets/images/admin/images/dashboard.svg"
+            alt="dashboard"
+          />Dashboard</a
+        >
+      </li>
+      <li
+        *ngIf="userRole === 'SuperAdmin'"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a [routerLink]="'/application/commission'"
+          ><img
+            src="../../../../assets/images/admin/images/ready-to-ship.svg"
+            alt="Ready to Ship"
+          />Commission</a
+        >
+      </li>
+      <li *ngIf="userRole === 'Admin'||userRole ==='SuperAdmin'" routerLinkActive="active">
+        <a [routerLink]="'/application/users'"
+          ><img
+            src="../../../../assets/images/admin/images/data.svg"
+            alt="user management"
+          />User Management</a
+        >
+      </li>
+      <li
+        *ngIf="userRole === 'Admin' || userRole === 'SuperAdmin'"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a [routerLink]="'/application/suppliers'"
+          ><img
+            src="../../../../assets/images/admin/images/calendar.svg"
+            alt="suppliers management"
+          />Suppliers Management</a
+        >
+      </li>
+      <li
+        *ngIf="userRole === 'Admin' || userRole === 'SuperAdmin'"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a [routerLink]="'/application/order'"
+          ><img
+            src="../../../../assets/images/admin/images/services.svg"
+            alt="View Order"
+          />View Order</a
+        >
+      </li>
+      <li
+        *ngIf="userRole === 'Admin' || userRole === 'SuperAdmin'"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a [routerLink]="'/application/faqs'"
+          ><img
+            src="../../../../assets/images/admin/images/faq.svg"
+            alt="View Order"
+          />FAQ</a
+        >
+      </li>
+
+      <li
+        *ngIf="userRole === 'Admin' || userRole === 'SuperAdmin'"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a href="#"
+          ><img
+            src="../../../../assets/images/admin/images/setting.svg"
+            alt="Settings"
+          />Settings</a
+        >
+      </li>
+
+      <!-- ****** List for User *******-->
+      <li
+        *ngIf="userRole === 'User'"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a [routerLink]="'/application/dashboardlayout'"
+          ><img
+            src="../../../../assets/images/customer/images/dashboard.svg"
+            alt="dashboard"
+          />Dashboard</a
+        >
+      </li>
+      <li
+        *ngIf="userRole === 'User'"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a [routerLink]="'/application/deliverydetail'"
+          ><img
+            src="../../../../assets/images/customer/images/data.svg"
+            alt="delivery detail"
+          />Delivery Detail</a
+        >
+      </li>
+      <li
+        *ngIf="userRole === 'User'"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a [routerLink]="'/application/shipments'"
+          ><img
+            src="../../../../assets/images/customer/images/calendar.svg"
+            alt="shipment summary"
+          />Shipment Summary
+        </a>
+      </li>
+      <li
+        *ngIf="userRole === 'User'"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a [routerLink]="'/application/warrenty'"
+          ><img
+            src="../../../../assets/images/customer/images/services.svg"
+            alt="warrenty info"
+          />Warrenty Info</a
+        >
+      </li>
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a [routerLink]="'/application/contact'"
+          ><img
+            src="../../../../assets/images/customer/images/services.svg"
+            alt="warrenty info"
+          />Contact Us</a
+        >
+      </li>
+    </ul>
+  </div>
+  <div class="right_content">
+    <div class="d_header">
+      <div class="d_header_left">
+        <button class="expand_content" (click)="toggleExpandContent()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <button class="mobile_hamburger" (click)="toggleSidebar()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <div class="search_field">
+          <input type="text" placeholder="Search" />
+          <img
+            src="../../../../assets/images/admin/images/search_icon.svg"
+            alt="search"
+          />
+        </div>
+      </div>
+      <ul class="d_header_right">
+        <li>
+          <div class="dropdown">
+            <button
+              class="btn badge_btn"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                src="../../../../assets/images/admin/images/messages.svg"
+                alt="messages"
+              />
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="dropdown">
+            <button
+              class="btn badge_btn"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                src="../../../../assets/images/admin/images/bell.svg"
+                alt="bell"
+              /><span>4</span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="dropdown user_dropdown">
+            <button
+              class="btn dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                src="../../../../assets/images/admin/images/user_img.png"
+                alt="user"
+              />
+              <div class="user_det">
+                <h6>{{ finalName }}</h6>
+                <p>{{ userRole }}</p>
+              </div>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li>
+                <a class="dropdown-item" [routerLink]="'/application/profile'"
+                  >User Profile</a
+                >
+              </li>
+              <li><a class="dropdown-item" href="#">Change Password</a></li>
+              <li>
+                <button
+                  type="button"
+                  class="dropdown-item"
+                  (click)="logoutProcess()"
+                >
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <router-outlet> </router-outlet>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,791 @@
+<!-- Main-Section Start -->
+<section class="main-section">
+  <div class="container">
+    <div class="main_inr">
+      <h1>The all-inclusive shipping solution</h1>
+      <p>
+        With our cutting-edge Shipping API, Tracking API for USPS, FedEx and
+        many more, you can save up to 88% on retail rates.
+      </p>
+      <h3>Booking Form</h3>
+      <div class="main_tabs">
+        <div class="tab">
+          <button
+            class="main_tablinks"
+            onclick="openCity(event, 'Parcel')"
+            id="defaultOpen"
+          >
+            Parcel
+          </button>
+          <button class="main_tablinks" onclick="openCity(event, 'SameDay')">
+            SameDay
+          </button>
+          <button class="main_tablinks" onclick="openCity(event, 'Pallet')">
+            Pallet
+          </button>
+          <button class="main_tablinks" onclick="openCity(event, 'Track')">
+            Track
+          </button>
+        </div>
+
+        <div id="Parcel" class="main_tabcontent">
+         <form [formGroup]="userForm"  >
+          <div class="row">
+            <div class="col-md-4 col-xl-4">
+              <div class="inp-group">
+                <label class="custom_radiobtn">
+                  International
+                  <input 
+                    type="radio"
+                    value="international"
+                    name="travel_type"
+                    (change)="toggleDropdown(true)"
+                    [(ngModel)]="selectedTravelType" [ngModelOptions]="{standalone: true}"
+                  />
+                  <span class="check_radio"></span>
+                </label>
+                <label class="custom_radiobtn">
+                  Domestic
+                  <input
+                    type="radio"
+                    value="domestic"
+                    name="travel_type"
+                    [(ngModel)]="selectedTravelType" [ngModelOptions]="{standalone: true}"
+                    (change)="toggleDropdown(false)"
+                  />
+                  <span class="check_radio"></span>
+                </label>
+
+                <label for="">From</label>
+                <div class="sel-prt" *ngIf="isInternational">
+                  <select
+                    name="fromCountry"
+                    id="fromCountry"
+                    #selectElement
+                    [(ngModel)]="selectedCountryCode" [ngModelOptions]="{standalone: true}"
+                    (ngModelChange)="selectCountryToFetchCode($event)"
+                    
+                  >
+                    <option value="" disabled selected>Select a country</option>
+                    <option *ngFor="let country of Countries">
+                      {{ country.countryName }}
+                    </option>
+                  </select>
+                </div>
+                <div class="sel-prt" *ngIf="!isInternational">
+                  <select
+                    name="fromCountry"
+                    id="fromCountry"
+                    [(ngModel)]="selectedCountryCode" [ngModelOptions]="{standalone: true}"
+                  >
+                    <!-- <option value="" disabled>Select a country</option>  -->
+                    <!-- <option value="" disabled selected>Select a country</option> -->
+                    <option [value]="'AU'">Australia</option>
+                    <input type="text" id="" name="" />
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5 col-xl-6">
+              <div class="inp-group">
+                <label for="">Pickup Suburb/Postcode </label>
+                <div class="search-container">
+                  <input
+                    type="text"
+                    name="searchInputOne"
+                    id="searchInputOne"
+                    [(ngModel)]="searchTextOne" 
+                    (input)="getInputValue($event, 'one')"
+                    
+                    placeholder="Search Suburb"
+                    class="formControl" formControlName="pickupSuburb"
+                    
+                  />
+
+                  <!-- Dropdown list of suggestions for the first input -->
+                  <ul
+                    *ngIf="isShowDropdownOne && filteredSuburbsOne.length > 0"
+                    class="dropdown-list"
+                  >
+                    <li
+                      *ngFor="let element of filteredSuburbsOne"
+                      (click)="selectSuburb(element, 'one')"
+                      
+                      
+                    >
+                      {{
+                        element.name +
+                          " " +
+                          element.state +
+                          " " +
+                          element.postcode
+                      }}
+                    </li>
+                  </ul>
+                  <div *ngIf="isLoadingOne" class="loader"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 col-xl-2">
+              <div class="inp-group">
+                <label for="birthday">Collection</label>
+                <input type="date" id="birthday" name="birthday" formControlName="collection" [min]="today" />
+              </div>
+            </div>
+
+            <div class="col-md-6 col-xl-6">
+              <div class="inp-group">
+                <label for="">To</label>
+                <div class="sel-prt">
+                  <select
+                    id="countryDropdown"
+                    (change)="updateCountryCode($event)"
+                  >
+                    <option
+                      *ngFor="let country of Countries"
+                      [value]="country.code"
+                    >
+                      {{ country.countryName }}
+                    </option>
+                    <input type="text" name="" id="" />
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-xl-6">
+              <div class="inp-group">
+                <label for="">Destination Suburb/Postcode</label>
+                <div class="search-container">
+                  <input
+                    type="text"
+                    name="searchInputTwo"
+                    id="searchInputTwo"
+                    [(ngModel)]="searchTextTwo"
+                   
+                    (input)="getInputValue($event, 'two')"
+                    placeholder="Search Suburb"
+                    class="formControl" formControlName="destinationSuburb"
+                  />
+
+                  <!-- Dropdown list of suggestions for the second input -->
+
+                  <ul
+                    *ngIf="isShowDropdownTwo && filteredSuburbsTwo.length > 0"
+                    class="dropdown-list"
+                  >
+                    <li
+                      *ngFor="let element of filteredSuburbsTwo"
+                      (click)="selectSuburb(element, 'two')" 
+                     
+                    >
+                      {{
+                        element.name +
+                          " " +
+                          element.state +
+                          " " +
+                          element.postcode
+                      }}
+                    </li>
+                  </ul>
+                  <div *ngIf="isLoadingTwo" class="loader"></div>
+                </div>
+              </div>
+            </div>
+            <div formArrayName="items" >
+              <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="row">
+                <div class="col-md-4 col-xl-4">
+                <div class="inp-group">
+                  <label for="">Item Type</label>
+                  <div class="sel-prt">
+                    <select formControlName="contents" name="" id="">
+                      <option *ngFor="let content of ContentList" [value]="content">
+                        {{ content }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                <div class="inp-group">
+                  <label for="">Weight</label>
+                  <input formControlName="weight">
+                </div>
+                </div>
+                <div class="col-md-4 col-xl-4">
+                <div class="inp-group">
+                  <label for="">Length</label>
+                  <input formControlName="length">
+                </div>
+              </div>
+              <div class="col-md-4 col-xl-4">
+                <div class="inp-group">
+                  <label for="">Width</label>
+                  <input formControlName="width">
+                </div>
+              </div>
+              <div class="col-md-4 col-xl-2">
+                <div class="inp-group">
+                  <label for="">Height</label>
+                  <input formControlName="height">
+                </div>
+              </div>
+              <div class="col-md-4 col-xl-2">
+                <div class="inp-group">
+                  <label for="">Quantity</label>
+                  <input formControlName="quantity">
+                </div>
+              </div>
+              <div class="col-md-4 col-xl-4">
+                <div class="inp-group">
+                  <label for="">Type</label>
+                  <input formControlName="type">
+                </div>
+              </div>
+              </div>
+            </div>
+         
+            <!-- <div class="col-md-4 col-xl-2">
+              <div class="inp-group">
+                <label>Kg</label>
+                <input type="text" formControlName="weight" placeholder="Weight" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-4 col-xl-2">
+              <div class="inp-group">
+                <label>Cm</label>
+                <input type="text" formControlName="length" placeholder="Length" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-4 col-xl-2">
+              <div class="inp-group">
+                <label>Cm</label>
+                <input type="text" formControlName="width" placeholder="Width" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-4 col-xl-2">
+              <div class="inp-group">
+                <label>Cm</label>
+                <input type="text" formControlName="height" placeholder="Height" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-4 col-xl-2">
+              <div class="inp-group">
+                <label>Quantity</label>
+                <input type="text" formControlName="quantity" placeholder="2" class="form-control">
+              </div>
+            </div>
+            
+            <div class="col-md-4 col-xl-2">
+              <div class="inp-group">
+                <label for="">Package Type</label>
+                <div class="sel-prt">
+                  <select name="" id=""  >
+                    <option value="">Australia</option>
+                    <option value="">India</option>
+                  </select>
+                </div>
+              </div>
+            </div> -->
+      </div>
+
+          <div class="btn_flx">
+            <a    class="c_btn c_blue" (click)="addItem()"
+              >Add Item
+              <img
+                src="../../../../assets/images/admin/images/wht-btn-arrow.svg"
+                alt="arrow"
+                
+            /></a>
+            <!-- <button class="btn btn-primary" (click)="addItem()"    >Check</button> -->
+            
+            <a [routerLink]="'application/dashboardlayout'" class="c_btn c_trn" type="submit"  (click)="submitForm()"
+              >Get a Quote
+              <img
+                src="../../../../assets/images/admin/images/blue-btn-arrow.svg"
+                alt="arrow"
+            /></a>
+          </div>
+         </form>
+        </div>
+
+        <div id="SameDay" class="main_tabcontent">
+          <h3>SameDay</h3>
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio aut
+            quod aliquam quas quis, non officia nesciunt accusamus, commodi
+            optio animi aperiam ratione itaque quibusdam? Dolorum nesciunt natus
+            fuga quisquam.
+          </p>
+        </div>
+
+        <div id="Pallet" class="main_tabcontent">
+          <h3>Pallet</h3>
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio aut
+            quod aliquam quas quis, non officia nesciunt accusamus, commodi
+            optio animi aperiam ratione itaque quibusdam? Dolorum nesciunt natus
+            fuga quisquam.
+          </p>
+        </div>
+        <div id="Track" class="main_tabcontent">
+          <h3>Track</h3>
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio aut
+            quod aliquam quas quis, non officia nesciunt accusamus, commodi
+            optio animi aperiam ratione itaque quibusdam? Dolorum nesciunt natus
+            fuga quisquam.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg_ellipse el-1"></div>
+  <div class="bg_ellipse el-2"></div>
+  <div class="bg_ellipse2 el-1"></div>
+</section>
+<!-- Main-Section End -->
+
+<!-- Service-Section Start -->
+<section class="Service-Section">
+  <div class="container">
+    <div class="head_wrap">
+      <h6>Our Services</h6>
+      <h2>Get free delivery and save up to 88%.</h2>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="service_card">
+          <div class="service_img">
+            <img
+              src="../../../../assets/images/admin/images/service-1.png"
+              alt="our-service"
+            />
+            <img
+              src="../../../../assets/images/admin/images/service-1abs.png"
+              alt="location"
+              class="service-abs"
+            />
+          </div>
+          <div class="service_details">
+            <h4>Type in the destination</h4>
+            <p>
+              Lorem ipsum dolor sit amet, adis utthuny detal elit. Nullam velyuo
+              malesa nisiiy.
+            </p>
+            <div class="btn_flx">
+              <a href="javasacript:void(0)" class="c_btn c_blue"
+                >More Details<img
+                  src="../../../../assets/images/admin/images/wht-btn-arrow.svg"
+                  alt="arrow"
+              /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="service_card">
+          <div class="service_img">
+            <img
+              src="../../../../assets/images/admin/images/service-2.png"
+              alt="our-service"
+            />
+            <img
+              src="../../../../assets/images/admin/images/service-2abs.png"
+              alt="provider"
+              class="service-abs"
+            />
+          </div>
+          <div class="service_details">
+            <h4>Compare Providers</h4>
+            <p>
+              Lorem ipsum dolor sit amet, adis utthuny detal elit. Nullam velyuo
+              malesa nisiiy.
+            </p>
+            <div class="btn_flx">
+              <a href="javasacript:void(0)" class="c_btn c_trn"
+                >More Details<img
+                  src="../../../../assets/images/admin/images/blue-btn-arrow.svg"
+                  alt="arrow"
+              /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="service_card">
+          <div class="service_img">
+            <img
+              src="../../../../assets/images/admin/images/service-3.png"
+              alt="online booking"
+            />
+            <img
+              src="../../../../assets/images/admin/images/service-3abs.png"
+              alt="location"
+              class="service-abs"
+            />
+          </div>
+          <div class="service_details">
+            <h4>Online Booking</h4>
+            <p>
+              Lorem ipsum dolor sit amet, adis utthuny detal elit. Nullam velyuo
+              malesa nisiiy.
+            </p>
+            <div class="btn_flx">
+              <a href="javasacript:void(0)" class="c_btn c_trn"
+                >More Details<img
+                  src="../../../../assets/images/admin/images/blue-btn-arrow.svg"
+                  alt="arrow"
+              /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Service-Section End -->
+
+<!-- Our Section Start -->
+<section class="Our-Process-Section">
+  <div class="container">
+    <div class="head_wrap">
+      <h6>Our Process</h6>
+      <h2>An improved shipping procedure</h2>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="process_card">
+          <div class="process_imgcard">
+            <img
+              src="../../../../assets/images/admin/images/process1.png"
+              alt=""
+            />
+          </div>
+          <h4>Access to carriers</h4>
+          <p>Lorem ipsum dolor sit amet, adis utthuny detaluy elit.</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="process_card">
+          <div class="process_imgcard">
+            <img
+              src="../../../../assets/images/admin/images/process2.png"
+              alt=""
+            />
+          </div>
+          <h4>Simple label creation</h4>
+          <p>Lorem ipsum dolor sit amet, adis utthuny detaluy elit.</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="process_card">
+          <div class="process_imgcard">
+            <img
+              src="../../../../assets/images/admin/images/process3.png"
+              alt=""
+            />
+          </div>
+          <h4>Monitoring API</h4>
+          <p>Lorem ipsum dolor sit amet, adis utthuny detaluy elit.</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="process_card">
+          <div class="process_imgcard">
+            <img
+              src="../../../../assets/images/admin/images/process4.png"
+              alt=""
+            />
+          </div>
+          <h4>Address confirmation</h4>
+          <p>Lorem ipsum dolor sit amet, adis utthuny detaluy elit.</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="process_card">
+          <div class="process_imgcard">
+            <img
+              src="../../../../assets/images/admin/images/process5.png"
+              alt=""
+            />
+          </div>
+          <h4>Free carbon shipping</h4>
+          <p>Lorem ipsum dolor sit amet, adis utthuny detaluy elit.</p>
+        </div>
+      </div>
+      <div class="dotted-line"></div>
+    </div>
+  </div>
+</section>
+<!-- Our Section End -->
+
+<!-- Why Choose Us Start -->
+<section class="why_chooseus">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="img_wrap">
+          <img
+            src="../../../../assets/images/admin/images/why_choose.png"
+            alt="courier customer"
+          />
+        </div>
+      </div>
+      <div class="col-md-7">
+        <div class="head_wrap">
+          <h6>Why Choose Us?</h6>
+          <h2>
+            The Variation Between<br />
+            Parcels
+          </h2>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="choose_content">
+              <img
+                src="../../../../assets/images/admin/images/choose1.png"
+                alt="Amazing Deals"
+              />
+              <div class="choose_details">
+                <h4>Amazing Deals</h4>
+                <p>
+                  Lorem ipsum dolor sit amet, adis utthuny detal elit. Nullam
+                  velysa nisiiy.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="choose_content">
+              <img
+                src="../../../../assets/images/admin/images/choose2.png"
+                alt="Tracking Notifications"
+              />
+              <div class="choose_details">
+                <h4>Courier Services Available</h4>
+                <p>
+                  Lorem ipsum dolor sit amet, adis utthuny detal elit. Nullam
+                  velysa nisiiy.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="choose_content">
+              <img
+                src="../../../../assets/images/admin/images/choose3.png"
+                alt="Live Chat Support"
+              />
+              <div class="choose_details">
+                <h4>Tracking Notifications</h4>
+                <p>
+                  Lorem ipsum dolor sit amet, adis utthuny detal elit. Nullam
+                  velysa nisiiy.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="choose_content">
+              <img
+                src="../../../../assets/images/admin/images/choose4.png"
+                alt="Amazing Deals"
+              />
+              <div class="choose_details">
+                <h4>Live Chat Support</h4>
+                <p>
+                  Lorem ipsum dolor sit amet, adis utthuny detal elit. Nullam
+                  velysa nisiiy.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Why Choose Us End -->
+
+<!-- Company Partners Start -->
+<section class="Company-partner">
+  <div class="container">
+    <div class="head_wrap">
+      <h6>Company Partners</h6>
+      <h2>Our Partners - to be Added</h2>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="partner_card">
+          <img
+            src="../../../../assets/images/admin/images/company-partner1.png"
+            alt="magento"
+          />
+        </div>
+      </div>
+      <div class="col">
+        <div class="partner_card">
+          <img
+            src="../../../../assets/images/admin/images/company-partner2.png"
+            alt="woo commerce"
+          />
+        </div>
+      </div>
+      <div class="col">
+        <div class="partner_card">
+          <img
+            src="../../../../assets/images/admin/images/company-partner3.png"
+            alt="ebay"
+          />
+        </div>
+      </div>
+      <div class="col">
+        <div class="partner_card">
+          <img
+            src="../../../../assets/images/admin/images/company-partner4.png"
+            alt="neto"
+          />
+        </div>
+      </div>
+      <div class="col">
+        <div class="partner_card">
+          <img
+            src="../../../../assets/images/admin/images/company-partner5.png"
+            alt="amazon"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Company Partners End -->
+
+<!-- Testimonial Start -->
+<section class="testimonial-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="head_wrap">
+          <h6>Testimonial</h6>
+          <h2>What our Customer Saying About Us</h2>
+        </div>
+      </div>
+      <div class="col-md-7">
+        <div class="owl-slider testimonial_slider">
+          <div class="owl-carousel testimonial_carousel">
+            <div class="item">
+              <div class="testimonial_card">
+                <img
+                  src="../../../../assets/images/admin/images/commas.png"
+                  alt="comma"
+                />
+                <h4>Mellissa Parker</h4>
+                <div class="rating-stars">
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Mauris sed aliquam neque, quis consequat nibh. Mauris est
+                  nunci.
+                </p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="testimonial_card">
+                <img
+                  src="../../../../assets/images/admin/images/commas.png"
+                  alt="comma"
+                />
+                <h4>Mellissa Parker</h4>
+                <div class="rating-stars">
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Mauris sed aliquam neque, quis consequat nibh. Mauris est
+                  nunci.
+                </p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="testimonial_card">
+                <img
+                  src="../../../../assets/images/admin/images/commas.png"
+                  alt="comma"
+                />
+                <h4>Mellissa Parker</h4>
+                <div class="rating-stars">
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Mauris sed aliquam neque, quis consequat nibh. Mauris est
+                  nunci.
+                </p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="testimonial_card">
+                <img
+                  src="../../../../assets/images/admin/images/commas.png"
+                  alt="comma"
+                />
+                <h4>Mellissa Parker</h4>
+                <div class="rating-stars">
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Mauris sed aliquam neque, quis consequat nibh. Mauris est
+                  nunci.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Testimonial End -->
+
+<!-- Signup Section Start -->
+<section class="Signup-Section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="signup_content text-white">
+          <h2>Reduce wait times with straightforward shipping.</h2>
+          <p>Get $100 after you spend $100.* Start shipping today!</p>
+          <div class="custom_input">
+            <input type="text" name="" id="" placeholder="Email Address" />
+            <button type="submit" class="button">Sign up free</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <img
+          src="../../../../assets/images/admin/images/signup_img.png"
+          alt="Signup"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Signup Section End -->

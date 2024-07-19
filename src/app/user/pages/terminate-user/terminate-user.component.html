@@ -1,0 +1,134 @@
+<div class="tab-pane " id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"
+tabindex="0">
+
+
+<div class="d_htd_content mt-4">
+    <div class="htd_head">
+        <div class="creatio_heading">
+            <p>User Profile Amendment</p>
+        </div>
+
+        <div class="d_right_range_filter">
+            <div class="d_right_range_filter">
+                <div class="btn_flex">
+                    <p class="search_address">Search by:</p>
+                    <form class="d-flex" role="search">
+                        <input class="form-control" id="searchQueryInput" type="search"
+                            placeholder="User ID / User Name / Email Address" aria-label="Search">
+                        <button id="searchQuerySubmit" type="submit" name="searchQuerySubmit">
+                            <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                                <path fill="#666666"
+                                    d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="htd_content">
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane  show active shipment_order_status" id="home" role="tabpanel"
+                aria-labelledby="data-tab">
+                <div class="table_overflow">
+                    <table mat-table matSort [dataSource]="dataSource">
+                      
+                              <!-- Remove Column -->
+                              <ng-container matColumnDef="Remove">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Remove </th>
+                                <td class="text-center" mat-cell *matCellDef="let element">
+                                    <input type="checkbox" switch name="accent-group" class="accent-blue delete-checkbox"
+                                        data-bs-toggle="modal" href="#exampleModalToggle" role="button" (change)="openModal(element.id)" />
+                                </td>
+                            </ng-container>
+                        <!-- Company ID Column -->
+                        <ng-container matColumnDef="companyId">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Company ID </th>
+                            <td mat-cell *matCellDef="let element"> {{element.companyId}} </td>
+                        </ng-container>
+
+
+                        <!-- User Name Column -->
+                        <ng-container matColumnDef="userName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> User Name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+                        </ng-container>
+
+                        
+                       
+
+                        <!-- Email Column -->
+                        <ng-container matColumnDef="email">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email Address </th>
+                            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                        </ng-container>
+                        <!-- Phone Number Column -->
+                        <ng-container matColumnDef="phoneNumber">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone Number </th>
+                            <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+                        </ng-container>
+
+<!-- Phone Number Column -->
+<ng-container matColumnDef="limit">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Shipping Limit </th>
+    <td mat-cell *matCellDef="let element"> {{element.limit}} </td>
+</ng-container>
+
+                        <!-- Status Column -->
+                        <ng-container matColumnDef="status">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                            <td mat-cell *matCellDef="let element"> {{element.isDeleted}} </td>
+                        </ng-container>
+
+                        
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table> 
+
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+              
+
+
+            </div>
+        
+            
+            </div>
+            <div class="tab-pane " id="profile" role="tabpanel"
+                    aria-labelledby="analytics-tab">
+                    <div class="analytics_tab">
+                        <img src="../../../../assets/images/admin/images/analytics_graph.png" alt="graph">
+                    </div>
+                </div> 
+         </div>
+    </div>
+</div> 
+
+
+<!-- Modal box -->
+
+<div class="modal" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <button type="button" class="btn_circleclose" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
+            <div class="modal-body body_sizenew text-center">
+                <div class="main-admintxt">
+                    <h5 class="pb-2">This action will remove user access.</h5>
+                    Are you sure you want to proceed?
+                </div>
+                <div class="check_modalopen">
+                    <a href="javascript:void(0)" (click)="confirmDelete()" class="btn-modalyes">Yes</a>
+                    <a href="javascript:void(0)" class="btn-modalno" data-bs-dismiss="modal">No</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="btn-sendcan">
+    <a href="javascript:void(0)" class="btn_authenticate">Submit</a>
+    <a href="javascript:void(0)" class="btn-cancelation">Cancel</a>
+</div> -->
+</div>
+

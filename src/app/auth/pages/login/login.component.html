@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>::LOGIN::</title>
+    <link rel="icon" type="image/x-icon" href="../../../../assets/images/admin/images/favicon.png">
+    
+</head>
+
+    <body>
+        <div *ngIf="isLoading" class="loader-overlay">
+            <app-loader></app-loader>
+          </div>
+      <form [formGroup]="userLogin" (ngSubmit)="loginProcess()">
+        <div class="blue-wrapper">
+            <div class="white_form_card">
+                <div class="head_logo">
+                    <img src="../../../../assets/images/admin/images/main-logo.png" alt="logo">
+                </div>
+                <!-- <h3>Login</h3> -->
+                <div class="inp-group">
+                    <label for="">Email</label>
+                    <input type="text" name="" id="" placeholder="Johnp@xyz.com" class="formControl" formControlName="username">
+                </div>
+                <div class="inp-group">
+                    <label for="">Password</label>
+                    <div class="password-container  ">
+                        <input [type]="isShow ? 'text' : 'password'" name="" id="" class="formControl" formControlName="password">
+                        <i class="fa-solid fa-lock fs-4" [ngClass]="{'fa-lock': !isShow, 'fa-unlock': isShow , 'color':''}" (click)="showPassword()"></i>
+                    </div>
+                </div>
+                
+                <div class="rem_for">
+                    <div class="remember_chk">
+                        <label class="custom_checkbox">Remember me
+                            <input type="checkbox" checked="checked">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <a [routerLink]="'/forgot'">Forgot Password?</a>
+                </div>
+                <button type="submit"  class="c_btn c_blue">Login</button>
+               
+                <div class="do_acc">
+                    <p>Don’t have an account?</p>
+                    <a [routerLink]="'/auth/signup'" class="c_btn c_blue">Signup</a>
+                </div>
+                <img src="../../../../assets/images/admin/images/login_ellipse_bg.svg" alt="bubbles" class="ellipse_bg_log">
+            </div>
+        </div>
+      </form>
+        
+    </body>
+
+
+</html>

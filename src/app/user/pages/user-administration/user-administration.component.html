@@ -1,0 +1,19 @@
+<div class="tab-pane " id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
+    <div class="main-admintxt">
+        <h5>Select an Option</h5>
+    </div>
+    <nav>
+        <div class="nav nav-tabs forms-navtabs" id="nav-tab" role="tablist">
+            <button class="nav-link active forms-navbtn" id="nav-home-tab" data-bs-toggle="tab"
+                data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+                aria-selected="true" [routerLink]="'adduser'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Add User Profile</button>
+            <button class="nav-link forms-navbtn" id="nav-profile-tab" data-bs-toggle="tab"
+                data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile"
+                aria-selected="false" [routerLink]="'ammenduser'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Amend User Profile</button>
+            <button class="nav-link forms-navbtn" id="nav-contact-tab" data-bs-toggle="tab"
+                data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact"
+                aria-selected="false" [routerLink]="'terminateuser'" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Terminate User Profile</button>
+        </div>
+    </nav>
+    <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,51 @@
+<div class="tab d_htd_content tab-active " data-id="tab1">
+    <div class="tab-box">
+        <div class="tab-box-head">
+            <div class="tab-head-col">Courier Partner</div>
+            <div class="tab-head-col">Collection Date</div>
+            <div class="tab-head-col">Estimated Transit Time</div>
+            <div class="tab-head-col">Estimated Delivery Date</div>
+            <div class="tab-head-col">Shippping Cost (inc GST)</div>
+        </div>
+       <div>
+        
+        <div class="tab-box-row" *ngFor="let item of Quotes">
+          
+            <div class="tab-row-col" >
+                <div >
+                   
+                    <span class="str-logo"><img [src]="item.logo" alt="" /></span>
+                    <span class="ex-tyle">{{item.name}}</span>
+                </div>
+            </div>
+            <div class="tab-row-col"><span>{{formattedCollectionDate}}</span></div>
+            <div class="tab-row-col">
+                <div>
+                    <span>{{item.eta}}</span>
+                    <span class="cor-way">
+                      <img src="../../../../assets/images/customer/images/plan-blue.png" alt="" />
+                      <img src="../../../../assets/images/customer/images/plan-black.png" alt="" />
+                    </span>
+                </div>
+            </div>
+            <div class="tab-row-col">
+                <span>{{addBusinessDays(item.eta)}}</span>
+            </div>
+            <div class="tab-row-col">
+                <div>
+                    <span class="cl-rate">{{item.priceIncludingGst}}</span>
+                    <a href="#" class="cr-btn">Book Now</a>
+                    <span class="cl-small"><img src="../../../../assets/images/customer/images/inf-i.png" /> Service Information</span>
+                    <span class="cl-small"><img src="../../../../assets/images/customer/images/dol-i.png" /> Service Surcharge</span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="isLoading" class="innerloader-overlay">
+            <app-inner-loader></app-inner-loader>
+           </div>
+    </div>
+       
+        <p class="tx-small">Collection by 5 PM Tomorrow if booked  by 11:00 AM Tomorrow</p>
+    </div>
+
+</div>

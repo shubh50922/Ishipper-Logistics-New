@@ -1,0 +1,92 @@
+<div class="main_content">
+    <div class="profile-admtxt">
+        <h4>User Profile</h4>
+        <span></span>
+    </div>
+    <div class="bg-white mt-4 profil_rghline">
+        <form>
+            <div class="row d-flex align-items-center">
+                <div class="col-md-4 col-lg-4 col-xl-3 col-12">
+                    <div class="user_profile text-center">
+                        <img class="rounded-circle" src="../../../../assets/images/admin/images/user-profile.png" alt="">
+                        <div class="name_uplpro">
+                            <h4>John Parker</h4>
+
+                            <!-- Hidden file input -->
+                            <input type="file" id="file-upload">
+
+                            <!-- Label styled as clickable text -->
+                            <label for="file-upload" id="custom-text">Update picture</label>
+                            <!-- <h6>Update picture</h6> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-lg-8 col-xl-9 col-12">
+                    <div class="row only-deskfrm">
+                        <div class="col-md-6 col-lg-6 col-xl-4 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label id="email-label" for="name">Full Name <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" name="name" id="name" placeholder="John Parker"
+                                    class="form-control user_formsdtls" required [value]="user.name">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-4 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label id="email-label" for="email">Email <span
+                                        class="text-danger">*</span></label>
+                                <input type="email" name="email" id="email" placeholder="Johnp@xyz.com"
+                                    class="form-control user_formsdtls" required [value]="user.email">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-4 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label id="email-label" for="mobile">Mobile <span
+                                        class="text-danger">*</span></label>
+                                <input type="tel" name="mobile" id="mobile" placeholder="(+61) 0490234123"
+                                    class="form-control user_formsdtls" required [value]="user.phoneNumber">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-4 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label id="email-label" for="name">Country <span
+                                        class="text-danger">*</span></label>
+                                <select class="form-select user_formsdtls" aria-label="Default select example">
+                                    <option selected>USA</option>
+                                    <option value="India">India</option>
+                                    <option value="Japan">Japan</option>
+                                    <option value="Australia">Australia</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-4 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label id="email-label" for="email">City <span
+                                        class="text-danger">*</span></label>
+                                        <select class="form-select user_formsdtls" aria-label="Default select example">
+                                            <option selected>Newyork</option>
+                                            <option value="Delhi">Delhi</option>
+                                            <option value="Tokyo">Tokyo</option>
+                                            <option value="Sydney">Sydney</option>
+                                          </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-4 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label id="email-label" for="mobile">Zipcode <span
+                                        class="text-danger">*</span></label>
+                                <input type="tel" name="mobile" id="mobile" placeholder="008678768"
+                                    class="form-control user_formsdtls" required>
+                            </div>
+                        </div>
+                        <div class="btn-spcprofile">
+                            <a href="javascript:void(0)" class="btn_authenticate">Update</a>
+                            <a href="javascript:void(0)" class="btn-cancelation">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

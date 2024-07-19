@@ -1,0 +1,94 @@
+<p>dashboard-layout works!</p>
+
+<div class="dashboard_wrapper" >
+    <div class="sidebar">
+        <div class="sidebar_logo">
+            <a href="index.html"><img class="regular_logo" src="../../../../assets/images/customer/images/white_logo.png" alt="logo"></a>
+            <a href="index.html"><img class="expand_logo" src="../../../../assets/images/customer/images/expand_logo.png" alt="logo"></a>
+        </div>
+        <ul>
+        
+  
+        </ul>
+    </div>
+<div class="right_content">
+    <div class="d_header">
+        <div class="d_header_left">
+            <button class="expand_content" (click)="toggleExpandContent()" >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <button   class="mobile_hamburger" (click)="toggleSidebar()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="search_field">
+                <input type="text" placeholder="Search">
+                <img src="../../../../assets/images/customer/images/search_icon.svg" alt="search">
+            </div>
+        </div>
+        <ul class="d_header_right">
+            <li>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle badge_btn" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="../../../../assets/images/customer/images/messages.svg" alt="messages">
+
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle badge_btn" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="../../../../assets/images/customer/images/bell.svg" alt="bell"><span>4</span>
+
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown user_dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="../../../../assets/images/customer/images/user_img.png" alt="user">
+                        <div class="user_det">
+                            <h6>{{finalName}}</h6>
+                            <p>{{userRole}}</p>
+                        </div>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" [routerLink]="'/application/profile'">User Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Change Password</a></li>
+                        <li><button type="button" class="dropdown-item" (click)="logoutProcess()">Logout</button></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        </div>
+        
+        <div>
+            <router-outlet>
+                
+            </router-outlet>
+        
+        </div>
+</div>
+</div>
+
+
+          
+
+
+
