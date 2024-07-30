@@ -8,14 +8,12 @@
                 <div class="row only-deskfrm mb-4">
                     <div class="col-md-6 col-lg-5 col-xl-5 col-xxl-4 col-12">
                         <div class="form-group">
-                            <label id="carrier-label" for="carrier">Carrier Name <span
-                                    class="text-danger">*</span></label>
-                            <select class="form-select user_formsdtls"
-                                aria-label="Default select example" (change)="filterServiceNames()"  formControlName="carrierName"  >
-                                <option selected *ngFor="let type of serviceProviderTypes" [value]="type">{{type}}</option>
-                                
+                            <label id="carrier-label" for="carrier">Carrier Name <span class="text-danger">*</span></label>
+                            <select class="form-select user_formsdtls" aria-label="Default select example" (change)="filterServiceNames()" formControlName="carrierName">
+                                <option *ngFor="let type of serviceProviderTypes" [value]="type">{{type}}</option>
                             </select>
                         </div>
+                        
                     </div>
                     <div class="col-md-6 col-lg-5 col-xl-5 col-xxl-4 col-12">
                         <div class="form-group">
@@ -95,7 +93,8 @@
                     <td>{{getFormattedDate(item[0].dateOfApplicable)}}</td>
                     <td>{{item[0].status}}</td>
                     <td><i class="fa fa-edit edit-commission me-2" data-bs-toggle="modal"
-                            data-bs-target="#editModal" (click)="getSelectedData(item[0].commissionId)"></i><i class="fa fa-trash delete-commission"
+                            data-bs-target="#editModal" (click)="getSelectedData(item[0].commissionId)"></i>
+                            <i class="fa fa-trash delete-commission"
                             data-bs-toggle="modal" data-bs-target="#deleteModal"></i></td>
                 </tr>
                 

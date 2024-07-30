@@ -763,7 +763,7 @@ select,
     font-weight: 400;
     line-height: normal;
     border: 0;
-    background: transparent;
+    /* background: transparent; */
 }
 
 .no-label {
