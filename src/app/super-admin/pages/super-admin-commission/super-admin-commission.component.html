@@ -1,0 +1,207 @@
+<div class="bg-white mt-4 profil_rghline">
+    <div class="mb-4">
+        <h4>Commission</h4>
+    </div>
+    <form  [formGroup]="commissionForm" (ngSubmit)="onSubmit()">
+        <div class="row d-flex align-items-center">
+            <div class="col-md-12 col-12">
+                <div class="row only-deskfrm mb-4">
+                    <div class="col-md-6 col-lg-5 col-xl-5 col-xxl-4 col-12">
+                        <div class="form-group">
+                            <label id="carrier-label" for="carrier">Carrier Name <span
+                                    class="text-danger">*</span></label>
+                            <select class="form-select user_formsdtls"
+                                aria-label="Default select example" (change)="filterServiceNames()"  formControlName="carrierName"  >
+                                <option selected *ngFor="let type of serviceProviderTypes" [value]="type">{{type}}</option>
+                                
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-5 col-xl-5 col-xxl-4 col-12">
+                        <div class="form-group">
+                            <label id="service-label" for="service">Service Name (Optional)</label>
+                            <select class="form-select user_formsdtls"
+                                aria-label="Default select example" formControlName="serviceName" (change)="GetServiceNames()">
+                                <option selected *ngFor="let service of filteredServices" [value]="service">{{service}}</option>
+                               
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-lg-5 col-xl-4 col-12">
+                        <div class="form-group">
+                            <label id="email-label" for="mobile">Commission <span
+                                    class="text-danger">*</span></label>
+                            <div class="commission-align">
+                                <div class="form-check commission-space">
+                                    <input class="form-check-input form_checkbg" type="radio"
+                                        name="flexRadioDefault" id="flexRadioDefault1">
+                                    <label class="form-check-label fw-bold mb-0"
+                                        for="flexRadioDefault1"  (click)="toggleRadio('dollar')">
+                                        By $
+                                    </label>
+                                </div>
+                                <div class="form-check commission-space">
+                                    <input class="form-check-input form_checkbg" type="radio"
+                                        name="flexRadioDefault" id="flexRadioDefault2" (click)="toggleRadio('percent')" checked>
+                                    <label class="form-check-label fw-bold mb-0"
+                                        for="flexRadioDefault2">
+                                        By %
+                                    </label>
+                                </div>
+                                <input type="number" name="commission" id="commission" placeholder=""
+                                    class="form-control user_formnum" required formControlName="amount">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-7 col-xl-8 col-12">
+                        <div class="btn-client_calncelation">
+                            <a href="javascript:void(0)" class="btn_clientApply">Apply to Client ID</a>
+                            <a href="javascript:void(0)" class="btn-cancelation">Apply to All</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="btn-spcprofile">
+                    <button type="submit" class="btn_authenticate" >Save</button>
+                
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+
+</div>
+<div class="d_htd_content">
+    <div class="htd_content">
+        <div class="table_overflow">
+            <table>
+                <tbody>
+                <tr>
+                    <th>Carrier Name</th>
+                    <th>Service Source</th>
+                    <th>Commission Charged By</th>
+                    <th>Date of Applicable</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                <tr *ngFor="let item of CommissionFormdata ">
+                    <td>{{item[0].carrierName}}</td>
+                    <td>iShipper</td>
+                    <td>{{item[0].amount}}</td>
+                    <td>{{getFormattedDate(item[0].dateOfApplicable)}}</td>
+                    <td>{{item[0].status}}</td>
+                    <td><i class="fa fa-edit edit-commission me-2" data-bs-toggle="modal"
+                            data-bs-target="#editModal" (click)="getSelectedData(item[0].commissionId)"></i><i class="fa fa-trash delete-commission"
+                            data-bs-toggle="modal" data-bs-target="#deleteModal"></i></td>
+                </tr>
+                
+                
+            </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-commissionsz">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="bg-white modal_dtlstart">
+                    <div class="mb-4">
+                        <h4>Commission</h4>
+                    </div>
+                  
+                    <form [formGroup]="commissionForm">
+                        <div class="row d-flex align-items-center">
+                          <div class="col-md-12 col-12">
+                            <div class="row only-deskfrm mb-4">
+                              <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                  <label id="carrier-label" for="carrier">Carrier Name <span class="text-danger">*</span></label>
+                                  <select class="form-select user_formsdtls" aria-label="Default select example" formControlName="carrierName"  (change)="filterServiceNames()" >
+                                    <option selected *ngFor="let type of serviceProviderTypes" [value]="type">{{type}}</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                  <label id="service-label" for="service">Service Name (Optional)</label>
+                                  <select class="form-select user_formsdtls" aria-label="Default select example" formControlName="serviceName"  (change)="GetServiceNames()" >
+                                    <option selected *ngFor="let service of filteredServices" [value]="service">{{service}}</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                  <label id="email-label" for="mobile">Commission <span class="text-danger">*</span></label>
+                                  <div class="commission-align">
+                                    <div class="form-check commission-space">
+                                      <input class="form-check-input form_checkbg" type="radio" name="flexRadioDefault" id="flexRadioDefault1" (click)="toggleRadio('dollar')">
+                                      <label class="form-check-label fw-bold mb-0" for="flexRadioDefault1">By $</label>
+                                    </div>
+                                    <div class="form-check commission-space">
+                                      <input class="form-check-input form_checkbg" type="radio" name="flexRadioDefault" id="flexRadioDefault2" (click)="toggleRadio('percent')" checked>
+                                      <label class="form-check-label fw-bold mb-0" for="flexRadioDefault2">By %</label>
+                                    </div>
+                                    <input type="number" name="commission" id="commission" placeholder="" class="form-control user_formnum" required formControlName="amount">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                  <label id="service-label" for="service">Status <span class="text-danger">*</span></label>
+                                  <select class="form-select user_formsdtls" aria-label="Default select example" formControlName="status">
+                                    <option value="True">Active</option>
+                                    <option value="False">Inactive</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="btn-spcprofile">
+                              <button type="submit" class="btn_authenticate">Save</button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Delete Modal -->
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+    aria-hidden="true" >
+    <div class="modal-dialog delete_bx">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="deleteModalLabel">Delete Commission</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this row?</p>
+                <p>This Action can’t be undo.</p>
+            </div>
+            <div class="modal-footer border-top-0">
+                <button type="button" class="btn btn-dangerclr rounded-pill">Delete</button>
+                <button type="button" class="btn btn-lightclr rounded-pill" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+

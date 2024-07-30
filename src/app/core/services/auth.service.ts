@@ -19,8 +19,8 @@ export class AuthService {
       'Content-Type': 'application/json'
     })
   };
-   private apiUrl = "http://192.168.2.134:8035/api"
-  
+   private apiUrl = "https://gs.mt.cisinlive.com/ishipper/api"
+   
   constructor(private http: HttpClient) {}
 
   register(userData: any): Observable<any> {

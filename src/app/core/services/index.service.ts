@@ -16,7 +16,7 @@ export class IndexService {
   constructor(private http: HttpClient) { }
     // private apiUrl = environment.apiUrl
   // private apiUrl = "http://localhost:82/api"
- private apiUrl = "http://192.168.2.134:8035/api"
+ private apiUrl = "https://gs.mt.cisinlive.com/ishipper/api"
   getCountries() : Observable<any> {
     const headers = this.createHeaders();
     return this.http.get<any>(`${this.apiUrl}/Authenticate/GetCountry`);
@@ -25,6 +25,10 @@ export class IndexService {
   getContentList():Observable<any> {
     const headers = this.createHeaders();
     return this.http.get<any>(`${this.apiUrl}/FastCourierAPIIntegration/Getpackagecontentslist`);
+  }
+  getPackagingType():Observable<any> {
+    const headers = this.createHeaders();
+    return this.http.get<any>(`${this.apiUrl}/Authenticate/GetPackagingType`);
   }
   getCountrySubvurbs(subburbsValue:any):Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/FastCourierAPIIntegration/Getsuburbs/?suburbs=${subburbsValue}`);

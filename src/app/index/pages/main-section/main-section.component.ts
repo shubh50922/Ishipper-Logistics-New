@@ -41,7 +41,9 @@ export class MainSectionComponent implements OnInit {
   searchArray1!: any[];
   searchArray2!: any[];
   GetRes: boolean = true;
+  packagingType! :any[]
 today!:string
+weightType!:any[]
   private searchSubject = new Subject<string>();
 
   constructor(
@@ -167,7 +169,12 @@ this.today=`${year}-${month}-${day}`
       // console.log('data from api', this.Countries);
     });
   }
+getPackagingTypeInDropdown(){
+  this.indexService.getPackagingType().subscribe((response:any)=>{
+this.packagingType=response
+  })
 
+}
   toggleDropdown(isInternational: boolean): void {
     this.isInternational = isInternational;
   }

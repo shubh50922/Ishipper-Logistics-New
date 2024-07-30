@@ -19,7 +19,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { CustomerDashboardModule } from './Customer-Panel/customer-dashboard/customer-dashboard.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
-
+import { SuperAdminModule } from './super-admin/super-admin.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +46,7 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     MatAutocompleteModule,
     MatIconModule,
     CustomerDashboardModule,
+    SuperAdminModule,
     NgxPermissionsModule.forRoot()
     
   ],
