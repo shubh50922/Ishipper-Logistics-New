@@ -11,16 +11,16 @@ const routes: Routes = [
   {
     path:'',
     component:DashboardLayoutComponent,
-    pathMatch: 'full',
+    
      canActivate:[AuthGuardGuard],
      children:[
       {path:'',component:CheapestServiceComponent, canActivate:[AuthGuardGuard]},
-      { path: 'cheapest', component: CheapestServiceComponent , canActivate:[AuthGuardGuard]},
-      { path: 'fastest', component:FastestServiceComponent , canActivate:[AuthGuardGuard]},
-      { path: 'collection', component: CollectionTodayComponent, canActivate:[AuthGuardGuard] },
-      { path: 'sameday', component: SamedayServiceComponent , canActivate:[AuthGuardGuard]},
-      { path: 'carriername', component:CarrierNameComponent , canActivate:[AuthGuardGuard] },
-      { path: '', redirectTo: 'cheapest', pathMatch: 'full' }
+      { path: 'application/dashboardlayout/cheapest', component: CheapestServiceComponent , canActivate:[AuthGuardGuard]},
+      { path: 'application/dashboardlayout/fastest', component:FastestServiceComponent , canActivate:[AuthGuardGuard]},
+      { path: 'application/dashboardlayout/collection', component: CollectionTodayComponent, canActivate:[AuthGuardGuard] },
+      { path: 'application/dashboardlayout/sameday', component: SamedayServiceComponent , canActivate:[AuthGuardGuard]},
+      { path: 'application/dashboardlayout/carriername', component:CarrierNameComponent , canActivate:[AuthGuardGuard] },
+      // { path: '', redirectTo: 'cheapest', pathMatch: 'full' }
      ]
   },
 

@@ -41,9 +41,10 @@ export class MainSectionComponent implements OnInit {
   searchArray1!: any[];
   searchArray2!: any[];
   GetRes: boolean = true;
-  packagingType! :any[]
-today!:string
-weightType!:any[]
+  packagingType!: any[];
+  today!: string;
+  weightType!: any[];
+  minDate!: string;
   private searchSubject = new Subject<string>();
 
   constructor(
@@ -53,8 +54,17 @@ weightType!:any[]
   ) {}
 
   ngOnInit(): void {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    this.minDate = `${year}-${month}-${day}`;
+
+    console.log('calender date disable', this.minDate);
     this.getCountryInDropdown();
     this.getContentListInDropdown();
+    this.getPackagingTypeDropdown();
+
     // this.userForm = new FormGroup({
     //   pickupSuburb: new FormControl('BRUNSWICK'),
     //   pickupState: new FormControl('WA'),
@@ -69,14 +79,10 @@ weightType!:any[]
     //   isDropOffPOBox: new FormControl(false),
     //   items: new FormArray([ this.createItem()]),
     // });
-    const currentDate=new Date
-    const year=currentDate.getFullYear();
-    const month=(currentDate.getMonth()+1).toString().padStart(2,'0')
-    const day=currentDate.getDate()
-this.today=`${year}-${month}-${day}`
+
     this.userForm = this.fb.group({
       pickupSuburb: [''],
-      collection:['collection'],
+      collection: ['collection'],
       pickupState: [''],
       pickupPostcode: [''],
       pickupBuildingType: ['commercial'],
@@ -95,7 +101,7 @@ this.today=`${year}-${month}-${day}`
   }
   createItem(): FormGroup {
     return this.fb.group({
-      type: ['bag'],
+      type: ['box'],
       weight: ['2'],
       length: ['2'],
       width: ['2'],
@@ -162,6 +168,13 @@ this.today=`${year}-${month}-${day}`
       }
     );
   }
+  getPackagingTypeDropdown() {
+    this.indexService.getPackagingType().subscribe((response: any) => {
+      console.log('packagingtype', response);
+      this.packagingType = response;
+      console.log('', this.userForm.get('items')?.value);
+    });
+  }
 
   getCountryInDropdown() {
     this.indexService.getCountries().subscribe((data: any[]) => {
@@ -169,12 +182,11 @@ this.today=`${year}-${month}-${day}`
       // console.log('data from api', this.Countries);
     });
   }
-getPackagingTypeInDropdown(){
-  this.indexService.getPackagingType().subscribe((response:any)=>{
-this.packagingType=response
-  })
-
-}
+  getPackagingTypeInDropdown() {
+    this.indexService.getPackagingType().subscribe((response: any) => {
+      this.packagingType = response;
+    });
+  }
   toggleDropdown(isInternational: boolean): void {
     this.isInternational = isInternational;
   }
@@ -254,14 +266,15 @@ this.packagingType=response
       this.suburbPostCodeOne = suburb.postcode;
       this.suburbStateOne = suburb.state;
       this.searchTextOne = combinedSuburbValue;
-      this.isShowDropdownOne = false;
+      
 
       this.userForm.patchValue({
         pickupSuburb: this.suburbNameOne,
         pickupState: this.suburbStateOne,
         pickupPostcode: this.suburbPostCodeOne,
       });
-
+      // Hide the dropdown
+      this.isShowDropdownOne = false;
       // console.log('From ', this.suburbNameOne);
     } else if (dropdown === 'two') {
       this.suburbNameTwo = suburb.name;
@@ -275,16 +288,19 @@ this.packagingType=response
         destinationState: this.suburbStateTwo,
         destinationPostcode: this.suburbPostCodeTwo,
       });
-
+ // Hide the dropdown
+ this.isShowDropdownTwo = false;
       // console.log('To ', this.suburbNameTwo);
     }
   }
-
+  removeItem(index: number): void {
+    this.items.removeAt(index);
+  }
   submitForm() {
     const payload = {
       items: this.userForm.value.items,
     };
-    if(!this.GetRes){
+    if (!this.GetRes) {
       // const staticValues:any = {
       //   pickupSuburb: 'BRUNSWICK',
       //   pickupState: 'WA',
@@ -310,8 +326,8 @@ this.packagingType=response
       //   ],
       // };
       // localStorage.setItem("formValue",JSON.stringify(staticValues))
-    }else if(this.GetRes){
-      localStorage.setItem("formValue",JSON.stringify(this.userForm.value))
+    } else if (this.GetRes) {
+      localStorage.setItem('formValue', JSON.stringify(this.userForm.value));
     }
   }
 }

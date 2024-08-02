@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SuperAdminLayoutComponent } from './pages/super-admin-layout/super-admin-layout.component';
 import { AuthGuardGuard } from '../core/guards/auth-guard.guard';
 import { SuperAdminCommissionComponent } from './pages/super-admin-commission/super-admin-commission.component';
+import { DetailsComponent } from './pages/details/details.component';
 
 
 
@@ -10,11 +11,11 @@ const routes: Routes = [
   {
     path:'',
     component:SuperAdminLayoutComponent,
-    pathMatch: 'full',
+    
      canActivate:[AuthGuardGuard],
      children:[
-      { path: 'commissiondata', component:SuperAdminCommissionComponent , canActivate:[AuthGuardGuard]}
-     
+      { path: 'commissiondata', component:SuperAdminCommissionComponent , canActivate:[AuthGuardGuard]},
+     { path: 'details', component:DetailsComponent , canActivate:[AuthGuardGuard]}
      ]
   },
 ];

@@ -31,6 +31,8 @@ export class CheapestServiceComponent implements OnInit {
           if (response) {
             this.isLoading = false;
             this.Quotes = response.data;
+            localStorage.setItem('quotes', JSON.stringify(this.Quotes));
+
             console.log('my quotes', this.Quotes);
           }
         },
@@ -95,7 +97,7 @@ export class CheapestServiceComponent implements OnInit {
 
   addBusinessDays(numberOfDays: any): Date {
     const days = numberOfDays.split(' ');
-    const expectedays = days[0]
+    const expectedays = days[0];
     console.log('days seperated', days);
 
     this.collectionDate = this.parsedValue.collection;
@@ -124,6 +126,8 @@ export class CheapestServiceComponent implements OnInit {
     };
     return date.toLocaleDateString('en-US', options);
   }
+
+  
 
   // let startDate: string = "2024-07-19";
   // let businessDaysToAdd: number = 6;

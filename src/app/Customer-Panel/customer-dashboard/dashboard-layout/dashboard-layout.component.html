@@ -1,26 +1,61 @@
 <div class="wrapper">
-<div class="main_content">
+  <div class="main_content">
     <div class="flex-space">
-        <div class="sel-date">
-            <input type="date" value="Choose Collection Date" class="sel-date-fl" />
-            <span class="sl-span">Choose Collection Date</span>
-        </div>
-        <p class="tx-small-r">Important: click for info on collection and delivery delays</p>
+      <div class="sel-date">
+        <input type="date" value="Choose Collection Date" class="sel-date-fl" />
+        <span class="sl-span">Choose Collection Date</span>
+      </div>
+      <p class="tx-small-r">
+        Important: click for info on collection and delivery delays
+      </p>
     </div>
     <div class="tab-container">
-        <div class="tab-menu">
-            <ul>
-                <li  [routerLink]="'/cheapest'" [ngClass]="{'active':value === 'aa'}" click="isActive('aa')"><a  class="tab-a active-a" data-id="tab1">Cheapest Service</a></li>
-                <li [routerLink]="'/fastest'"  [ngClass]="{'active':value === 'bb'}" click="isActive('bb')"><a  class="tab-a" data-id="tab2">Fastest Service</a></li>
-                <li  [routerLink]="'/collection'" [ngClass]="{'active':value === 'cc'}" click="isActive('cc')"><a  class="tab-a" data-id="tab3">Collection Today</a></li>
-                <li  [routerLink]="'/sameday'" [ngClass]="{'active':value === 'dd'}" click="isActive('dd')"><a  class="tab-a" data-id="tab4">Same Day Service</a></li>
-                <li  [routerLink]="'/carrier'" [ngClass]="{'active':value === 'ee'}" click="isActive('ee')"><a  class="tab-a" data-id="tab5">Carrier Name</a></li>
-            </ul>
-        </div>
+      <!-- <div class="tab-menu">
+        <ul>
+          <li  >
+            <a [routerLink]="'application/dashboardlayout/cheapest'" class="tab-a active-a" data-id="tab1"
+              >Cheapest Service</a
+            >
+          </li>
+          <li routerLinkActive="active">
+            <a [routerLink]="'application/dashboardlayout/fastest'" class="tab-a" data-id="tab2"
+              >Fastest Service</a
+            >
+          </li>
+          <li  routerLinkActive="active">
+            <a [routerLink]="'application/dashboardlayout/collection'" class="tab-a" data-id="tab3">Collection Today</a>
+          </li>
+          <li  routerLinkActive="active">
+            <a class="tab-a " [routerLink]="'application/dashboardlayout/sameday'"  data-id="tab4">Same Day Service</a>
+          </li>
+          <li routerLinkActive="active">
+            <a class="tab-a" [routerLink]="'application/dashboardlayout/carrier'"  data-id="tab5">Carrier Name</a>
+          </li>
+        </ul>
+      </div> -->
+      <div class="tab-menu">
+        <ul>
+          <li >
+            <a [routerLink]="'application/dashboardlayout/cheapest'" class="tab-a">Cheapest Service</a>
+          </li>
+          <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <a [routerLink]="'application/dashboardlayout/fastest'" class="tab-a">Fastest Service</a>
+          </li>
+          <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <a [routerLink]="'application/dashboardlayout/collection'" class="tab-a">Collection Today</a>
+          </li>
+          <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <a [routerLink]="'application/dashboardlayout/sameday'" class="tab-a">Same Day Service</a>
+          </li>
+          <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <a [routerLink]="'application/dashboardlayout/carriername'" class="tab-a">Carrier Name</a>
+          </li>
+        </ul>
+      </div>
+      
     </div>
     <div>
-        <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
     </div>
+  </div>
 </div>
-</div>
-        

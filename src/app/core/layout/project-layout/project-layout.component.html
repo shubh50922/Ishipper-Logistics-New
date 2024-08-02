@@ -28,6 +28,10 @@
           />Dashboard</a
         >
       </li>
+      <li *ngIf="userRole === 'SuperAdmin'"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"><a [routerLink]="'/details'" ><img src="../../../../assets/images/admin/images/data.svg" alt="user management"> Details</a>
+      </li>
       <li
         *ngIf="userRole === 'SuperAdmin'"
         routerLinkActive="active"
@@ -102,7 +106,6 @@
       <li
         *ngIf="userRole === 'User'"
         routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
       >
         <a [routerLink]="'/application/dashboardlayout'"
           ><img
