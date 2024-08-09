@@ -7,14 +7,13 @@ import { SuperAdminLayoutComponent } from './pages/super-admin-layout/super-admi
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModel } from '@angular/forms';
 import { SuperAdminCommissionComponent } from './pages/super-admin-commission/super-admin-commission.component';
-import { DetailsComponent } from './pages/details/details.component';
+
 @NgModule({
   declarations: [
     SuperAdminLayoutComponent,
    
     SuperAdminCommissionComponent,
-        DetailsComponent,
-   
+        
     
   ],
   imports: [

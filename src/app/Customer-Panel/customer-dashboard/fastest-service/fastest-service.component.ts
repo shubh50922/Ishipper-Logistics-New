@@ -23,22 +23,22 @@ getQuotes(){
   this.storedValue = localStorage.getItem('formValue');
   this.parsedValue = JSON.parse(this.storedValue);
   this.collectionDate = this.parsedValue.collection;
-  console.log('collection date in cheapest', this.collectionDate);
+  // console.log('collection date in cheapest', this.collectionDate);
 
-  console.log('my form in cheapest', this.parsedValue);
+  // console.log('my form in cheapest', this.parsedValue);
   if (this.parsedValue){
     const storedQuotes = localStorage.getItem('quotes');
   const quotes = storedQuotes ? JSON.parse(storedQuotes) : [];
-  console.log(quotes);
+  // console.log(quotes);
   this.fastestQuotes = this.sortEstimatedDays(quotes);
-  console.log("sorted data ",this.fastestQuotes);
+  // console.log("sorted data ",this.fastestQuotes);
   }
   
   
 }
 convertCollectionDate() {
   this.collectionDate = this.parsedValue.collection;
-  console.log('date in convert initial', this.collectionDate);
+  // console.log('date in convert initial', this.collectionDate);
 
   const dayOfWeek = this.datePipe.transform(this.collectionDate, 'EEE'); // short weekday
   const day = this.datePipe.transform(this.collectionDate, 'dd'); // 2-digit day
@@ -50,7 +50,7 @@ convertCollectionDate() {
 addBusinessDays(numberOfDays: any): Date {
   const days = numberOfDays.split(' ');
   const expectedays = days[0];
-  console.log('days seperated', days);
+  // console.log('days seperated', days);
 
   this.collectionDate = this.parsedValue.collection;
   const currentDate = new Date(this.collectionDate);
@@ -83,13 +83,13 @@ formatDate(date: Date): string {
 sortEstimatedDays(quotes: any[]):any[]{
   // Sorting the quotes array based on eta in business days
 return quotes.sort((a, b) => {
-  console.log("a",a)
-  console.log("b",b)
+  // console.log("a",a)
+  // console.log("b",b)
   
   const getBusinessDays = (eta: string) => {
       // Extract the number of business days from the eta string
       const match = eta.match(/(\d+)\s*Business Days/);
-      console.log("My match ", match)
+      // console.log("My match ", match)
       return match ? parseInt(match[1], 10) : 0;
   };
 

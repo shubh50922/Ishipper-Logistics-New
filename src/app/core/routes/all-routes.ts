@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 export const ALL_ROUTES: Routes = [
   {
-    path: '',
+    path: 'dashboardadmin',
     loadChildren: () =>
       import('../../dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
@@ -36,6 +36,10 @@ export const ALL_ROUTES: Routes = [
     path:'commission',
     loadChildren:()=>
       import('../../super-admin/super-admin.module').then((m)=>m.SuperAdminModule)
+  },
+  {
+    path:'companydetails',
+    loadChildren:()=>import('../../superadmin-details/superadmin-details.module').then((m)=>m.SuperadminDetailsModule)
   },
   {
     path: 'dashboardlayout',

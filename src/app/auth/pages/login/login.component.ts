@@ -50,7 +50,7 @@ userRole:any
             //  console.log("present role",this.userRole);
              
               if(this.userRole=='Admin'){
-                this.router.navigate(['/application']);
+                this.router.navigate(['/application/dashboardadmin']);
 
               }
              else if(this.userRole=='User'){

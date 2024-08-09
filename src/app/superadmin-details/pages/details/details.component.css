@@ -749,7 +749,7 @@ section {
     right: 15px;
     top: 50%;
     transform: translateY(-50%);
-    background: url("../../../../assets/images/admin/images/sel-arrow.svg") no-repeat center;
+    background: url("../../../../assets/images/customer/images/sel-arrow.svg") no-repeat center;
     width: 10px;
     height: 10px;
     pointer-events: none;
@@ -807,7 +807,7 @@ select,
 /************Our-Service Start**************/
 
 .Service-Section .head_wrap::before {
-    background: url(../../../../assets/images/admin/images/Discount.png) no-repeat 0 0;
+    background: url(../../../../assets/images/customer/images/Discount.png) no-repeat 0 0;
 }
 
 .service_img {
@@ -837,13 +837,13 @@ select,
 
 /************Our-Process Start**************/
 .Our-Process-Section {
-    background: var(--lt-graybg2) url('../../../../assets/images/admin/images/process-bgeffect.png') no-repeat center;
+    background: var(--lt-graybg2) url('../../../../assets/images/customer/images/process-bgeffect.png') no-repeat center;
     background-size: cover;
     overflow: hidden;
 }
 
 .Our-Process-Section .head_wrap::before {
-    background: url(../../../../assets/images/admin/images/Howitwork.png) no-repeat 0 0;
+    background: url(../../../../assets/images/customer/images/Howitwork.png) no-repeat 0 0;
 }
 
 .process_card {
@@ -871,7 +871,7 @@ select,
 .process_imgcard::before {
     content: '';
     position: absolute;
-    background: url(../../../../assets/images/admin/images/dot-ellipse.png) no-repeat;
+    background: url(../../../../assets/images/customer/images/dot-ellipse.png) no-repeat;
     width: 22px;
     height: 22px;
     top: 50%;
@@ -917,7 +917,7 @@ section.why_chooseus {
 }
 
 .why_chooseus .head_wrap::before {
-    background: url(../../../../assets/images/admin/images/Shipper.png) no-repeat 0 0;
+    background: url(../../../../assets/images/customer/images/Shipper.png) no-repeat 0 0;
 }
 
 .why_chooseus .head_wrap h6 {
@@ -951,13 +951,13 @@ section.why_chooseus {
 
 /************Company Partners Start**************/
 .Company-partner {
-    background: var(--lt-graybg2) url(../../../../assets/images/admin/images/process-bgeffect.png) no-repeat center;
+    background: var(--lt-graybg2) url(../../../../assets/images/customer/images/process-bgeffect.png) no-repeat center;
     background-size: cover;
     overflow: hidden;
 }
 
 .Company-partner .head_wrap::before {
-    background: url(../../../../assets/images/admin/images/Partners.png) no-repeat 0 0;
+    background: url(../../../../assets/images/customer/images/Partners.png) no-repeat 0 0;
 }
 
 .partner_card {
@@ -982,7 +982,7 @@ section.why_chooseus {
 }
 
 .testimonial-section .head_wrap::before {
-    background: url(../../../../assets/images/admin/images/Reviews.png) no-repeat 0 0;
+    background: url(../../../../assets/images/customer/images/Reviews.png) no-repeat 0 0;
     top: 35px;
 }
 
@@ -1222,7 +1222,7 @@ footer p {
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    background: url('../../../../assets/images/admin/images/arrow_back_footer.svg') no-repeat 0 0;
+    background: url('../../../../assets/images/customer/images/arrow_back_footer.svg') no-repeat 0 0;
     background-size: 19px;
     width: 20px;
     height: 14px;
@@ -2701,7 +2701,7 @@ input .accent-blue[type="checkbox"] {
 
 
 .new_disabledCheck:checked[type=checkbox] {
-    background-image: url(../../../../assets/images/admin/images/check_mark.svg);
+    background-image: url(../../../../assets/images/customer/images/check_mark.svg);
 }
 
 .new_disabledCheck:disabled {
@@ -2810,7 +2810,7 @@ input .accent-blue[type="checkbox"] {
 .faqs_bg::after {
     width: 26px;
     height: 26px;
-    background-image: url(../../../../assets/images/admin/images/faq-arrow.svg);
+    background-image: url(../../../../assets/images/customer/images/faq-arrow.svg);
     background-position: center;
     background-size: 14px;
     border-radius: 50%;
@@ -2818,7 +2818,7 @@ input .accent-blue[type="checkbox"] {
 }
 
 .accordion-button:not(.collapsed)::after {
-    background-image: url(../../../../assets/images/admin/images/faq-arrow.svg);
+    background-image: url(../../../../assets/images/customer/images/faq-arrow.svg);
 }
 
 .faq-line {
@@ -3656,4 +3656,38 @@ ul.dev-dl-list li p {
 .delete_bx{
     top: 50%;
     transform: translate(0, -50%) !important;
+}
+
+.profil_rghline.detail_rghline{
+    padding: 15px 50px;
+}
+.detail_hd{
+    align-items: center;
+    justify-content: space-between;
+}
+.detail_hd .search_field>input{
+    height: 35px;
+    width: 342px;
+    padding: 9px 30px 8px 5px;
+}
+.detail_hd .search_field>input::placeholder {
+    color: var(--dd_arrow);
+}
+.detail_hd .search_field>img{
+    width: 14px;
+    right: 10px;
+}
+.dtl_content table tbody tr th:not(:last-child){
+    border: 0;
+}
+.dtl_content table tbody tr th, .dtl_content table tbody tr td{
+    padding: 24px 50px;
+}
+.stts_true{
+    font-weight: 400;
+    color: var(--green_p);
+}
+.stts_false{
+    font-weight: 400;
+    color: var(--red_p);
 }

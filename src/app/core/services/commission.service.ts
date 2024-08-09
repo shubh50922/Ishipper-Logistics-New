@@ -25,14 +25,19 @@ postCommission(data: any): Observable<any> {
 // return this.storedCommissionId
 
 //}
+getCommisions(){
+  return this.http.get<any>(`${this.apiUrl}/Authenticate/GetCommissions`)
+}
 getCommissionById(id: number): Observable<any> {
   return this.http.get<any>(`${this.apiUrl}/Authenticate/GetCommissionById?id=${id}`);
 }
 deleteCommission(id:number):Observable<any>{
   return this.http.delete<any>(`${this.apiUrl}/Authenticate/DeleteCommission?id=${id}`);
 }
-updateCommission(id: number, data: any): Observable<any> {
-  return this.http.put<any>(`${this.apiUrl}/Authenticate/UpdateCommission?id=${id}`, data);
+updateCommission( data: any,id: number): Observable<any> {
+  console.log("ggggggggggid",id, data);
+  
+  return this.http.post<any>(`${this.apiUrl}/Authenticate/UpdateCommission?id=${id}`, data);
 }
   constructor(private http: HttpClient, private supplierservice: SupplierService) { }
 }

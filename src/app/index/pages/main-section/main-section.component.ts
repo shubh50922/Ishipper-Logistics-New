@@ -60,7 +60,7 @@ export class MainSectionComponent implements OnInit {
     const day = today.getDate().toString().padStart(2, '0');
     this.minDate = `${year}-${month}-${day}`;
 
-    console.log('calender date disable', this.minDate);
+    // console.log('calender date disable', this.minDate);
     this.getCountryInDropdown();
     this.getContentListInDropdown();
     this.getPackagingTypeDropdown();
@@ -95,7 +95,7 @@ export class MainSectionComponent implements OnInit {
       isDropOffPOBox: [false],
       items: this.fb.array([]),
     });
-    console.log(this.userForm.get('items') as FormArray);
+    // console.log(this.userForm.get('items') as FormArray);
     // this.addItem();
     this.patchInitialFormValues();
   }
@@ -159,7 +159,7 @@ export class MainSectionComponent implements OnInit {
   getContentListInDropdown() {
     this.indexService.getContentList().subscribe(
       (response: any) => {
-        console.log('========------> ', response);
+        // console.log('========------> ', response);
         this.ContentList = response.data; // Adjusted to match the actual response structure
         // this.cdr.detectChanges();
       },
@@ -170,9 +170,9 @@ export class MainSectionComponent implements OnInit {
   }
   getPackagingTypeDropdown() {
     this.indexService.getPackagingType().subscribe((response: any) => {
-      console.log('packagingtype', response);
+      // console.log('packagingtype', response);
       this.packagingType = response;
-      console.log('', this.userForm.get('items')?.value);
+      // console.log('', this.userForm.get('items')?.value);
     });
   }
 

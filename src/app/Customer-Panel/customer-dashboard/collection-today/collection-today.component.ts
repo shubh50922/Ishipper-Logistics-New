@@ -14,32 +14,34 @@ export class CollectionTodayComponent implements OnInit {
   isLoading: boolean = false;
   collectionDate: any;
   formattedCollectionDate: any;
+  formattedCurrentDate: any;
   estimatedDeliveryDate: any;
+  currentDate:any=new Date()
   Quotes!: any[];
   getFormValue() {
     this.storedValue = localStorage.getItem('formValue');
     this.parsedValue = JSON.parse(this.storedValue);
     this.collectionDate = this.parsedValue.collection;
-    console.log('collection date in cheapest', this.collectionDate);
+    // console.log('collection date in cheapest', this.collectionDate);
 
-    console.log('my form in cheapest', this.parsedValue);
+    // console.log('my form in cheapest', this.parsedValue);
     if (this.parsedValue) {
       
             const storedQuotes = localStorage.getItem('quotes');
   const quotes = storedQuotes ? JSON.parse(storedQuotes) : [];
             this.Quotes = quotes
-            console.log('my quotes', this.Quotes);
+            // console.log('my quotes', this.Quotes);
             // Filter quotes where collection date matches estimated delivery date
             this.Quotes = this.Quotes.filter((quote) => {
               const estimatedDate = this.addBusinessDays(quote.eta);
-              console.log("estimated date ",estimatedDate);
+              // console.log("estimated date ",estimatedDate);
               
-              console.log("aaaj man nahi lagra",this.convertCollectionDate());
+              // console.log("converted date",this.convertCurrentDate());
               
               
-              return estimatedDate ===this.convertCollectionDate();
+              return estimatedDate ===this.convertCurrentDate();
             });
-            console.log('my quotes', this.Quotes);
+            // console.log('my quotes', this.Quotes);
           }
         }
         
@@ -62,7 +64,13 @@ export class CollectionTodayComponent implements OnInit {
     this.formattedCollectionDate = `${dayOfWeek}, ${day} ${month}`;
     return this.formattedCollectionDate
   }
-
+convertCurrentDate(){
+  const dayOfWeek = this.datePipe.transform(this.currentDate, 'EEE'); // short weekday
+  const day = this.datePipe.transform(this.currentDate, 'dd'); // 2-digit day
+  const month = this.datePipe.transform(this.currentDate, 'MMMM'); // full month name
+  this.formattedCurrentDate = `${dayOfWeek}, ${day} ${month}`;
+  return this.formattedCurrentDate
+}
   addBusinessDays(numberOfDays: any): Date {
     const days = numberOfDays.split(' ');
     const expectedays = days[0];
@@ -80,7 +88,7 @@ export class CollectionTodayComponent implements OnInit {
         daysAdded++;
       }
     }
-    console.log('115', currentDate);
+    // console.log('115', currentDate);
 
     this.estimatedDeliveryDate = this.formatDate(currentDate);
     return this.estimatedDeliveryDate;

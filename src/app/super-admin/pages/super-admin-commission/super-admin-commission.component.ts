@@ -20,6 +20,7 @@ export class SuperAdminCommissionComponent implements OnInit {
   serviceNames: string[] = [];
   filteredServices: any[] = [''];
   carrierId: string = '';
+  editId: any;
   getIdFromResponse!: number;
   value: boolean = false;
   editCommissionForm!: FormGroup;
@@ -30,7 +31,13 @@ export class SuperAdminCommissionComponent implements OnInit {
   postCommissionForm!: any[];
   fetchId!: number;
   fetchDataBasedId!: any;
-
+  responseFromPost: any;
+  savedCommissions: any;
+  edittedData: any;
+  getId!: number;
+  filteredDatafordelete:any
+  closeModal:boolean=false
+  dataToEdit:any
   constructor(
     private supplierservice: SupplierService,
     private formBuilder: FormBuilder,
@@ -38,21 +45,26 @@ export class SuperAdminCommissionComponent implements OnInit {
     private toast: HotToastService
   ) {
     this.commissionForm = this.formBuilder.group({
-      id: [],
+      id: [0],
       carrierId: [''],
       isPercentage: [true],
       amount: [2.5, Validators.required],
       dateOfApplicable: [new Date().toISOString()],
       status: ['True', Validators.required],
       carrierName: ['', Validators.required],
-      serviceName: ['', Validators.required],
+      serviceName: [''],
     });
   }
-
+  getSavedCommissions() {
+    this.commissionservice.getCommisions().subscribe((response: any) => {
+      this.savedCommissions = response;
+      console.log('all commissions', this.savedCommissions);
+    });
+  }
   ngOnInit(): void {
     this.editCommissionForm = this.formBuilder.group({
-      carrierName: ['', Validators.required],
-      serviceName: ['', Validators.required],
+      carrierName: [''],
+      serviceName: [''],
       isPercentage: ['', Validators.required],
       amount: ['', Validators.required],
       status: ['', Validators.required],
@@ -66,29 +78,22 @@ export class SuperAdminCommissionComponent implements OnInit {
 
     // Load initial data and set default selections
     this.loadData();
+    this.getSavedCommissions();
+    
   }
 
   loadData(): void {
     this.supplierservice.getData().subscribe((data: any[]) => {
       this.apiData = data;
+      console.log('all data', this.apiData);
 
-      this.serviceProviderTypes = [
-        ...new Set(data.map((item) => item.serviceProviderType)),
-      ];
+      // this.serviceProviderTypes = [
+      //   ...new Set(data.map((item) => item.serviceProviderType)),
+      // ];
       this.serviceNames = data.map((item) => item.serviceName);
+      console.log('service provider types', this.serviceProviderTypes);
 
       // Set the default values for the form controls
-      if (this.serviceProviderTypes.length > 0) {
-        this.commissionForm.patchValue({
-          carrierName: this.serviceProviderTypes[0],
-        });
-        this.filterServiceNames(); // Trigger filtering of services based on default carrier
-      }
-      if (this.filteredServices.length > 0) {
-        this.commissionForm.patchValue({
-          serviceName: this.filteredServices[0],
-        });
-      }
 
       console.log('apidata', this.apiData);
       console.log('service provider types', this.serviceProviderTypes);
@@ -97,14 +102,18 @@ export class SuperAdminCommissionComponent implements OnInit {
   }
 
   filterCarrierId() {
-    const selectedService = this.commissionForm.get('serviceName')?.value;
+    const selectedService = this.commissionForm.get('carrierName')?.value;
+    console.log('inside filter carrier id', selectedService);
 
     const cutData = this.apiData.find(
       (item) => item.serviceName === selectedService
     );
+    console.log('filtered selected service', cutData);
 
     if (cutData) {
       this.carrierId = cutData.id.toString();
+      console.log('carrier id inside if cut data', this.carrierId);
+
       this.commissionForm.patchValue({
         carrierId: this.carrierId,
         id: this.Id,
@@ -117,21 +126,7 @@ export class SuperAdminCommissionComponent implements OnInit {
     }
   }
 
-  GetServiceNames(): void {
-    const selectedService = this.commissionForm.get('serviceName')?.value;
-
-    const cutData = this.apiData.find(
-      (item) => item.serviceName === selectedService
-    );
-
-    if (cutData) {
-      this.carrierId = cutData.id.toString();
-      this.commissionForm.patchValue({
-        carrierId: this.carrierId,
-        id: this.Id,
-      });
-    }
-  }
+ 
 
   filterServiceNames(): void {
     const selectedType = this.commissionForm.get('carrierName')?.value;
@@ -166,58 +161,8 @@ export class SuperAdminCommissionComponent implements OnInit {
       });
   }
 
-  getSelectedData(id: number) {
-    console.log("Get Select Id ", id);
-    
-    this.fetchId = id;
-    this.fetchDataBasedId = this.CommissionFormdata.find(
-      (item: any) => item[0].commissionId == this.fetchId
-    );
-    console.log(this.fetchDataBasedId);
-    
-    if (this.fetchDataBasedId) {
-      this.editCommissionForm.patchValue({
-        carrierName: this.fetchDataBasedId[0].carrierName,
-         });
-
-      // Fetch and set the service names based on the carrier name
-      this.filterServiceNames();
-
-      // Once the services are loaded, set the remaining form values
-      setTimeout(() => {
-        this.editCommissionForm.patchValue({
-          serviceName: this.fetchDataBasedId[0].serviceName,
-          isPercentage: this.fetchDataBasedId[0].isPercentage,
-          amount: this.fetchDataBasedId[0].amount,
-          status: this.fetchDataBasedId[0].status,
-        });
-      }, 0); // Ensure this runs after the services are loaded
-    }
-  }
-              
-  deleteCommission(id: number) {
-    this.fetchDataBasedId = id;
-    const filteredData = this.CommissionFormdata.find(
-      (item: any) => item[0].commissionId == this.fetchDataBasedId
-    );
-
-    if (filteredData) {
-      const storedId = filteredData[0].commissionId;
-
-      if (storedId) {
-        this.commissionservice
-          .deleteCommission(this.fetchDataBasedId)
-          .subscribe(
-            (response: any) => {
-              this.toast.success(response.message);
-            },
-            (error: any) => {
-              this.toast.error('Delete Commission Failed');
-            }
-          );
-      }
-    }
-  }
+ 
+ 
 
   onSubmit(): void {
     if (this.commissionForm.valid) {
@@ -231,29 +176,26 @@ export class SuperAdminCommissionComponent implements OnInit {
         carrierName: this.commissionForm.get('carrierName')?.value,
       };
 
-      this.commissionservice.postCommission(formDataToSend).subscribe(
-        (response) => {
-          if (response.message) {
-            this.toast.error(response.message);
-          } else {
-            this.getIdFromResponse = response.id;
-            this.getCommisions(this.getIdFromResponse);
-          }
-        },
-        (error: any) => {
-          this.handleError(
-            'Post Commission Failed: ' + (error.message || 'An error occurred')
-          );
-        }
-      );
+      this.commissionservice
+        .postCommission(formDataToSend)
+        .subscribe((response) => {
+          this.getSavedCommissions();
+          this.responseFromPost = response;
+this.toast.success("Post Commission Successful")
+          console.log('response on posting', this.responseFromPost);
+        },(error:any)=>{
+          this.toast.error("Post commission failed!")
+        });
     } else {
       this.toast.error('Invalid commission form');
     }
   }
 
+  
+
   handleError(message: string) {
     console.error(message);
-    this.toast.error('Post Commission Failed');
+    this.toast.error('Edit Commission Failed');
   }
 
   toggleRadio(payment: string) {
@@ -268,5 +210,85 @@ export class SuperAdminCommissionComponent implements OnInit {
     const day = date.getDate().toString().padStart(2, '0');
     this.formattedDate = `${day}-${month}-${year}`;
     return this.formattedDate;
+  }
+  getIdForDelete(id: number) {
+    this.getId = id;
+    console.log('id for delete', this.getId);
+   
+
+  
+  }
+  getIdforEdit(id:any){
+this.editId=id
+console.log("id fetched to be edited",this.editId);
+if(this.editId){
+  this. dataToEdit = this.savedCommissions.find(
+    (item: any) => item.commissionId == this.editId
+  );
+  console.log('fetch data based id', this.dataToEdit);
+
+  if (this.dataToEdit) {
+    console.log('inside if datatoedit');
+
+    this.editCommissionForm.patchValue({
+      carrierName: this.dataToEdit.carrierName,
+      serviceName: '',
+      isPercentage: this.dataToEdit.isPercentage,
+      amount: this.dataToEdit.amount,
+      status: this.dataToEdit.status,
+    });
+    console.log('edit form', this.editCommissionForm.value);
+   
+
+  }
+}}
+confirmEdit(){
+  if (this.editCommissionForm.valid) {
+    const formDataToSend :any = {
+      isPercentage: this.editCommissionForm.get('isPercentage')?.value,
+      amount: this.editCommissionForm.get('amount')?.value,
+      status: this.editCommissionForm.get('status')?.value,
+    };
+
+    console.log("formData TO send", formDataToSend);
+    console.log(this.editId,"edit id in confirm edit");
+    
+    this.commissionservice
+          .updateCommission(formDataToSend, this.editId)
+          .subscribe((response) => {
+            this.getSavedCommissions();
+            const responseFromEdit = response;
+  this.toast.success("Edit Commission Successful")
+          
+          },(error:any)=>{
+            this.toast.error("Edit Commission failed!")
+          });
+      } else {
+        this.toast.error('Invalid commission form');
+      }
+    }
+
+
+  confirmDelete(){
+    this.commissionservice.deleteCommission(this.getId).subscribe((response:any)=>{
+      this.toast.success("commission deleted successfully")
+      
+      // const deletedItem = this.savedCommissions.find((item: any) => item.commissionId === this.getId);
+      // if (deletedItem) {
+      //   deletedItem.status = false; // Update the status to false
+      // }
+      this.getSavedCommissions();
+
+      // Close the modal
+     
+    },
+    (error:any)=>{
+      this.toast.error("Delete Commission failed!")
+
+      // Close the modal
+     
+    })
+   
+    
   }
 }

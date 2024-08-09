@@ -1,0 +1,126 @@
+<div class="main_content">
+  <div class="bg-white profil_rghline detail_rghline">
+    <div class="d-flex detail_hd">
+      <h4 class="mb-0">Company Details</h4>
+      <div class="search_field">
+        <input type="text" placeholder="Search by..." />
+        <img
+          src="../../../../assets/images/customer/images/search_icon.svg"
+          alt="search"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="d_htd_content">
+    <div class="htd_content dtl_content">
+      <div class="table_overflow">
+        <table>
+          <tbody>
+            <tr>
+              <th>Company Name</th>
+              <th>ABN Number</th>
+              <th>Created by</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+            <tr *ngFor="let item of savedCompanies">
+              <td>{{ item.companyName }}</td>
+              <td>{{ item.abnNumber }}</td>
+              <td>{{ item.createdBy }}</td>
+              <td>
+                <span class="stts_true">{{ item.status }}</span>
+              </td>
+              <td>
+                <i
+                  class="fa fa-edit edit-commission me-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editModal"
+                  (click)="fetchId(item.id)"
+                ></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div
+    class="modal fade"
+    id="editModal"
+    tabindex="-1"
+    aria-labelledby="editModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-commissionsz">
+      <div class="modal-content">
+        <div class="modal-header border-bottom-0">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="bg-white modal_dtlstart">
+            <div class="mb-4">
+              <h4>Company Details</h4>
+            </div>
+            <form [formGroup]="editCommissionForm" (ngSubmit)="confirmEdit()" >
+              <div class="row d-flex align-items-center">
+                <div class="col-md-12 col-12">
+                  <div class="row only-deskfrm mb-4">
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <label id="carrier-label" for="carrier"
+                         >Company Name
+                          <span class="text-danger">*</span></label
+                        >
+                        
+                        <input type="text" class="form-select user_formsdtls" readonly formControlName="companyName"/>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <div class="form-group">
+                        <label id="service-label" for="service"
+                          >Abn Number</label
+                        >
+                        <input type="text" class="form-select user_formsdtls" formControlName="abnNumber" readonly/>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 col-6 d-flex">
+                      <div class="form-group  w-100">
+                        <label id="email-label" for="mobile"
+                          >Created By<span class="text-danger">*</span></label
+                        >
+                        <input type="text" class="form-select user_formsdtls" readonly formControlName="createdBy"/>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                          <label id="service-label" for="service">Status <span class="text-danger">*</span></label>
+                          <select class="form-select user_formsdtls" aria-label="Default select example" formControlName="status">
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="btn-spcprofile">
+                    <button type="submit" class="btn_authenticate">Save</button>
+                
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

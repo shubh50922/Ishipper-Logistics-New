@@ -9,8 +9,8 @@
                     <div class="col-md-6 col-lg-5 col-xl-5 col-xxl-4 col-12">
                         <div class="form-group">
                             <label id="carrier-label" for="carrier">Carrier Name <span class="text-danger">*</span></label>
-                            <select class="form-select user_formsdtls" aria-label="Default select example" (change)="filterServiceNames()" formControlName="carrierName">
-                                <option *ngFor="let type of serviceProviderTypes" [value]="type">{{type}}</option>
+                            <select class="form-select user_formsdtls" aria-label="Default select example"  formControlName="carrierName" (change)="filterCarrierId()">
+                                <option *ngFor="let services of serviceNames" >{{services}}</option>
                             </select>
                         </div>
                         
@@ -19,8 +19,8 @@
                         <div class="form-group">
                             <label id="service-label" for="service">Service Name (Optional)</label>
                             <select class="form-select user_formsdtls"
-                                aria-label="Default select example" formControlName="serviceName" (change)="GetServiceNames()">
-                                <option selected *ngFor="let service of filteredServices" [value]="service">{{service}}</option>
+                                aria-label="Default select example" formControlName="serviceName" >
+                                <option selected></option>
                                
                             </select>
                         </div>
@@ -86,16 +86,16 @@
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
-                <tr *ngFor="let item of CommissionFormdata ">
-                    <td>{{item[0].carrierName}}</td>
+                <tr *ngFor="let item of savedCommissions">
+                    <td>{{item.carrierName}}</td>
                     <td>iShipper</td>
-                    <td>{{item[0].amount}}</td>
-                    <td>{{getFormattedDate(item[0].dateOfApplicable)}}</td>
-                    <td>{{item[0].status}}</td>
+                    <td>{{item.amount}}</td>
+                    <td>{{getFormattedDate(item.dateOfApplicable)}}</td>
+                    <td>{{item.status}}</td>
                     <td><i class="fa fa-edit edit-commission me-2" data-bs-toggle="modal"
-                            data-bs-target="#editModal" (click)="getSelectedData(item[0].commissionId)"></i>
+                            data-bs-target="#editModal" (click)="getIdforEdit(item.commissionId)"></i>
                             <i class="fa fa-trash delete-commission"
-                            data-bs-toggle="modal" data-bs-target="#deleteModal"></i></td>
+                            data-bs-toggle="modal" data-bs-target="#deleteModal" (click)="getIdForDelete(item.commissionId)"></i></td>
                 </tr>
                 
                 
@@ -120,22 +120,22 @@
                         <h4>Commission</h4>
                     </div>
                   
-                    <form [formGroup]="commissionForm">
+                    <form [formGroup]="editCommissionForm" (ngSubmit)="confirmEdit()">
                         <div class="row d-flex align-items-center">
                           <div class="col-md-12 col-12">
                             <div class="row only-deskfrm mb-4">
                               <div class="col-md-6 col-12">
                                 <div class="form-group">
                                   <label id="carrier-label" for="carrier">Carrier Name <span class="text-danger">*</span></label>
-                                  <select class="form-select user_formsdtls" aria-label="Default select example" formControlName="carrierName"  (change)="filterServiceNames()" >
-                                    <option selected *ngFor="let type of serviceProviderTypes" [value]="type">{{type}}</option>
+                                  <select class="form-select user_formsdtls" aria-label="Default select example" formControlName="carrierName" >
+                                    <option selected *ngFor="let services of serviceNames" [value]="">{{services}}</option>
                                   </select>
                                 </div>
                               </div>
                               <div class="col-md-6 col-12">
                                 <div class="form-group">
                                   <label id="service-label" for="service">Service Name (Optional)</label>
-                                  <select class="form-select user_formsdtls" aria-label="Default select example" formControlName="serviceName"  (change)="GetServiceNames()" >
+                                  <select class="form-select user_formsdtls" aria-label="Default select example" formControlName="serviceName"   >
                                     <option selected *ngFor="let service of filteredServices" [value]="service">{{service}}</option>
                                   </select>
                                 </div>
@@ -184,11 +184,11 @@
 <!-- Delete Modal -->
 
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
-    aria-hidden="true" >
+    aria-hidden="true"  #deleteModal>
     <div class="modal-dialog delete_bx">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="deleteModalLabel">Delete Commission</h5>
+                <h5 class="modal-title fw-bold" id="deleteModalLabel" >Delete Commission</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                     aria-label="Close"></button>
             </div>
@@ -197,7 +197,7 @@
                 <p>This Action can’t be undo.</p>
             </div>
             <div class="modal-footer border-top-0">
-                <button type="button" class="btn btn-dangerclr rounded-pill">Delete</button>
+                <button type="button" class="btn btn-dangerclr rounded-pill" (click)="confirmDelete()" >Delete</button>
                 <button type="button" class="btn btn-lightclr rounded-pill" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>

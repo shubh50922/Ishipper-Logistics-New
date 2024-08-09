@@ -21,7 +21,7 @@
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
       >
-        <a [routerLink]="'/application'"
+        <a [routerLink]="'/application/dashboardadmin'"
           ><img
             src="../../../../assets/images/admin/images/dashboard.svg"
             alt="dashboard"
@@ -30,7 +30,7 @@
       </li>
       <li *ngIf="userRole === 'SuperAdmin'"
       routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"><a [routerLink]="'/details'" ><img src="../../../../assets/images/admin/images/data.svg" alt="user management"> Details</a>
+      [routerLinkActiveOptions]="{ exact: true }"><a [routerLink]="'/application/companydetails'" ><img src="../../../../assets/images/admin/images/data.svg" alt="user management"> Details</a>
       </li>
       <li
         *ngIf="userRole === 'SuperAdmin'"

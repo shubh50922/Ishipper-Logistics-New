@@ -1,58 +1,81 @@
 <div class="wrapper">
   <div class="main_content">
     <div class="flex-space">
-      <div class="sel-date">
-        <input type="date" value="Choose Collection Date" class="sel-date-fl" />
-        <span class="sl-span">Choose Collection Date</span>
+      <div class="d-flex">
+        <div class="inp-group border">
+          <input
+            type="date"
+            id="birthday"
+            name="birthday"
+            [min]="minDate"
+            [(ngModel)]="collectionDate"
+            (change)="getCollectionDate(collectionDate)"
+          />
+        </div>
+        <button
+          class="submit-btn px-3 border-0 bg-info text-light fw-bold rounded mx-4"
+          (click)="onClick()"
+        >
+          Submit
+        </button>
       </div>
+    
       <p class="tx-small-r">
         Important: click for info on collection and delivery delays
       </p>
     </div>
     <div class="tab-container">
-      <!-- <div class="tab-menu">
+      <div class="tab-menu">
         <ul>
-          <li  >
-            <a [routerLink]="'application/dashboardlayout/cheapest'" class="tab-a active-a" data-id="tab1"
+          <li>
+            <a
+              [routerLink]="'application/dashboardlayout/cheapest'"
+              class="tab-a"
               >Cheapest Service</a
             >
           </li>
-          <li routerLinkActive="active">
-            <a [routerLink]="'application/dashboardlayout/fastest'" class="tab-a" data-id="tab2"
+          <li
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <a
+              [routerLink]="'application/dashboardlayout/fastest'"
+              class="tab-a"
               >Fastest Service</a
             >
           </li>
-          <li  routerLinkActive="active">
-            <a [routerLink]="'application/dashboardlayout/collection'" class="tab-a" data-id="tab3">Collection Today</a>
+          <li
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <a
+              [routerLink]="'application/dashboardlayout/collection'"
+              class="tab-a"
+              >Collection Today</a
+            >
           </li>
-          <li  routerLinkActive="active">
-            <a class="tab-a " [routerLink]="'application/dashboardlayout/sameday'"  data-id="tab4">Same Day Service</a>
+          <li
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <a
+              [routerLink]="'application/dashboardlayout/sameday'"
+              class="tab-a"
+              >Same Day Service</a
+            >
           </li>
-          <li routerLinkActive="active">
-            <a class="tab-a" [routerLink]="'application/dashboardlayout/carrier'"  data-id="tab5">Carrier Name</a>
-          </li>
-        </ul>
-      </div> -->
-      <div class="tab-menu">
-        <ul>
-          <li >
-            <a [routerLink]="'application/dashboardlayout/cheapest'" class="tab-a">Cheapest Service</a>
-          </li>
-          <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-            <a [routerLink]="'application/dashboardlayout/fastest'" class="tab-a">Fastest Service</a>
-          </li>
-          <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-            <a [routerLink]="'application/dashboardlayout/collection'" class="tab-a">Collection Today</a>
-          </li>
-          <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-            <a [routerLink]="'application/dashboardlayout/sameday'" class="tab-a">Same Day Service</a>
-          </li>
-          <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-            <a [routerLink]="'application/dashboardlayout/carriername'" class="tab-a">Carrier Name</a>
+          <li
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <a
+              [routerLink]="'application/dashboardlayout/carriername'"
+              class="tab-a"
+              >Carrier Name</a
+            >
           </li>
         </ul>
       </div>
-      
     </div>
     <div>
       <router-outlet></router-outlet>

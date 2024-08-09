@@ -9,7 +9,7 @@ import { CarrierNameComponent } from './carrier-name/carrier-name.component';
 import { CollectionTodayComponent } from './collection-today/collection-today.component';
 import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
 import { CoreModule } from 'src/app/core/core.module';
-
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
      
@@ -23,7 +23,8 @@ import { CoreModule } from 'src/app/core/core.module';
   imports: [
     CommonModule,
     CustomerDashboardRoutingModule,
-    CoreModule
+    CoreModule,
+    FormsModule
 
   ]
 })
