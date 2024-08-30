@@ -1,17 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import {FormControl,FormGroup,FormBuilder,Validators} from '@angular/forms';
 import { SuperadminDetailService } from 'src/app/core/services/superadmin-detail.service';
 import { HotToastService } from '@ngneat/hot-toast';
+import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.css'],
 })
 export class DetailsComponent implements OnInit {
+  displayedColumns: string[] = ['companyName', 'abnNumber', 'createdByName', 'status', 'action'];
+  dataSource!: MatTableDataSource<any>;
   savedCompanies: any;
   selectedId!: number;
   dataToEdit: any;
   editCommissionForm!: FormGroup;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
   constructor(
     private superadminDetailService: SuperadminDetailService,
     private formBuilder: FormBuilder,
@@ -37,41 +45,51 @@ export class DetailsComponent implements OnInit {
     this.superadminDetailService
       .getCompanyDetails()
       .subscribe((response: any) => {
-        this.savedCompanies = response;
-        console.log('saved companies', response);
+        this.dataSource = new MatTableDataSource(response);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       });
   }
-  fetchId(Id: number) {
-    this.selectedId = Id;
-    console.log('fetched company id', this.selectedId);
-    if (this.selectedId) {
-      this.dataToEdit = this.savedCompanies.find(
-        (item: any) => item.id === this.selectedId
-      );
-      console.log('data to edit', this.dataToEdit);
-    }
-    if(this.dataToEdit){
-      this.editCommissionForm.patchValue({
-        companyName:this.dataToEdit. companyName,
-        abnNumber:this.dataToEdit.abnNumber,
-        status:this.dataToEdit.status,
-        createdBy:this.dataToEdit.createdBy
-      })
-      console.log("edit form",this.editCommissionForm.value);
-      
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
   }
-  confirmEdit(){
-    if(this.editCommissionForm.valid){
-      const formData:any={
-        id:this.selectedId,
+  fetchId(Id: number) {
+    const selectedId = Id;
+    console.log('fetched company id', selectedId);
+
+    const dataToEdit = this.dataSource.data.find((item: any) => item.id === selectedId);
+    console.log('data to edit', dataToEdit);
+
+    if (dataToEdit) {
+      this.editCommissionForm.patchValue({
+        companyName: dataToEdit.companyName,
+        abnNumber: dataToEdit.abnNumber,
+        status: dataToEdit.status,
+        createdBy: dataToEdit.createdByName,
+      });
+      console.log('edit form', this.editCommissionForm.value);
+    }
+  }
+  confirmEdit() {
+    if (this.editCommissionForm.valid) {
+      const formData: any = {
+        id: this.selectedId,
         status: this.editCommissionForm.get('status')?.value === 'true',
       };
-      this.superadminDetailService.updateCompanyStatus(formData).subscribe((response:any)=>{
-        this.toast.success("Status updated sucessfully")
-      },(error:any)=>{
-        this.toast.error("Status updation failed!")
-      })
+      this.superadminDetailService.updateCompanyStatus(formData).subscribe(
+        (response: any) => {
+          this.toast.success('Status updated successfully');
+          this.getCompanies();
+        },
+        (error: any) => {
+          this.toast.error('Status updation failed!');
+        }
+      );
     }
   }
 }

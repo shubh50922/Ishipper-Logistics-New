@@ -16,9 +16,40 @@
                 </svg>
               </button>
             </form>
+            <!-- <div class="display_options mx-5">
+              <label>
+                <input type="radio" name="displayOption" value="general"  checked [(ngModel)]="displayType">
+                General
+              </label>
+              <label>
+                <input type="radio" name="displayOption" value="company" [(ngModel)]="displayType">
+                Company
+              </label>
+            </div> -->
+            <div class="form-check commission-space">
+              <input class="form-check-input form_checkbg" type="radio" name="displayOption" checked [(ngModel)]="displayType" value="general" >
+              <label class="form-check-label fw-bold mb-0" >General</label>
+            </div>
+            <div class="form-check commission-space">
+              <input class="form-check-input form_checkbg" type="radio" name="displayOption" [(ngModel)]="displayType" value="company" >
+              <label class="form-check-label fw-bold mb-0" >Company</label>
+            </div>
           </div>
         </div>
       </div>
+      <div *ngIf="displayType === 'company'">
+        <!-- Content for Company Option -->
+       
+  
+        <!-- Dropdown for Company Selection -->
+        <div class="inp-group">
+          <label for="companySelect" class="form-check-label fw-bold mb-0 mt-2">Select Company</label>
+          <select id="companySelect"  class="sel-prt form-select  mt-2"  [(ngModel)]="selectedCompany" >
+            <option *ngFor="let company of companies" [value]="company.id" >{{ company.companyName }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
       <div class="d_right_range_filter">
         <div class="d_right_range_filter">
           <div class="btn_flex">
@@ -40,7 +71,7 @@
             </div>
           </div>
         </div>
-      </div>
+      
     </div>
   </div>
 
@@ -124,6 +155,7 @@
       </div>
     </div>
   </div>
+  
 </div>
 <div class="btn_footer px-0">
   <a href="javascript:void(0)" class="btn_foot">Download</a>

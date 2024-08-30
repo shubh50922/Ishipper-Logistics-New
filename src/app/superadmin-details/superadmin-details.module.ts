@@ -5,6 +5,11 @@ import { SuperadminDetailsRoutingModule } from './superadmin-details-routing.mod
 import { DetailsComponent } from './pages/details/details.component';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgModel } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 @NgModule({
   declarations: [
     DetailsComponent
@@ -13,7 +18,12 @@ import { NgModel } from '@angular/forms';
     CommonModule,
     SuperadminDetailsRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports:[
     NgModel

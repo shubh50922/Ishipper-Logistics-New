@@ -2,15 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { IndexService } from 'src/app/core/services/index.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
-import { FormControl, FormGroup, FormArray, FormBuilder } from '@angular/forms';
-
+import {
+  FormControl,
+  FormGroup,
+  FormArray,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { HotToastService } from '@ngneat/hot-toast';
 @Component({
   selector: 'app-main-section',
   templateUrl: './main-section.component.html',
   styleUrls: ['./main-section.component.css'],
 })
 export class MainSectionComponent implements OnInit {
+  isLoading: boolean = false;
   Countries!: any[];
   ContentList: any[] = [];
   isInternational: boolean = true;
@@ -32,6 +42,7 @@ export class MainSectionComponent implements OnInit {
   filteredSuburbsTwo: any[] = [];
   result: any;
   selectedTravelType: string = 'international';
+  selectedaddresstype: string = 'commercial';
   suburbNameOne!: string;
   suburbStateOne!: string;
   suburbPostCodeOne!: string;
@@ -45,26 +56,50 @@ export class MainSectionComponent implements OnInit {
   today!: string;
   weightType!: any[];
   minDate!: string;
+  getWeights!: string;
+  getHeights!: string;
+  getLengths!: string;
+  getWidths!: string;
+  userId!: string;
+  dimensions!: any[];
+  userInput: string = '';
   private searchSubject = new Subject<string>();
 
   constructor(
     private fb: FormBuilder,
     private indexService: IndexService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService,
+    private toast: HotToastService,
+    private router: Router
   ) {}
+  clearSearch(field: string): void {
+    if (field === 'one') {
+      this.searchTextOne = '';
+      this.isShowDropdownOne = false; // Hide the dropdown when clearing the search
+    } else if (field === 'two') {
+      this.searchTextTwo = '';
+      this.isShowDropdownTwo = false; // Hide the dropdown for the second input
+    }
+  }
+  getDAte(){
+    const changeDate=this.userForm.get('collectionDate')?.value
+console.log("date",changeDate);
 
+  }
   ngOnInit(): void {
     const today = new Date();
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, '0');
     const day = today.getDate().toString().padStart(2, '0');
     this.minDate = `${year}-${month}-${day}`;
-
+   
     // console.log('calender date disable', this.minDate);
+    this.getUserId();
     this.getCountryInDropdown();
     this.getContentListInDropdown();
     this.getPackagingTypeDropdown();
-
+    // this.onDomesticClick()
     // this.userForm = new FormGroup({
     //   pickupSuburb: new FormControl('BRUNSWICK'),
     //   pickupState: new FormControl('WA'),
@@ -80,37 +115,89 @@ export class MainSectionComponent implements OnInit {
     //   items: new FormArray([ this.createItem()]),
     // });
 
+    // this.userForm = this.fb.group({
+    //   pickupSuburb: [''],
+    //   collection: ['collection'],
+    //   pickupState: [''],
+    //   pickupPostcode: [''],
+    //   pickupBuildingType: ['commercial'],
+    //   isPickupTailLift: [false],
+    //   destinationSuburb: [''],
+    //   destinationState: [''],
+    //   destinationPostcode: [''],
+    //   destinationBuildingType: ['residential'],
+    //   isDropOffTailLift: [false],
+    //   isDropOffPOBox: [false],
+    //   items: this.fb.array([]),
+    // });
     this.userForm = this.fb.group({
-      pickupSuburb: [''],
-      collection: ['collection'],
-      pickupState: [''],
-      pickupPostcode: [''],
-      pickupBuildingType: ['commercial'],
-      isPickupTailLift: [false],
-      destinationSuburb: [''],
-      destinationState: [''],
-      destinationPostcode: [''],
-      destinationBuildingType: ['residential'],
-      isDropOffTailLift: [false],
-      isDropOffPOBox: [false],
-      items: this.fb.array([]),
+      fromSuburb: [''],
+      fromCode: [''],
+      fromState: [''],
+      toSuburb: [''],
+      toCode: [''],
+      toState: [''],
+      countryCode: ['AU'],
+      itemType: ['other'],
+      weightType: ['kg'],
+      weights: [''],
+      lengths: [''],
+      heights: [''],
+      widths: [''],
+      dimensionUnits: ['in'],
+      packageType: ['other'],
+      contents: ['other'],
+      collectionDate: [''],
+      quantitys: [1],
+      items: new FormArray([this.createItem()]),
+      createdby: [this.userId],
     });
     // console.log(this.userForm.get('items') as FormArray);
     // this.addItem();
     this.patchInitialFormValues();
   }
   createItem(): FormGroup {
+    // return this.fb.group({
+    //   type: ['box'],
+    //   weight: ['2', [
+    //     Validators.required,
+    //     Validators.min(0.01),
+    //     Validators.max(25),
+    //     Validators.pattern('^[0-9]+(\.[0-9]{1,2})?$') // Allows decimal values with up to 2 decimal places
+    //   ]],
+    //   length: ['2',[
+    //     Validators.required,
+    //     Validators.min(1),
+    //     Validators.max(200),
+    //     Validators.pattern('^[0-9]+$')  // Only integer values
+    //   ]],
+    //   width: ['', [
+    //     Validators.required,
+    //     Validators.min(1),
+    //     Validators.max(200),
+    //     Validators.pattern('^[0-9]+$') // Only integer values
+    //   ]],
+    //   // height: ['', [
+    //   //   Validators.required,
+    //   //   Validators.min(1),
+    //   //   Validators.max(200),
+    //   //   Validators.pattern('^[0-9]+$') // Only integer values
+    //   // ]],
+    //   quantity: ['1'],
+    //   contents: ['alcohol'],
+    // });
+
     return this.fb.group({
-      type: ['box'],
-      weight: ['2'],
-      length: ['2'],
-      width: ['2'],
-      height: ['2'],
-      quantity: ['1'],
-      contents: ['alcohol'],
+      type: ['', Validators.required],
+      weight: ['', Validators.required],
+      length: ['', Validators.required],
+      width: ['', Validators.required],
+      height: ['', Validators.required],
+      quantity: ['1', Validators.required],
+      contents: ['other', Validators.required],
+      physicalWeight: ['10', Validators.required],
     });
   }
-
   get items(): FormArray {
     return this.userForm.get('items') as FormArray;
   }
@@ -121,16 +208,16 @@ export class MainSectionComponent implements OnInit {
 
   patchInitialFormValues(): void {
     this.userForm.patchValue({
-      pickupSuburb: this.suburbNameOne,
-      pickupState: this.suburbStateOne,
-      pickupPostcode: this.suburbPostCodeOne,
+      fromSuburb: this.suburbNameOne,
+      fromState: this.suburbStateOne,
+      fromCode: this.suburbPostCodeOne,
     });
     this.userForm.patchValue({
-      destinationSuburb: this.suburbNameTwo,
-      destinationState: this.suburbStateTwo,
-      destinationPostcode: this.suburbPostCodeTwo,
+      toSuburb: this.suburbNameTwo,
+      toState: this.suburbStateTwo,
+      toCode: this.suburbPostCodeTwo,
     });
-    this.addItem(); // Ensure at least one item is added initially
+    // this.addItem(); // Ensure at least one item is added initially
   }
 
   getformControls() {
@@ -168,6 +255,69 @@ export class MainSectionComponent implements OnInit {
       }
     );
   }
+  getUserId() {
+    const getUser: any = localStorage.getItem('user');
+    //  console.log("get user in index", getUser);
+    const decryptUser = this.authService.decrypt(getUser);
+    //  console.log("decrypt user in index",decryptUser);
+    const userData = JSON.parse(decryptUser);
+    //  console.log("parsed data in add user",userData);
+    this.userId = userData.user.id;
+    console.log('user id in index', this.userId);
+  }
+  getDimensions() {
+    // Get the FormArray
+    const itemsArray = this.userForm.get('items') as FormArray;
+
+    // Check if there are any items in the array
+    if (itemsArray.length > 0) {
+      // Get the first item group
+      const firstItemGroup = itemsArray.at(0) as FormGroup;
+
+      // Extract the dimensions from the first item group
+      this.getLengths = firstItemGroup.get('length')?.value;
+      this.getWidths = firstItemGroup.get('width')?.value;
+      this.getHeights = firstItemGroup.get('height')?.value;
+      this.getWeights = firstItemGroup.get('weight')?.value;
+const changeDate=this.userForm.get('collectionDate')?.value
+console.log("date",changeDate);
+
+      // Log the dimensions
+      console.log(
+        `Dimensions - Length: ${this.getLengths}, Width: ${this.getWidths}, Height: ${this.getHeights}`
+      );
+
+      // Update userForm with the extracted values
+
+      this.userForm.patchValue({
+        weights: this.getWeights,
+        heights: this.getHeights,
+        lengths: this.getLengths,
+        widths: this.getWidths,
+       
+      });
+
+     
+    } else {
+      // Handle the case where there are no items in the FormArray
+      console.log('No items in the FormArray');
+    }
+
+    console.log('getDimensions called');
+  }
+
+  // getDimensions() {
+
+  //   // Assuming you're looping through items or just getting the first one:
+  //   itemsArray.controls.forEach((itemGroup: AbstractControl) => {
+  //     const length = itemGroup.get('length')?.value;
+  //     const width = itemGroup.get('width')?.value;
+  //     const height = itemGroup.get('height')?.value;
+
+  //     console.log(`Dimensions - Length: ${length}, Width: ${width}, Height: ${height}`);
+  //   });
+  // }
+
   getPackagingTypeDropdown() {
     this.indexService.getPackagingType().subscribe((response: any) => {
       // console.log('packagingtype', response);
@@ -191,9 +341,12 @@ export class MainSectionComponent implements OnInit {
     this.isInternational = isInternational;
   }
 
-  onDomesticClick() {
-    this.isInternational = false; // Set isInternational to false when domestic option is clicked
-  }
+  // onDomesticClick() {
+  //   this.isInternational = false; // Set isInternational to false when domestic option is clicked
+  //   if(this.isInternational==false){
+  //     this.selectedCountryCode='AU'
+  //   }
+  // }
 
   updateCountryCode(event: Event) {
     const selectElementValue = event.target as HTMLSelectElement;
@@ -209,7 +362,7 @@ export class MainSectionComponent implements OnInit {
       this.selectedCountry = selectedCountryName.countryName;
     }
   }
-
+  getWeight() {}
   getInputValue(event: Event, dropdown: string) {
     const inputValue = (event.target as HTMLInputElement).value;
     if (dropdown === 'one') {
@@ -266,12 +419,11 @@ export class MainSectionComponent implements OnInit {
       this.suburbPostCodeOne = suburb.postcode;
       this.suburbStateOne = suburb.state;
       this.searchTextOne = combinedSuburbValue;
-      
 
       this.userForm.patchValue({
-        pickupSuburb: this.suburbNameOne,
-        pickupState: this.suburbStateOne,
-        pickupPostcode: this.suburbPostCodeOne,
+        fromSuburb: this.suburbNameOne,
+        fromState: this.suburbStateOne,
+        fromCode: this.suburbPostCodeOne,
       });
       // Hide the dropdown
       this.isShowDropdownOne = false;
@@ -284,50 +436,75 @@ export class MainSectionComponent implements OnInit {
       this.isShowDropdownTwo = false;
 
       this.userForm.patchValue({
-        destinationSuburb: this.suburbNameTwo,
-        destinationState: this.suburbStateTwo,
-        destinationPostcode: this.suburbPostCodeTwo,
+        toSuburb: this.suburbNameTwo,
+        toState: this.suburbStateTwo,
+        toCode: this.suburbPostCodeTwo,
       });
- // Hide the dropdown
- this.isShowDropdownTwo = false;
+      // Hide the dropdown
+      this.isShowDropdownTwo = false;
       // console.log('To ', this.suburbNameTwo);
     }
   }
   removeItem(index: number): void {
     this.items.removeAt(index);
   }
+ 
+  patchphysicalWeight(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.userInput = inputElement.value;
+    console.log("Physical weight fetched:", this.userInput);
+    
+    const itemsArray = this.userForm.get('items') as FormArray;
+    console.log("Items array:", itemsArray);
+    
+    for (let i = 0; i < itemsArray.length; i++) {
+      const itemGroup = itemsArray.at(i) as FormGroup; // Correctly cast to FormGroup
+      console.log("Item group:", itemGroup);
+      
+      itemGroup.patchValue({
+        physicalWeight: this.userInput
+      });
+    }
+  }
+  
   submitForm() {
+    this.getDimensions();
+
+    console.log('weight in submit', this.getWeights);
+
+    if (this.userForm.invalid) {
+      this.userForm.markAllAsTouched(); // Mark all fields as touched to trigger validation messages
+      return;
+    }
     const payload = {
       items: this.userForm.value.items,
     };
+   
     if (!this.GetRes) {
-      // const staticValues:any = {
-      //   pickupSuburb: 'BRUNSWICK',
-      //   pickupState: 'WA',
-      //   pickupPostcode: '6224',
-      //   pickupBuildingType: 'commercial',
-      //   isPickupTailLift: false,
-      //   destinationSuburb: 'THE UNIVERSITY OF SYDNEY',
-      //   destinationState: 'NSW',
-      //   destinationPostcode: '2006',
-      //   destinationBuildingType: 'residential',
-      //   isDropOffTailLift: false,
-      //   isDropOffPOBox: false,
-      //   items: [
-      //     {
-      //       type: 'bag',
-      //       weight: '2',
-      //       length: '2',
-      //       width: '2',
-      //       height: '2',
-      //       quantity: '1',
-      //       contents: 'alcohol',
-      //     },
-      //   ],
-      // };
-      // localStorage.setItem("formValue",JSON.stringify(staticValues))
+      
     } else if (this.GetRes) {
       localStorage.setItem('formValue', JSON.stringify(this.userForm.value));
+      this.isLoading = true;
+      this.indexService.postMergeQuotes(this.userForm.value).subscribe((response:any)=>{
+       
+       
+        if(response)
+          this.router.navigate(['/application/replica']);
+          this.isLoading = false;
+          this.toast.success('Form submitted successfully!')
+          // this.userForm.reset();
+        {const quotes=response
+        console.log("quotes",response);
+        if(quotes){
+          localStorage.setItem("quotationId",response.userData.quptationId)
+          localStorage.setItem("userId",response.userData.userId)
+        }}
+        
+      },(error:any)=>{
+        this.isLoading = false;
+        this.toast.error('Form submission failed')
+        // this.userForm.reset();
+      })
     }
   }
 }

@@ -7,7 +7,11 @@ import { SuperAdminLayoutComponent } from './pages/super-admin-layout/super-admi
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModel } from '@angular/forms';
 import { SuperAdminCommissionComponent } from './pages/super-admin-commission/super-admin-commission.component';
-
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 @NgModule({
   declarations: [
     SuperAdminLayoutComponent,
@@ -21,7 +25,11 @@ import { SuperAdminCommissionComponent } from './pages/super-admin-commission/su
     SuperAdminRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-   
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports:[
     NgModel

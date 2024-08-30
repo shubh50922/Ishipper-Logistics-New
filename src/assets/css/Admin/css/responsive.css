@@ -952,6 +952,9 @@
         width: 86%;
         left: 14%;
     }
+    .customInp{
+        width: 100% !important;
+      }
 }
 
 @media screen and (max-width: 575px) {

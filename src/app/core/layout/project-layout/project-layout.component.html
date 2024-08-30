@@ -131,6 +131,18 @@
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
       >
+        <a [routerLink]="'/application/replica'"
+          ><img
+            src="../../../../assets/images/customer/images/data.svg"
+            alt="delivery detail"
+          />Merge Quotes</a
+        >
+      </li>
+      <li
+        *ngIf="userRole === 'User'"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <a [routerLink]="'/application/shipments'"
           ><img
             src="../../../../assets/images/customer/images/calendar.svg"

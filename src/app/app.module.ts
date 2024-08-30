@@ -20,6 +20,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CustomerDashboardModule } from './Customer-Panel/customer-dashboard/customer-dashboard.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { SuperAdminModule } from './super-admin/super-admin.module';
+// import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +52,8 @@ import { SuperAdminModule } from './super-admin/super-admin.module';
     
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorInterceptor, multi: true },
+    // { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

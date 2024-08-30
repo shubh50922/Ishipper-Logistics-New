@@ -3,7 +3,7 @@
     <div class="d-flex detail_hd">
       <h4 class="mb-0">Company Details</h4>
       <div class="search_field">
-        <input type="text" placeholder="Search by..." />
+        <input type="text" placeholder="Search by..." (keyup)="applyFilter($event)"/>
         <img
           src="../../../../assets/images/customer/images/search_icon.svg"
           alt="search"
@@ -11,7 +11,7 @@
       </div>
     </div>
   </div>
-  <div class="d_htd_content">
+  <!-- <div class="d_htd_content">
     <div class="htd_content dtl_content">
       <div class="table_overflow">
         <table>
@@ -26,7 +26,7 @@
             <tr *ngFor="let item of savedCompanies">
               <td>{{ item.companyName }}</td>
               <td>{{ item.abnNumber }}</td>
-              <td>{{ item.createdBy }}</td>
+              <td>{{ item.createdByName}}</td>
               <td>
                 <span class="stts_true">{{ item.status }}</span>
               </td>
@@ -43,8 +43,61 @@
         </table>
       </div>
     </div>
+  </div> -->
+  <div class="d_htd_content">
+    <div class="htd_content dtl_content" >
+      <!-- <mat-form-field appearance="standard">
+        <mat-label></mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search">
+      </mat-form-field> -->
+  
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <!-- Company Name Column -->
+        <ng-container matColumnDef="companyName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Company Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.companyName}} </td>
+        </ng-container>
+  
+        <!-- ABN Number Column -->
+        <ng-container matColumnDef="abnNumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> ABN Number </th>
+          <td mat-cell *matCellDef="let element"> {{element.abnNumber}} </td>
+        </ng-container>
+  
+        <!-- Created By Column -->
+        <ng-container matColumnDef="createdByName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Created By </th>
+          <td mat-cell *matCellDef="let element"> {{element.createdByName}} </td>
+        </ng-container>
+  
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+          <td mat-cell *matCellDef="let element">
+            <span class="stts_true">{{ element.status }}</span>
+          </td>
+        </ng-container>
+  
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let element">
+            <i
+              class="fa fa-edit edit-commission me-2"
+              data-bs-toggle="modal"
+              data-bs-target="#editModal"
+              (click)="fetchId(element.id)"
+            ></i>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
   </div>
-
   <!-- Edit Modal -->
   <div
     class="modal fade"
@@ -79,15 +132,15 @@
                           <span class="text-danger">*</span></label
                         >
                         
-                        <input type="text" class="form-select user_formsdtls" readonly formControlName="companyName"/>
+                        <input type="text" class="form-select user_formsdtls"  style="background: none;" readonly formControlName="companyName"/>
                       </div>
                     </div>
                     <div class="col-md-6 col-12">
                       <div class="form-group">
                         <label id="service-label" for="service"
-                          >Abn Number</label
+                          >ABN Number</label
                         >
-                        <input type="text" class="form-select user_formsdtls" formControlName="abnNumber" readonly/>
+                        <input type="text" class="form-select user_formsdtls"  style="background: none;" formControlName="abnNumber" readonly/>
                       </div>
                     </div>
                   </div>
@@ -98,7 +151,7 @@
                         <label id="email-label" for="mobile"
                           >Created By<span class="text-danger">*</span></label
                         >
-                        <input type="text" class="form-select user_formsdtls" readonly formControlName="createdBy"/>
+                        <input type="text" class="form-select user_formsdtls"  style="background: none;" readonly formControlName="createdBy"/>
                       </div>
                     </div>
                     <div class="col-md-6 col-12">

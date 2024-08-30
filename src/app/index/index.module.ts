@@ -8,7 +8,7 @@ import { TopHeaderComponent } from './pages/top-header/top-header.component';
 import { MainSectionComponent } from './pages/main-section/main-section.component';
 import { IndexLayoutComponent } from './layout/index-layout/index-layout.component';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
-
+import { CoreModule } from '../core/core.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,8 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     IndexRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CoreModule
     
   ]
 })

@@ -10,7 +10,7 @@
                         <div class="form-group">
                             <label id="carrier-label" for="carrier">Carrier Name <span class="text-danger">*</span></label>
                             <select class="form-select user_formsdtls" aria-label="Default select example"  formControlName="carrierName" (change)="filterCarrierId()">
-                                <option *ngFor="let services of serviceNames" >{{services}}</option>
+                                <option *ngFor="let services of sortedServiceNames" >{{services}}</option>
                             </select>
                         </div>
                         
@@ -35,15 +35,17 @@
                             <div class="commission-align">
                                 <div class="form-check commission-space">
                                     <input class="form-check-input form_checkbg" type="radio"
-                                        name="flexRadioDefault" id="flexRadioDefault1">
+                                        name="flexRadioDefault" id="flexRadioDefault1"  (click)="toggleRadio('dollar')" 
+                                        [checked]="!commissionForm.get('isPercentage')?.value">
                                     <label class="form-check-label fw-bold mb-0"
-                                        for="flexRadioDefault1"  (click)="toggleRadio('dollar')">
+                                        for="flexRadioDefault1"   >
                                         By $
                                     </label>
                                 </div>
                                 <div class="form-check commission-space">
                                     <input class="form-check-input form_checkbg" type="radio"
-                                        name="flexRadioDefault" id="flexRadioDefault2" (click)="toggleRadio('percent')" checked>
+                                        name="flexRadioDefault" id="flexRadioDefault2"   (click)="toggleRadio('percent')" 
+                                        [checked]="commissionForm.get('isPercentage')?.value">
                                     <label class="form-check-label fw-bold mb-0"
                                         for="flexRadioDefault2">
                                         By %
@@ -66,6 +68,16 @@
                     <button type="submit" class="btn_authenticate" >Save</button>
                 
                 </div>
+                <div class="d-flex detail_hd" style="margin-bottom: -20px;">
+                    <div class="search_field mt-4">
+                      <input type="text" placeholder="Search by..." (keyup)="applyFilter($event)"/>
+                      <img
+                        src="../../../../assets/images/customer/images/search_icon.svg"
+                        alt="search"
+                      />
+                    </div>
+                    <h4 class="mb-0"></h4>
+                  </div>
             </div>
         </div>
 
@@ -73,7 +85,7 @@
 
 
 </div>
-<div class="d_htd_content">
+<!-- <div class="d_htd_content">
     <div class="htd_content">
         <div class="table_overflow">
             <table>
@@ -81,7 +93,8 @@
                 <tr>
                     <th>Carrier Name</th>
                     <th>Service Source</th>
-                    <th>Commission Charged By</th>
+                    <th>Commission Charged By $ or %</th>
+                    <th>Charges</th>
                     <th>Date of Applicable</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -89,6 +102,7 @@
                 <tr *ngFor="let item of savedCommissions">
                     <td>{{item.carrierName}}</td>
                     <td>iShipper</td>
+                    <td>{{item.isPercentage ? '%' : '$' }}</td>
                     <td>{{item.amount}}</td>
                     <td>{{getFormattedDate(item.dateOfApplicable)}}</td>
                     <td>{{item.status}}</td>
@@ -103,8 +117,72 @@
             </table>
         </div>
     </div>
-</div>
-
+</div> -->
+<div class="d_htd_content">
+    <div class="htd_content dtl_content">
+      <div class="table_overflow">
+        <table mat-table [dataSource]="dataSource" matSort>
+          
+          <!-- Carrier Name Column -->
+          <ng-container matColumnDef="carrierName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Carrier Name</th>
+            <td mat-cell *matCellDef="let item">{{item.carrierName}}</td>
+          </ng-container>
+  
+          <!-- Service Source Column -->
+          <ng-container matColumnDef="serviceSource">
+            <th mat-header-cell *matHeaderCellDef>Service Source</th>
+            <td mat-cell *matCellDef="let item">iShipper</td>
+          </ng-container>
+  
+          <!-- Commission Charged By Column -->
+          <ng-container matColumnDef="isPercentage">
+            <th mat-header-cell *matHeaderCellDef>Commission Charged By $ or %</th>
+            <td mat-cell *matCellDef="let item">{{item.isPercentage ? '%' : '$' }}</td>
+          </ng-container>
+  
+          <!-- Charges Column -->
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Charges</th>
+            <td mat-cell *matCellDef="let item">{{item.amount}}</td>
+          </ng-container>
+  
+          <!-- Date of Applicable Column -->
+          <ng-container matColumnDef="dateOfApplicable">
+            <th mat-header-cell *matHeaderCellDef>Date of Applicable</th>
+            <td mat-cell *matCellDef="let item">{{getFormattedDate(item.dateOfApplicable)}}</td>
+          </ng-container>
+  
+          <!-- Status Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let item">{{item.status}}</td>
+          </ng-container>
+  
+          <!-- Action Column -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let item">
+              <i class="fa fa-edit edit-commission me-2" data-bs-toggle="modal"
+                data-bs-target="#editModal" (click)="getIdforEdit(item.commissionId)"></i>
+              <i class="fa fa-trash delete-commission" data-bs-toggle="modal"
+                data-bs-target="#deleteModal" (click)="getIdForDelete(item.commissionId)"></i>
+            </td>
+          </ng-container>
+  
+          <!-- Define Header Row -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <!-- Define Data Rows -->
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+        </table>
+  
+        <!-- Paginator -->
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+  
 <!-- Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel"
     aria-hidden="true">
@@ -120,16 +198,16 @@
                         <h4>Commission</h4>
                     </div>
                   
-                    <form [formGroup]="editCommissionForm" (ngSubmit)="confirmEdit()">
+                    <form [formGroup]="editCommissionForm" (ngSubmit)="confirmEdit()" >
                         <div class="row d-flex align-items-center">
                           <div class="col-md-12 col-12">
                             <div class="row only-deskfrm mb-4">
                               <div class="col-md-6 col-12">
                                 <div class="form-group">
                                   <label id="carrier-label" for="carrier">Carrier Name <span class="text-danger">*</span></label>
-                                  <select class="form-select user_formsdtls" aria-label="Default select example" formControlName="carrierName" >
-                                    <option selected *ngFor="let services of serviceNames" [value]="">{{services}}</option>
-                                  </select>
+                                  <input type="text" class="form-select user_formsdtls" style="background: none;" [value]="editCommissionForm.get('carrierName')?.value" readonly>
+                                    <!-- <option selected *ngFor="let services of serviceNames" [value]="">{{services}}</option> -->
+                                
                                 </div>
                               </div>
                               <div class="col-md-6 col-12">
@@ -147,13 +225,13 @@
                                   <label id="email-label" for="mobile">Commission <span class="text-danger">*</span></label>
                                   <div class="commission-align">
                                     <div class="form-check commission-space">
-                                      <input class="form-check-input form_checkbg" type="radio" name="flexRadioDefault" id="flexRadioDefault1" (click)="toggleRadio('dollar')">
-                                      <label class="form-check-label fw-bold mb-0" for="flexRadioDefault1">By $</label>
-                                    </div>
-                                    <div class="form-check commission-space">
-                                      <input class="form-check-input form_checkbg" type="radio" name="flexRadioDefault" id="flexRadioDefault2" (click)="toggleRadio('percent')" checked>
-                                      <label class="form-check-label fw-bold mb-0" for="flexRadioDefault2">By %</label>
-                                    </div>
+                                        <input class="form-check-input form_checkbg" type="radio" name="flexRadioDefault" id="flexRadioDefault1" (click)="toggleRadio('dollar')">
+                                        <label class="form-check-label fw-bold mb-0" for="flexRadioDefault1">By $</label>
+                                      </div>
+                                      <div class="form-check commission-space">
+                                        <input class="form-check-input form_checkbg" type="radio" name="flexRadioDefault" id="flexRadioDefault2" (click)="toggleRadio('percent')" checked>
+                                        <label class="form-check-label fw-bold mb-0" for="flexRadioDefault2">By %</label>
+                                      </div>
                                     <input type="number" name="commission" id="commission" placeholder="" class="form-control user_formnum" required formControlName="amount">
                                   </div>
                                 </div>
@@ -169,7 +247,7 @@
                               </div>
                             </div>
                             <div class="btn-spcprofile">
-                              <button type="submit" class="btn_authenticate">Save</button>
+                              <button type="submit" class="btn_authenticate" data-bs-dismiss="modal">Save</button>
                             </div>
                           </div>
                         </div>
@@ -197,8 +275,8 @@
                 <p>This Action can’t be undo.</p>
             </div>
             <div class="modal-footer border-top-0">
-                <button type="button" class="btn btn-dangerclr rounded-pill" (click)="confirmDelete()" >Delete</button>
-                <button type="button" class="btn btn-lightclr rounded-pill" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-dangerclr rounded-pill" (click)="confirmDelete()" data-bs-dismiss="modal" >Delete</button>
+                <button type="button" class="btn btn-lightclr rounded-pill" data-bs-dismiss="modal" >Cancel</button>
             </div>
         </div>
     </div>

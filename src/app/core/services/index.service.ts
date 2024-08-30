@@ -35,7 +35,9 @@ export class IndexService {
   }
 
   postFetchQuotes(payload: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/FastCourierAPIIntegration/PostFetchQuotes`, payload);
+    return this.http.post<any>(`${this.apiUrl}/Merged/GetQuotation`, payload);
   }
-
+  postMergeQuotes(payload: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/Merged/GetQuotation`, payload);
+  }
 }

@@ -749,7 +749,7 @@ section {
     right: 15px;
     top: 50%;
     transform: translateY(-50%);
-    background: url("../../../../assets/images/customer/images/sel-arrow.svg") no-repeat center;
+    background: url("../../../assets/images/customer/images/sel-arrow.svg") no-repeat center;
     width: 10px;
     height: 10px;
     pointer-events: none;
@@ -807,7 +807,7 @@ select,
 /************Our-Service Start**************/
 
 .Service-Section .head_wrap::before {
-    background: url(../../../../assets/images/customer/images/Discount.png) no-repeat 0 0;
+    background: url(../../../assets/images/customer/images/Discount.png) no-repeat 0 0;
 }
 
 .service_img {
@@ -837,13 +837,13 @@ select,
 
 /************Our-Process Start**************/
 .Our-Process-Section {
-    background: var(--lt-graybg2) url('../../../../assets/images/customer/images/process-bgeffect.png') no-repeat center;
+    background: var(--lt-graybg2) url('../../../assets/images/customer/images/process-bgeffect.png') no-repeat center;
     background-size: cover;
     overflow: hidden;
 }
 
 .Our-Process-Section .head_wrap::before {
-    background: url(../../../../assets/images/customer/images/Howitwork.png) no-repeat 0 0;
+    background: url(../../../assets/images/customer/images/Howitwork.png) no-repeat 0 0;
 }
 
 .process_card {
@@ -871,7 +871,7 @@ select,
 .process_imgcard::before {
     content: '';
     position: absolute;
-    background: url(../../../../assets/images/customer/images/dot-ellipse.png) no-repeat;
+    background: url(../../../assets/images/customer/images/dot-ellipse.png) no-repeat;
     width: 22px;
     height: 22px;
     top: 50%;
@@ -917,7 +917,7 @@ section.why_chooseus {
 }
 
 .why_chooseus .head_wrap::before {
-    background: url(../../../../assets/images/customer/images/Shipper.png) no-repeat 0 0;
+    background: url(../../../assets/images/customer/images/Shipper.png) no-repeat 0 0;
 }
 
 .why_chooseus .head_wrap h6 {
@@ -951,13 +951,13 @@ section.why_chooseus {
 
 /************Company Partners Start**************/
 .Company-partner {
-    background: var(--lt-graybg2) url(../../../../assets/images/customer/images/process-bgeffect.png) no-repeat center;
+    background: var(--lt-graybg2) url(../../../assets/images/customer/images/process-bgeffect.png) no-repeat center;
     background-size: cover;
     overflow: hidden;
 }
 
 .Company-partner .head_wrap::before {
-    background: url(../../../../assets/images/customer/images/Partners.png) no-repeat 0 0;
+    background: url(../../../assets/images/customer/images/Partners.png) no-repeat 0 0;
 }
 
 .partner_card {
@@ -982,7 +982,7 @@ section.why_chooseus {
 }
 
 .testimonial-section .head_wrap::before {
-    background: url(../../../../assets/images/customer/images/Reviews.png) no-repeat 0 0;
+    background: url(../../../assets/images/customer/images/Reviews.png) no-repeat 0 0;
     top: 35px;
 }
 
@@ -1222,7 +1222,7 @@ footer p {
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    background: url('../../../../assets/images/customer/images/arrow_back_footer.svg') no-repeat 0 0;
+    background: url('../../../assets/images/customer/images/arrow_back_footer.svg') no-repeat 0 0;
     background-size: 19px;
     width: 20px;
     height: 14px;
@@ -2701,7 +2701,7 @@ input .accent-blue[type="checkbox"] {
 
 
 .new_disabledCheck:checked[type=checkbox] {
-    background-image: url(../../../../assets/images/customer/images/check_mark.svg);
+    background-image: url(../../../assets/images/customer/images/check_mark.svg);
 }
 
 .new_disabledCheck:disabled {
@@ -2810,7 +2810,7 @@ input .accent-blue[type="checkbox"] {
 .faqs_bg::after {
     width: 26px;
     height: 26px;
-    background-image: url(../../../../assets/images/customer/images/faq-arrow.svg);
+    background-image: url(../../../assets/images/customer/images/faq-arrow.svg);
     background-position: center;
     background-size: 14px;
     border-radius: 50%;
@@ -2818,7 +2818,7 @@ input .accent-blue[type="checkbox"] {
 }
 
 .accordion-button:not(.collapsed)::after {
-    background-image: url(../../../../assets/images/customer/images/faq-arrow.svg);
+    background-image: url(../../../assets/images/customer/images/faq-arrow.svg);
 }
 
 .faq-line {
@@ -3542,7 +3542,7 @@ ul.dev-dl-list li p {
     color: var(--sky_blue);
 }
 
-.noaddress_found {
+.noaddress_found{
     padding: 100px 0;
 }
 
@@ -3557,21 +3557,21 @@ ul.dev-dl-list li p {
     width: 100px;
 }
 
-.form_checkbg:checked {
+.form_checkbg:checked{
     background-color: #00b0ea;
     border-color: #00b0ea;
 }
 
-.commission-align {
+.commission-align{
     display: flex;
     align-items: center;
 }
 
-.commission-space {
+.commission-space{
     width: 100px;
 }
 
-.btn_clientApply {
+.btn_clientApply{
     border: 1px solid var(--sky_blue);
     background: var(--sky_blue);
     color: var(--white);
@@ -3588,14 +3588,14 @@ ul.dev-dl-list li p {
     color: var(--sky_blue);
 }
 
-.btn-client_calncelation {
+.btn-client_calncelation{
     display: flex;
     align-items: center;
     gap: 25px;
     margin: 40px 5px 0px;
 }
 
-.edit-commission {
+.edit-commission{
     background: #0A49A9;
     width: 28px;
     height: 28px;
@@ -3607,7 +3607,7 @@ ul.dev-dl-list li p {
     cursor: pointer;
 }
 
-.delete-commission {
+.delete-commission{
     background: #CB0000;
     width: 28px;
     height: 28px;
@@ -3618,95 +3618,3 @@ ul.dev-dl-list li p {
     color: #fff;
     cursor: pointer;
 }
-
-/* Popup modal */
-
-.modal-commissionsz {
-    max-width: 900px;
-    top: 50%;
-    transform: translate(0, -50%) !important;
-}
-
-.modal_dtlstart{
-    padding: 0px 20px 20px;
-}
-
-
-.btn-lightclr{
-    background: #E6E6E6;
-    padding: 8px 30px;
-    color: #333333;
-}
-
-.btn-dangerclr{
-    background: #DA0000;
-    color: #fff;
-    padding: 8px 30px;
-}
-
-.btn-lightclr:hover{
-    background: #c4c4c4;
-}
-
-.btn-dangerclr:hover{
-    background: #b90000;
-    color: #fff;
-}
-
-.delete_bx{
-    top: 50%;
-    transform: translate(0, -50%) !important;
-}
-
-.profil_rghline.detail_rghline{
-    padding: 15px 50px;
-}
-.detail_hd{
-    align-items: center;
-    justify-content: space-between;
-}
-.detail_hd .search_field>input{
-    height: 35px;
-    width: 342px;
-    padding: 9px 30px 8px 5px;
-}
-.detail_hd .search_field>input::placeholder {
-    color: var(--dd_arrow);
-}
-.detail_hd .search_field>img{
-    width: 14px;
-    right: 10px;
-}
-.dtl_content table tbody tr th:not(:last-child){
-    border: 0;
-}
-.dtl_content table tbody tr th, .dtl_content table tbody tr td{
-    padding: 24px 50px;
-}
-.stts_true{
-    font-weight: 400;
-    color: var(--green_p);
-}
-.stts_false{
-    font-weight: 400;
-    color: var(--red_p);
-}
-.custom-search-field {
-    position: relative;
-    width: 100%;
-  }
-  
-  .custom-search-field input {
-    padding-right: 40px; /* Adjust padding to make room for the search icon */
-  }
-  
-  .custom-search-field button {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    border: none;
-    background: none;
-    cursor: pointer;
-  }
-  

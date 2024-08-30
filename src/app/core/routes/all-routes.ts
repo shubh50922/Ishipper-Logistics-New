@@ -48,6 +48,11 @@ export const ALL_ROUTES: Routes = [
         '../../Customer-Panel/customer-dashboard/customer-dashboard.module'
       ).then((m) => m.CustomerDashboardModule),
   },
+{
+  path:'replica',
+  loadChildren:()=>import('../../replica-cheapest/replica-cheapest.module').then((m)=>m.ReplicaCheapestModule)
+
+},
   {
     path: 'deliverydetail',
     loadChildren: () =>

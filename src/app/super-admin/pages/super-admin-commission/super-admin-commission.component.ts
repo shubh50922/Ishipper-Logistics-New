@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { CommissionService } from 'src/app/core/services/commission.service';
 import { HotToastService } from '@ngneat/hot-toast';
 import { SupplierService } from 'src/app/core/services/supplier.service';
@@ -8,7 +8,9 @@ import {
   FormBuilder,
   Validators,
 } from '@angular/forms';
-
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 @Component({
   selector: 'app-super-admin-commission',
   templateUrl: './super-admin-commission.component.html',
@@ -38,6 +40,11 @@ export class SuperAdminCommissionComponent implements OnInit {
   filteredDatafordelete:any
   closeModal:boolean=false
   dataToEdit:any
+  displayedColumns: string[] = ['carrierName', 'serviceSource', 'isPercentage', 'amount', 'dateOfApplicable', 'status', 'action'];
+  dataSource!: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  sortedServiceNames: string[] = [];
   constructor(
     private supplierservice: SupplierService,
     private formBuilder: FormBuilder,
@@ -58,8 +65,19 @@ export class SuperAdminCommissionComponent implements OnInit {
   getSavedCommissions() {
     this.commissionservice.getCommisions().subscribe((response: any) => {
       this.savedCommissions = response;
+      this.dataSource = new MatTableDataSource(this.savedCommissions);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
       console.log('all commissions', this.savedCommissions);
     });
+  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
   ngOnInit(): void {
     this.editCommissionForm = this.formBuilder.group({
@@ -91,6 +109,7 @@ export class SuperAdminCommissionComponent implements OnInit {
       //   ...new Set(data.map((item) => item.serviceProviderType)),
       // ];
       this.serviceNames = data.map((item) => item.serviceName);
+      this.sortedServiceNames = this.serviceNames.sort((a, b) => a.localeCompare(b));
       console.log('service provider types', this.serviceProviderTypes);
 
       // Set the default values for the form controls
@@ -182,13 +201,16 @@ export class SuperAdminCommissionComponent implements OnInit {
           this.getSavedCommissions();
           this.responseFromPost = response;
 this.toast.success("Post Commission Successful")
+
           console.log('response on posting', this.responseFromPost);
         },(error:any)=>{
-          this.toast.error("Post commission failed!")
+          if (error.status === 500 && error.error.message) {
+            this.toast.error(error.error.message);
+          } 
+            else{this.toast.error("Post commission failed!");
+            }
         });
-    } else {
-      this.toast.error('Invalid commission form');
-    }
+    } 
   }
 
   
@@ -200,7 +222,11 @@ this.toast.success("Post Commission Successful")
 
   toggleRadio(payment: string) {
     this.value = payment === 'percent';
+
+    console.log(this.value,"inside toggle");
+    
     this.commissionForm.patchValue({ isPercentage: this.value });
+    
   }
 
   getFormattedDate(value: any) {
@@ -236,37 +262,71 @@ if(this.editId){
       isPercentage: this.dataToEdit.isPercentage,
       amount: this.dataToEdit.amount,
       status: this.dataToEdit.status,
+    
     });
     console.log('edit form', this.editCommissionForm.value);
    
 
   }
 }}
-confirmEdit(){
+// confirmEdit() {
+//   if (this.editCommissionForm.valid) {
+//     const formDataToSend: any = {
+//       isPercentage: this.editCommissionForm.get('isPercentage')?.value,
+//       amount: this.editCommissionForm.get('amount')?.value,
+//       status: this.editCommissionForm.get('status')?.value,
+//     };
+
+//     console.log('formData TO send', formDataToSend);
+//     console.log(this.editId, 'edit id in edit mode');
+
+//     this.commissionservice.updateCommission(this.editId, formDataToSend)
+//       .subscribe(
+//         (response: any) => {
+//           this.getSavedCommissions();
+//           this.responseFromPost = response;
+//           console.log(
+//             'response from post on edit',
+//             this.responseFromPost
+//           );
+//           this.toast.success('Edit Commission Successful');
+//         },
+//         (error: any) => {
+//           this.handleError(error.message);
+//         }
+//       );
+//   } else {
+//     this.toast.error('Form is invalid!');
+//   }
+// }
+confirmEdit() {
   if (this.editCommissionForm.valid) {
-    const formDataToSend :any = {
+    const formDataToSend: any = {
       isPercentage: this.editCommissionForm.get('isPercentage')?.value,
       amount: this.editCommissionForm.get('amount')?.value,
       status: this.editCommissionForm.get('status')?.value,
+     
     };
 
     console.log("formData TO send", formDataToSend);
-    console.log(this.editId,"edit id in confirm edit");
+    console.log(this.editId, "edit id in confirm edit");
     
     this.commissionservice
-          .updateCommission(formDataToSend, this.editId)
-          .subscribe((response) => {
-            this.getSavedCommissions();
-            const responseFromEdit = response;
-  this.toast.success("Edit Commission Successful")
-          
-          },(error:any)=>{
-            this.toast.error("Edit Commission failed!")
-          });
-      } else {
-        this.toast.error('Invalid commission form');
-      }
-    }
+      .updateCommission(formDataToSend, this.editId)
+      .subscribe(
+        (response) => {
+          this.getSavedCommissions();
+          const responseFromEdit = response;
+          this.toast.success("Edit Commission Successful");
+        },
+        (error: any) => {
+          this.toast.error("Edit Commission failed!");
+        }
+      );
+  } else {
+    this.toast.error('Invalid commission form');
+  }
+}
 
 
   confirmDelete(){

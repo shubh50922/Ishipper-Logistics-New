@@ -3657,3 +3657,11 @@ ul.dev-dl-list li p {
     top: 50%;
     transform: translate(0, -50%) !important;
 }
+.stts_true{
+    font-weight: 400;
+    color: var(--green_p);
+}
+.stts_false{
+    font-weight: 400;
+    color: var(--red_p);
+}

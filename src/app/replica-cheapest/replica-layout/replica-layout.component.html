@@ -1,0 +1,83 @@
+<div class="wrapper">
+    <div class="main_content">
+      <div class="flex-space">
+        <div class="d-flex">
+          <div class="inp-group border">
+            <input
+              type="date"
+              id="birthday"
+              name="birthday"
+              
+            />
+          </div>
+          <!-- <button
+            class="submit-btn px-3 border-0 bg-info text-light fw-bold rounded mx-4"
+            (click)="onClick()"
+          >
+            Submit
+          </button> -->
+        </div>
+      
+        <p class="tx-small-r">
+          Important: click for info on collection and delivery delays
+        </p>
+      </div>
+      <div class="tab-container">
+        <div class="tab-menu">
+          <ul>
+            <li>
+              <a
+                [routerLink]="'application/replica/post'"
+                class="tab-a"
+                >Cheapest Service</a
+              >
+            </li>
+            <li
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <a
+                [routerLink]="'application/replica/fastestservice'"
+                class="tab-a"
+                >Fastest Service</a
+              >
+            </li>
+            <li
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <a
+                [routerLink]="'application/replica/collectiontoday'"
+                class="tab-a"
+                >Collection Today</a
+              >
+            </li>
+            <li
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <a
+                [routerLink]="'application/replica/samedayservice'"
+                class="tab-a"
+                >Same Day Service</a
+              >
+            </li>
+            <li
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <a
+                [routerLink]="'application/replica/name'"
+                class="tab-a"
+                >Carrier Name</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+  
