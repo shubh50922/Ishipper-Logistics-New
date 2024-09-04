@@ -9,7 +9,7 @@ import { CourierNameComponent } from './courier-name/courier-name.component';
 import { SamedayComponent } from './sameday/sameday.component';
 import { CollectionTodayComponent } from './collection-today/collection-today.component';
 import { ReplicaLayoutComponent } from './replica-layout/replica-layout.component';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,8 @@ import { ReplicaLayoutComponent } from './replica-layout/replica-layout.componen
   ],
   imports: [
     CommonModule,
-    ReplicaCheapestRoutingModule
+    ReplicaCheapestRoutingModule,
+    MatTooltipModule
   ]
 })
 export class ReplicaCheapestModule { }

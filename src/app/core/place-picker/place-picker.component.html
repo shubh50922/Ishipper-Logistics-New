@@ -1,0 +1,8 @@
+<gmpx-api-loader key="AIzaSyAjUr82fRINKbECTNX8v5YTfLh-i5WNQhw " solution-channel="GMP_GCC_placepicker_v1" />
+
+<div class="container">
+  <gmpx-place-picker placeholder="Enter a place to see its address" (gmpx-placechange)="handlePlaceChange($event)" />
+  <div class="result">
+    {{formattedAddress}}
+  </div>
+</div>

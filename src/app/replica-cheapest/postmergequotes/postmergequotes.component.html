@@ -31,8 +31,10 @@
                 <div>
                     <span class="cl-rate">${{item.ishhiperFinalPrice}}</span>
                     <a  [routerLink]="'/application/deliverydetail'" class="cr-btn">Book Now</a>
-                    <span class="cl-small"><img src="../../../assets/images/customer/images/inf-i.png" /> Service Information</span>
-                    <span class="cl-small"><img src="../../../assets/images/customer/images/dol-i.png" /> Service Surcharge</span>
+                    <span class="cl-small" title="{{message1}}"><img src="../../../assets/images/customer/images/inf-i.png" (mouseover)="onHover(item.responseType,item.ishhiperFinalPrice)" 
+                        alt="Service Information" /> Service Information</span>
+                    <span class="cl-small"><img src="../../../assets/images/customer/images/dol-i.png"  /> Service Surcharge</span>
+                    
                 </div>
             </div>
         </div>

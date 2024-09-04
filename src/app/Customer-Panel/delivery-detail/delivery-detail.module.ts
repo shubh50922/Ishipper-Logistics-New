@@ -7,19 +7,23 @@ import { TopStriperComponent } from './top-striper/top-striper.component';
 import { ParcelDetailComponent } from './parcel-detail/parcel-detail.component';
 import { DeliveryAdressComponent } from './delivery-adress/delivery-adress.component';
 import { CollectionAdressComponent } from './collection-adress/collection-adress.component';
-
-
+import { GooglePlaceModule } from "ngx-google-places-autocomplete"
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     DeliveryLayoutComponent,
     TopStriperComponent,
     ParcelDetailComponent,
     DeliveryAdressComponent,
-    CollectionAdressComponent
+    CollectionAdressComponent,
+    
   ],
   imports: [
     CommonModule,
-    DeliveryDetailRoutingModule
+    DeliveryDetailRoutingModule,
+    GooglePlaceModule,
+    FormsModule,
+    ReactiveFormsModule,
   ]
 })
 export class DeliveryDetailModule { }

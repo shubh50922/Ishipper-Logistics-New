@@ -10,6 +10,7 @@ import {
   FormArray,
   FormBuilder,
   Validators,
+
   AbstractControl,
 } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -20,6 +21,7 @@ import { HotToastService } from '@ngneat/hot-toast';
   styleUrls: ['./main-section.component.css'],
 })
 export class MainSectionComponent implements OnInit {
+  fastCourierQuotes!:any[]
   isLoading: boolean = false;
   Countries!: any[];
   ContentList: any[] = [];
@@ -131,23 +133,23 @@ console.log("date",changeDate);
     //   items: this.fb.array([]),
     // });
     this.userForm = this.fb.group({
-      fromSuburb: [''],
-      fromCode: [''],
-      fromState: [''],
-      toSuburb: [''],
-      toCode: [''],
-      toState: [''],
-      countryCode: ['AU'],
-      itemType: ['other'],
-      weightType: ['kg'],
-      weights: [''],
-      lengths: [''],
-      heights: [''],
-      widths: [''],
-      dimensionUnits: ['in'],
-      packageType: ['other'],
-      contents: ['other'],
-      collectionDate: [''],
+      fromSuburb: ['',Validators.required],
+      fromCode: ['',Validators.required],
+      fromState: ['',Validators.required],
+      toSuburb: ['',Validators.required],
+      toCode: ['',Validators.required],
+      toState: ['',Validators.required],
+      countryCode: ['AU',Validators.required],
+      itemType: ['other',Validators.required],
+      weightType: ['kg',Validators.required],
+      weights: ['',Validators.required],
+      lengths: ['',Validators.required],
+      heights: ['',Validators.required],
+      widths: ['',Validators.required],
+      dimensionUnits: ['in',Validators.required],
+      packageType: ['other',Validators.required],
+      contents: ['other',Validators.required],
+      collectionDate: ['',Validators.required],
       quantitys: [1],
       items: new FormArray([this.createItem()]),
       createdby: [this.userId],
@@ -472,10 +474,10 @@ console.log("date",changeDate);
 
     console.log('weight in submit', this.getWeights);
 
-    if (this.userForm.invalid) {
-      this.userForm.markAllAsTouched(); // Mark all fields as touched to trigger validation messages
-      return;
-    }
+    // if (this.userForm.invalid) {
+    //   this.userForm.markAllAsTouched(); // Mark all fields as touched to trigger validation messages
+    //   return;
+    // }
     const payload = {
       items: this.userForm.value.items,
     };
@@ -489,6 +491,10 @@ console.log("date",changeDate);
        
        
         if(response)
+          console.log("response from index",response);
+          this.fastCourierQuotes=response.fastCourierResponse.data
+          console.log("response from fastCourierResponse",this.fastCourierQuotes);
+          
           this.router.navigate(['/application/replica']);
           this.isLoading = false;
           this.toast.success('Form submitted successfully!')

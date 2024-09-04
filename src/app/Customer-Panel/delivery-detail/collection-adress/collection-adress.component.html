@@ -35,11 +35,11 @@
     <div class="p-4 d_htd_content bg-white">
         <div class="bg-white htd_head ship-sum p-0 mb-3">
             <h4>Collection Address</h4>
-            <a  class="tx-add"><i class="fa fa-plus-circle"></i> Add Address</a>
+            <a href="#" class="tx-add"><i class="fa fa-plus-circle"></i> Add Address</a>
         </div>
         <div class="ship-sum-col w-full mb-3">
             <label>Contact Name <span class="tx-red">*</span></label>
-            <input type="text" placeholder="John Parker" />
+            <input type="text" placeholder="John Parker"  />
         </div>
         <div class="ship-sum-col w-full mb-3">
             <label>Company <span class="tx-light">(optional)</span></label>
@@ -47,11 +47,39 @@
         </div>
         <div class="ship-sum-col w-full mb-3">
             <label>Address 1 <span class="tx-red">*</span></label>
-            <input type="text" placeholder="Lorem ipsum" />
+            <input
+            type="text"
+            placeholder="Lorem ipsum"
+            [options]="options"
+            ngx-google-places-autocomplete
+            #placesRef1="ngx-places"
+            (onAddressChange)="handleAddressChange($event, 'formattedAddress1')"
+            [(ngModel)]="formattedAddress1"
+            style="padding-right: 30px;"
+          />
+          <i
+            class="bi bi-x-circle close-icon"
+            (click)="clearAddresses()"
+            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;margin-top: 20px;"
+          ></i>
         </div>
         <div class="ship-sum-col w-full mb-3">
             <label>Address 1</label>
-            <input type="text" placeholder="$142" />
+            <input
+            type="text"
+            placeholder="$142"
+            [options]="options"
+            ngx-google-places-autocomplete
+            #placesRef2="ngx-places"
+            (onAddressChange)="handleAddressChange($event, 'formattedAddress2')"
+            [(ngModel)]="formattedAddress2"
+            style="padding-right: 30px;"
+          />
+          <i
+            class="bi bi-x-circle close-icon"
+            (click)="clearAddresses()"
+            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; margin-top: 20px;"
+          ></i>
         </div>
         <div class="ship-sum-col w-full mb-3">
             <label>Telephone <span class="tx-red">*</span></label>

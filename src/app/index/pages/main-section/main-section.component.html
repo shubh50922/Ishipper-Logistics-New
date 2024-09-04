@@ -26,9 +26,9 @@
             Track
           </button>
         </div>
-        <div *ngIf="isLoading" class="loader-overlay">
+        <!-- <div *ngIf="isLoading" class="loader-overlay">
           <app-loader></app-loader>
-        </div>
+        </div> -->
         <div id="Parcel" class="main_tabcontent">
           <form [formGroup]="userForm">
             <div class="mb-3">
@@ -79,7 +79,9 @@
                         <option *ngFor="let country of Countries">
                           {{ country.countryName }}
                         </option>
+                        
                       </select>
+                      
                     </div>
                   </div>
                 </div>
@@ -100,12 +102,15 @@
                       formControlName="fromSuburb"
                       
                     />
+                    <div class="text-danger" *ngIf="(userForm.controls['fromSuburb'].touched || userForm.controls['fromSuburb'].dirty ) && userForm.controls['fromSuburb'].invalid">
+                      <small>  Please select the pickup suburb.</small>
+                      </div>
                     <i class="bi bi-x-circle close-icon"
                     *ngIf="searchTextOne && isShowDropdownOne"
                     (click)="clearSearch('one')"></i>
-                    <div *ngIf="userForm?.get('toSuburb')?.hasError('required')">
+                    <!-- <div *ngIf="userForm?.get('toSuburb')?.hasError('required')">
                       <small class="error">Please select the destination suburb.</small>
-                    </div>
+                    </div> -->
                   
                     <!-- Dropdown list of suggestions for the first input -->
                     <ul
@@ -167,13 +172,17 @@
                       class="formControl"
                       formControlName="toSuburb"
                     />
+                    <div class="text-danger" *ngIf="(userForm.controls['toSuburb'].touched || userForm.controls['toSuburb'].dirty ) && userForm.controls['toSuburb'].invalid">
+                      <small>  Please select the pickup suburb.</small>
+                      </div>
                     <i class="bi bi-x-circle close-icon"
                     *ngIf="searchTextTwo && isShowDropdownTwo"
                     (click)="clearSearch('two')"></i>
                     <!-- Dropdown list of suggestions for the second input -->
-                    <div *ngIf="userForm?.get('fromSuburb')?.hasError('required')">
+                    <!-- <div *ngIf="userForm?.get('fromSuburb')?.hasError('required')">
                       <small class="error">Please select the pickup suburb.</small>
-                    </div>
+                    </div> -->
+                    
                     <ul
                       *ngIf="isShowDropdownTwo && filteredSuburbsTwo.length > 0"
                       class="dropdown-list"
@@ -206,9 +215,12 @@
                     [min]="minDate"
                     class="border bg-datePic"
                   />
-                  <div *ngIf="userForm?.get('collectionDate')?.hasError('required')">
+                  <!-- <div *ngIf="userForm?.get('collectionDate')?.hasError('required')">
                     <small class="error">Please select the collection date.</small>
-                  </div>
+                  </div> -->
+                  <div class="text-danger" *ngIf="(userForm.controls['collectionDate'].touched || userForm.controls['collectionDate'].dirty ) && userForm.controls['collectionDate'].invalid">
+                    <small>  Please select the pickup suburb.</small>
+                    </div>
                 </div>
               </div>
               <!-- <div class="form-check commission-space col-md-4 col-xl-4">
@@ -285,7 +297,10 @@
                         id="weight"
                         (input)="patchphysicalWeight($event)"
                       />
-                      <div
+                      <div class="text-danger" *ngIf="(item.get('weight')?.touched || item.get('weight')?.dirty) && item.get('weight')?.invalid">
+                        <small>Please enter item's weight.</small>
+                                              </div>
+                      <!-- <div
                         *ngIf="
                           userForm.get('weight')?.invalid &&
                           (userForm.get('weight')?.touched ||
@@ -306,7 +321,8 @@
                           *ngIf="userForm.get('weight')?.errors?.['pattern']"
                           >Weight must be a valid decimal number.</small
                         >
-                      </div>
+                      </div> -->
+                      
                     </div>
                   </div>
 
@@ -322,7 +338,10 @@
                         step="1"
                         placeholder="Length"
                       />
-                      <div
+                      <div class="text-danger" *ngIf="(item.get('length')?.touched || item.get('length')?.dirty) && item.get('length')?.invalid">
+                        <small>Please enter item's length.</small>
+                                              </div>
+                      <!-- <div
                         *ngIf="
                           userForm.get('length')?.invalid &&
                           (userForm.get('length')?.touched ||
@@ -343,7 +362,8 @@
                           *ngIf="userForm.get('length')?.errors?.['pattern']"
                           >Length must be a whole number.</small
                         >
-                      </div>
+                      </div> -->
+                     
                     </div>
                   </div>
                   <div class="col-md-4 col-xl-2 customInp">
@@ -358,41 +378,52 @@
                         max="200"
                         step="1"
                       />
-                      <div
-                        *ngIf="
-                          userForm.get('width')?.invalid &&
-                          (userForm.get('width')?.touched ||
-                            userForm.get('width')?.dirty)
-                        "
-                      >
-                        <small
-                          *ngIf="userForm.get('width')?.errors?.['required']"
-                          >Width is required.</small
-                        >
-                        <small *ngIf="userForm.get('width')?.errors?.['min']"
-                          >Width must be at least 1 cm.</small
-                        >
-                        <small *ngIf="userForm.get('width')?.errors?.['max']"
-                          >Width cannot exceed 200 cm.</small
-                        >
-                        <small
-                          *ngIf="userForm.get('width')?.errors?.['pattern']"
-                          >Width must be a whole number.</small
-                        >
+                      <div class="text-danger" *ngIf="(item.get('width')?.touched || item.get('width')?.dirty) && item.get('width')?.invalid">
+<small>Please enter item's width.</small>
                       </div>
+                     
                     </div>
+                   
                   </div>
                   <div class="col-md-4 col-xl-2 customInp">
                     <div class="inp-group">
-                      <label>Height (cm)</label>
+                      <label for="height">Height(cm)</label>
                       <input
+                      placeholder="height"
                         type="text"
                         formControlName="height"
-                        placeholder="Height"
-                        class="form-control"
-                        formControlName="height"
+                        id="height"
+                        min="1"
+                        max="200"
+                        step="1"
                       />
+                      <div class="text-danger" *ngIf="(item.get('height')?.touched || item.get('height')?.dirty) && item.get('height')?.invalid">
+                        <small>Please enter item's height.</small>
+                                              </div>
                     </div>
+                      <!-- <div
+                        *ngIf="
+                          userForm.get('height')?.invalid &&
+                          (userForm.get('height')?.touched ||
+                            userForm.get('height')?.dirty)
+                        "
+                      >
+                        <small
+                          *ngIf="userForm.get('height')?.errors?.['required']"
+                          >height is required.</small
+                        >
+                        <small *ngIf="userForm.get('height')?.errors?.['min']"
+                          >height must be at least 1 cm.</small
+                        >
+                        <small *ngIf="userForm.get('height')?.errors?.['max']"
+                          >height cannot exceed 200 cm.</small
+                        >
+                        <small
+                          *ngIf="userForm.get('height')?.errors?.['pattern']"
+                          >height must be a whole number.</small
+                        >
+                      </div> -->
+                      
                   </div>
                   <!-- <div class="col-md-4 col-xl-2">
                     <div class="inp-group">
@@ -410,6 +441,7 @@
                           formControlName="type"
                           class="sel-prt"
                         >
+                        
                         <option value="" disabled selected>
                           Select package 
                         </option>
@@ -420,6 +452,9 @@
                             {{ item.packaging_Type }}
                           </option>
                         </select>
+                        <div class="text-danger" *ngIf="(item.get('type')?.touched || item.get('type')?.dirty) && item.get('type')?.invalid">
+                          <small>Please select the package type.</small>
+                                                </div> 
                       </div>
                     </div>
                   </div>
@@ -520,11 +555,7 @@
                 class="c_btn c_trn"
                 type="submit"
                 (click)="submitForm()"
-                [disabled]="userForm.invalid"
-                [ngClass]="{
-                  'button-enabled': !userForm.invalid ,
-                  'button-disabled': userForm.invalid 
-                }"
+               
                 >Get a Quote
                 <img
                   src="../../../../assets/images/admin/images/blue-btn-arrow.svg"

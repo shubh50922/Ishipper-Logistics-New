@@ -9,6 +9,7 @@ import { LoaderComponent } from './loader/loader.component';
 import { CustomerLayoutComponent } from './layout/customer-layout/customer-layout.component';
 import { InnerLoaderComponent } from './inner-loader/inner-loader.component';
 
+
 @NgModule({
   declarations: [
   
@@ -17,7 +18,8 @@ import { InnerLoaderComponent } from './inner-loader/inner-loader.component';
     LoaderComponent,
     ProjectLayoutComponent,
     CustomerLayoutComponent,
-    InnerLoaderComponent
+    InnerLoaderComponent,
+    
   
     
   ],
