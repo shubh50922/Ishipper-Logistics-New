@@ -23,6 +23,8 @@ export class PostmergequotesComponent implements OnInit {
   insuranceList!:any
   offerMessage:any;
   message1:any
+  idQuote:any
+  idOrder:any
   constructor(private mergeService: MergeService,private datePipe: DatePipe) {}
   getCalculation() {
     this.mergeService
@@ -30,16 +32,17 @@ export class PostmergequotesComponent implements OnInit {
       .subscribe((response: any) => {
         this.ishipperCalculation = response;
         
-        
+        localStorage.setItem("calculation", JSON.stringify(this.ishipperCalculation));
+
       
         // this.displayOffers()
        console.log("response from services",this.ishipperCalculation);
 
-        this.collectionDate=this.ishipperCalculation[0].date
+     const savedForm=  JSON.parse(localStorage.getItem('formValue') || '');
         
-        if(this.collectionDate){
-          this.convertCollectionDate()
-        }
+        console.log("get saved form",savedForm);
+        this.collectionDate=savedForm.collectionDate
+        this.convertCollectionDate()
         console.log("collection date",this.collectionDate);
         console.log('merge response', this.ishipperCalculation);
       
@@ -53,7 +56,13 @@ export class PostmergequotesComponent implements OnInit {
     });
   }
  
-  
+  getIndex(i:number){
+    if(i){
+      console.log("index from merge",i);
+      localStorage.setItem("fetchcalculation", JSON.stringify(i));
+    }
+
+  }
 
   convertCollectionDate(){
     // console.log("convert collection date called");

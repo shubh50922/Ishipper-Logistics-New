@@ -9,17 +9,17 @@ import { ParcelDetailComponent } from './parcel-detail/parcel-detail.component';
 const routes: Routes = [
   {
     path:'',
-    component:DeliveryLayoutComponent,
+    component:CollectionAdressComponent,
     pathMatch: 'full',
      canActivate:[AuthGuardGuard],
-     children:[
-      { path: 'striper', component: TopStriperComponent, canActivate:[AuthGuardGuard] },
-      { path: 'collectionaddress', component:CollectionAdressComponent, canActivate:[AuthGuardGuard] },
-      { path: 'deliveryaddress', component:DeliveryAdressComponent, canActivate:[AuthGuardGuard] },
-      { path: 'parceldetails', component: ParcelDetailComponent, canActivate:[AuthGuardGuard] },
+    //  children:[
+    //   { path: 'striper', component: TopStriperComponent, canActivate:[AuthGuardGuard] },
+    //   { path: 'collectionaddress', component:CollectionAdressComponent, canActivate:[AuthGuardGuard] },
+    //   { path: 'deliveryaddress', component:DeliveryAdressComponent, canActivate:[AuthGuardGuard] },
+    //   { path: 'parceldetails', component: ParcelDetailComponent, canActivate:[AuthGuardGuard] },
       
 
-     ]
+    //  ]
 
   },
   

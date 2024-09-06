@@ -497,7 +497,7 @@ console.log("date",changeDate);
           
           this.router.navigate(['/application/replica']);
           this.isLoading = false;
-          this.toast.success('Form submitted successfully!')
+          // this.toast.success('Form submitted successfully!')
           // this.userForm.reset();
         {const quotes=response
         console.log("quotes",response);
@@ -508,9 +508,48 @@ console.log("date",changeDate);
         
       },(error:any)=>{
         this.isLoading = false;
-        this.toast.error('Form submission failed')
+        // this.toast.error('Form submission failed')
         // this.userForm.reset();
       })
     }
   }
 }
+// {
+//   "quoteId": "KAQVXAKXZQ",
+//   "senderType": "sender",
+//   "pickupFirstName": "John",
+//   "pickupLastName": "Doe",
+//   "pickupCompanyName": "John LTD",
+//   "pickupEmail": "john@gmail.com",
+//   "pickupAddress1": "Street-10",
+//   "pickupAddress2": "Sector-25",
+//   "pickupPhone": "1234567890",
+//   "destinationFirstName": "Ewen",
+//   "destinationLastName": "Luis",
+//   "destinationCompanyName": "Ewen LTD",
+//   "destinationEmail": "ewen@gmail.com",
+//   "destinationAddress1": "Street-15",
+//   "destinationAddress2": "Sector-30",
+//   "destinationPhone": "9876543210",
+//   "collectionDate": "2024-09-06",
+//   "pickupTimeWindow": "9am to 5pm",
+//   "parcelContent": "Lorem Ipsum",
+//   "specialInstructions": "Drop the parcel carefully",
+//   "valueOfContent": 100,
+//   "authorityToLeave": false,
+//   "noPrinter": false,
+//   "extendedLiability": "1",
+//   "insuranceValue": "$500",
+//   "insuranceFee": "$4.00",
+//   "acceptInsuranceConditions": true,
+//   "acceptTermConditions": true,
+//   "acceptAttachment": true,
+//   "acceptNoDangerousGoods": true,
+//   "acceptReadFinancialServiceGuide": true,
+//   "emailForDocuments": "john@gmail.com",
+//   "additionalEmailsForDocuments": [
+//     {
+//       "email":"john@gmail.com"
+//     }
+//   ]
+// }

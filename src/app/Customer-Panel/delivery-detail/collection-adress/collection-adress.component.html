@@ -1,92 +1,328 @@
-<!-- 
-<div class="col-lg-6 col-xl-4 mb-4">
-    <div class="p-4 d_htd_content bg-white">
-        <div class="bg-white htd_head ship-sum p-0 mb-3">
-            <h4>Collection Address</h4>
-            <a href="#" class="tx-add"><i class="fa fa-plus-circle"></i> Add Address</a>
-        </div>
-        <div class="ship-sum-col w-full mb-3">
-            <label>Contact Name <span class="tx-red">*</span></label>
-            <input type="text" placeholder="John Parker" />
-        </div>
-        <div class="ship-sum-col w-full mb-3">
-            <label>Company <span class="tx-light">(optional)</span></label>
-            <input type="text" placeholder="John Parker" />
-        </div>
-        <div class="ship-sum-col w-full mb-3">
-            <label>Address 1 <span class="tx-red">*</span></label>
-            <input type="text" placeholder="Lorem ipsum" />
-        </div>
-        <div class="ship-sum-col w-full mb-3">
-            <label>Address 1</label>
-            <input type="text" placeholder="$142" />
-        </div>
-        <div class="ship-sum-col w-full mb-3">
-            <label>Telephone <span class="tx-red">*</span></label>
-            <input type="text" placeholder="0886767933" />
-        </div>
-        <div class="ship-sum-col w-full">
-            <label>Email <span class="tx-red">*</span></label>
-            <input type="text" placeholder="Johnp@xyz.com" />
-        </div>
-    </div>
-</div> -->
+<div class="main_content">
+  <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+    <div class="d_htd_content bg-white htd_head mb-4 ship-sum p-4">
+      <h4>Shipment Summary</h4>
+      <a href="#" class="tx-edit"><i class="fa fa-pencil-square-o"></i> Edit</a>
 
-    <div class="p-4 d_htd_content bg-white">
-        <div class="bg-white htd_head ship-sum p-0 mb-3">
+      <div class="ship-sum-row">
+        <div class="ship-sum-col">
+          <label>Courier</label>
+          <span class="str-logo"
+            ><img [src]="savedCalculation.logo" alt=""
+          /></span>
+        </div>
+        <div class="ship-sum-col">
+          <label>Shipment</label>
+          <input type="text" placeholder="5 Kgs parcel" readonly />
+        </div>
+        <div class="ship-sum-col">
+          <label>From</label>
+          <input type="text" [placeholder]="indexForm.fromSuburb" readonly />
+        </div>
+        <div class="ship-sum-col">
+          <label>To</label>
+          <input type="text" [placeholder]="indexForm.toSuburb" readonly />
+        </div>
+        <div class="ship-sum-col">
+          <label>Collection Date</label>
+          <input
+            type="text"
+            [placeholder]="indexForm.collectionDate"
+            formControlName="collectionDate"
+            readonly
+          />
+        </div>
+        <div class="ship-sum-col">
+          <label>Estimated Delivey Date</label>
+          <input type="text" placeholder="22 May 2023" readonly />
+        </div>
+        <div class="ship-sum-col">
+          <label>Shipment Cost</label>
+          <input
+            type="text"
+            [placeholder]="savedCalculation.ishhiperFinalPrice"
+            readonly
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-xl-4 mb-4">
+        <div class="p-4 d_htd_content bg-white">
+          <div class="bg-white htd_head ship-sum p-0 mb-3">
             <h4>Collection Address</h4>
-            <a href="#" class="tx-add"><i class="fa fa-plus-circle"></i> Add Address</a>
-        </div>
-        <div class="ship-sum-col w-full mb-3">
-            <label>Contact Name <span class="tx-red">*</span></label>
-            <input type="text" placeholder="John Parker"  />
-        </div>
-        <div class="ship-sum-col w-full mb-3">
+            <a href="#" class="tx-add"
+              ><i class="fa fa-plus-circle"></i> Add Address</a
+            >
+          </div>
+          <div class="ship-sum-col w-full mb-3">
+            <label>First Name <span class="tx-red">*</span></label>
+            <input
+              type="text"
+              placeholder="John Parker"
+              formControlName="pickupFirstName"
+            />
+          </div>
+          <div class="ship-sum-col w-full mb-3">
+            <label>Last Name <span class="tx-red">*</span></label>
+            <input
+              type="text"
+              placeholder="John Parker"
+              formControlName="pickupLastName"
+            />
+          </div>
+          <div class="ship-sum-col w-full mb-3">
             <label>Company <span class="tx-light">(optional)</span></label>
-            <input type="text" placeholder="John Parker" />
-        </div>
-        <div class="ship-sum-col w-full mb-3">
+            <input
+              type="text"
+              placeholder="John Parker"
+              formControlName="pickupCompanyName"
+            />
+          </div>
+          <div class="ship-sum-col w-full mb-3" style="position: relative">
             <label>Address 1 <span class="tx-red">*</span></label>
             <input
-            type="text"
-            placeholder="Lorem ipsum"
-            [options]="options"
-            ngx-google-places-autocomplete
-            #placesRef1="ngx-places"
-            (onAddressChange)="handleAddressChange($event, 'formattedAddress1')"
-            [(ngModel)]="formattedAddress1"
-            style="padding-right: 30px;"
-          />
-          <i
-            class="bi bi-x-circle close-icon"
-            (click)="clearAddresses()"
-            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;margin-top: 20px;"
-          ></i>
-        </div>
-        <div class="ship-sum-col w-full mb-3">
+              type="text"
+              placeholder="Lorem ipsum"
+              [options]="options"
+              ngx-google-places-autocomplete
+              #placesRef1="ngx-places"
+              (onAddressChange)="
+                handleAddressChange($event, 'formattedAddress1')
+              "
+              [(ngModel)]="formattedAddress1"
+              style="padding-right: 30px"
+              formControlName="pickupAddress1"
+            />
+            <i
+              class="bi bi-x-circle close-icon"
+              (click)="clearAddresses()"
+              style="
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+                margin-top: 20px;
+              "
+            ></i>
+          </div>
+          <div class="ship-sum-col w-full mb-3" style="position: relative">
             <label>Address 1</label>
             <input
-            type="text"
-            placeholder="$142"
-            [options]="options"
-            ngx-google-places-autocomplete
-            #placesRef2="ngx-places"
-            (onAddressChange)="handleAddressChange($event, 'formattedAddress2')"
-            [(ngModel)]="formattedAddress2"
-            style="padding-right: 30px;"
-          />
-          <i
-            class="bi bi-x-circle close-icon"
-            (click)="clearAddresses()"
-            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; margin-top: 20px;"
-          ></i>
-        </div>
-        <div class="ship-sum-col w-full mb-3">
+              type="text"
+              placeholder="$142"
+              [options]="options"
+              ngx-google-places-autocomplete
+              #placesRef2="ngx-places"
+              (onAddressChange)="
+                handleAddressChange($event, 'formattedAddress2')
+              "
+              [(ngModel)]="formattedAddress2"
+              style="padding-right: 30px"
+              formControlName="pickupAddress2"
+            />
+            <i
+              class="bi bi-x-circle close-icon"
+              (click)="clearAddresses()"
+              style="
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+                margin-top: 20px;
+              "
+            ></i>
+          </div>
+          <div class="ship-sum-col w-full mb-3">
             <label>Telephone <span class="tx-red">*</span></label>
-            <input type="text" placeholder="0886767933" />
-        </div>
-        <div class="ship-sum-col w-full">
+            <input
+              type="text"
+              placeholder="0886767933"
+              formControlName="pickupPhone"
+            />
+          </div>
+          <div class="ship-sum-col w-full">
             <label>Email <span class="tx-red">*</span></label>
-            <input type="text" placeholder="Johnp@xyz.com" />
+            <input
+              type="text"
+              placeholder="Johnp@xyz.com"
+              formControlName="pickupEmail"
+            />
+          </div>
         </div>
+      </div>
+      <div class="col-lg-6 col-xl-4 mb-4">
+        <div class="p-4 d_htd_content bg-white h-full">
+          <div class="bg-white htd_head ship-sum p-0 mb-3">
+            <h4>Delivery Address</h4>
+            <a class="tx-add"><i class="fa fa-plus-circle"></i> Add Address</a>
+          </div>
+          <div class="ship-sum-col w-full mb-3" style="position: relative">
+            <label>First Name <span class="tx-red">*</span></label>
+            <input
+              type="text"
+              placeholder="John Parker"
+              formControlName="destinationFirstName"
+            />
+          </div>
+          <div class="ship-sum-col w-full mb-3" style="position: relative">
+            <label>Last Name <span class="tx-red">*</span></label>
+            <input
+              type="text"
+              placeholder="John Parker"
+              formControlName="destinationLastName"
+            />
+          </div>
+          <div class="ship-sum-col w-full mb-3">
+            <label>Company <span class="tx-light">(optional)</span></label>
+            <input
+              type="text"
+              placeholder="John Parker"
+              formControlName="destinationCompanyName"
+            />
+          </div>
+          <div class="ship-sum-col w-full mb-3" style="position: relative">
+            <label>Address 1 <span class="tx-red">*</span></label>
+            <input
+              type="text"
+              placeholder="Lorem ipsum"
+              [options]="options"
+              ngx-google-places-autocomplete
+              #placesRef3="ngx-places"
+              (onAddressChange)="
+                handleAddressChange($event, 'formattedAddress3')
+              "
+              [(ngModel)]="formattedAddress3"
+              style="padding-right: 30px"
+              formControlName="destinationAddress1"
+            />
+            <i
+              class="bi bi-x-circle close-icon"
+              (click)="clearAddresses()"
+              style="
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+                margin-top: 20px;
+              "
+            ></i>
+          </div>
+          <div class="ship-sum-col w-full mb-3" style="position: relative">
+            <label>Address 2</label>
+            <
+            <input
+              type="text"
+              placeholder="$142"
+              [options]="options"
+              ngx-google-places-autocomplete
+              #placesRef4="ngx-places"
+              (onAddressChange)="
+                handleAddressChange($event, 'formattedAddress4')
+              "
+              [(ngModel)]="formattedAddress4"
+              style="padding-right: 30px"
+              formControlName="destinationAddress2"
+            />
+            <i
+              class="bi bi-x-circle close-icon"
+              (click)="clearAddresses()"
+              style="
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+                margin-top: 20px;
+              "
+            ></i>
+          </div>
+          <div class="ship-sum-col w-full mb-3">
+            <label>Telephone <span class="tx-red">*</span></label>
+            <input
+              type="text"
+              placeholder="0886767933"
+              formControlName="destinationPhone"
+            />
+          </div>
+          <div class="ship-sum-col w-full">
+            <label>Email <span class="tx-red">*</span></label>
+            <input
+              type="text"
+              placeholder="Johnp@xyz.com"
+              formControlName="destinationEmail"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 col-xl-4">
+        <div class="p-4 d_htd_content bg-white h-full">
+          <div class="bg-white htd_head ship-sum p-0 mb-3">
+            <h4>Parcel Details</h4>
+          </div>
+          <div class="ship-sum-col w-full mb-3">
+            <label>Contents*</label>
+            <input
+              type="text"
+              placeholder="$142"
+              formControlName="parcelContent"
+            />
+          </div>
+          <div class="ship-sum-col w-full mb-3">
+            <label>Your Reference</label>
+            <input type="text" placeholder="$142" />
+          </div>
+          <div class="inp-group">
+            <label>Pickup Time Window</label>
+            <select formControlName="pickupTimeWindow" id="pickupTimeWindow">
+                <option value="9am to 5pm">9am to 5pm</option>
+                <option value="5pm to 9am">5pm to 9am</option>
+            </select>
+          </div>
+          <div class="ship-sum-col w-full mb-3">
+            <label>Delivery Instructions</label>
+            <textarea
+              placeholder="Lorem ipsum doler sit amet..."
+              formControlName="specialInstructions"
+            ></textarea>
+          </div>
+          <div class="ship-sum-col w-full mb-3">
+            <p class="tx-small-r">
+              Please note drivers do not have the ability to telephone prior to
+              delivery
+            </p>
+          </div>
+          <div class="ship-sum-col w-full mb-3">
+            <div class="couriers-wtxt d-flex align-items-center">
+              <div class="only_courierstxt">
+                <p>Authority to leave</p>
+              </div>
+              <div class="content">
+                <label class="switch m5">
+                  <input type="checkbox" checked="" />
+                  <small></small>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="ship-sum-col w-full">
+            <p class="tx-small-r">
+              Please note no claims can made for lost items after freight
+              scanned as delivered if "Authority to Leave has been given to a
+              shipment
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="ship-btn-row">
+          <button class="cr-btn">Previous Step</button>
+          <button class="cr-btn cr-btn-bor" type="submit">Next Step</button>
+        </div>
+      </div>
     </div>
+  </form>
+</div>

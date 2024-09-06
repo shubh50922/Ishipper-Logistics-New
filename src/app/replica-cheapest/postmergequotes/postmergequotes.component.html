@@ -30,7 +30,7 @@
             <div class="tab-row-col">
                 <div>
                     <span class="cl-rate">${{item.ishhiperFinalPrice}}</span>
-                    <a  [routerLink]="'/application/deliverydetail'" class="cr-btn">Book Now</a>
+                    <a  [routerLink]="'/application/deliverydetail'" class="cr-btn" (click)="getIndex(item)">Book Now</a>
                     <span class="cl-small" title="{{message1}}"><img src="../../../assets/images/customer/images/inf-i.png" (mouseover)="onHover(item.responseType,item.ishhiperFinalPrice)" 
                         alt="Service Information" /> Service Information</span>
                     <span class="cl-small"><img src="../../../assets/images/customer/images/dol-i.png"  /> Service Surcharge</span>
