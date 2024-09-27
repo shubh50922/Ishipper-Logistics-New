@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MergeService } from 'src/app/core/services/merge.service';
+import { IndexService } from 'src/app/core/services/index.service';
 @Component({
   selector: 'app-collection-today',
   templateUrl: './collection-today.component.html',
@@ -9,8 +10,9 @@ import { MergeService } from 'src/app/core/services/merge.service';
 })
 
 export class CollectionTodayComponent implements OnInit {
-  qId: string = localStorage.getItem('quotationId') || '';
-  uId: string = localStorage.getItem('userId') || '';
+  quoteId: string = JSON.parse(localStorage.getItem('quoteid') || '""');
+ userId: string = JSON.parse(localStorage.getItem('userid') || '""');
+ filteredishipperCalculation:any
   ishipperCalculation: any;
   collectionDate: any;
   formattedCollectionDate: any;
@@ -22,19 +24,25 @@ export class CollectionTodayComponent implements OnInit {
   formattedCurrentDate: any;
   currentDate:any=new Date();
   collectionTodayData!: any[];
-  constructor(private mergeService: MergeService,private datePipe: DatePipe) { }
+  indexForm:any
+  constructor(private mergeService: MergeService,private datePipe: DatePipe,private indexService:IndexService) { }
 
 
   getCalculation() {
     
 
     this.mergeService
-      .getIShipperCalculation(this.qId, this.uId)
+      .getIShipperCalculation(this.quoteId, this.userId)
       .subscribe((response: any) => {
         this.ishipperCalculation = response;
         console.log("collection date -------> ", this.ishipperCalculation);
+        const savedForm= this.indexService.indexForm.subscribe(res=>{
+          this.indexForm=res
+          console.log("index form value",res);
+          
+               })
         
-        this.collectionDate=this.ishipperCalculation[0].date
+        this.collectionDate=this.indexForm.collectionDate
         
         if(this.collectionDate){
           this.convertCollectionDate()

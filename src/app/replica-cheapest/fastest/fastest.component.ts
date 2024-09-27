@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MergeService } from 'src/app/core/services/merge.service';
+import { IndexService } from 'src/app/core/services/index.service';
 @Component({
   selector: 'app-fastest',
   templateUrl: './fastest.component.html',
@@ -8,8 +9,9 @@ import { MergeService } from 'src/app/core/services/merge.service';
   providers: [DatePipe]
 })
 export class FastestComponent implements OnInit {
-  qId: string = localStorage.getItem('quotationId') || '';
-  uId: string = localStorage.getItem('userId') || '';
+  quoteId: string = JSON.parse(localStorage.getItem('quoteid') || '""');
+  userId: string = JSON.parse(localStorage.getItem('userid') || '""');
+  filteredishipperCalculation:any
   ishipperCalculation: any;
   collectionDate: any;
   formattedCollectionDate: any;
@@ -20,14 +22,29 @@ export class FastestComponent implements OnInit {
   sortedBusinessDays!:any[]
   formattedCurrentDate: any;
   currentDate:any=new Date()
-  constructor(private mergeService: MergeService,private datePipe: DatePipe) { }
+  indexForm:any
+  constructor(private mergeService: MergeService,private datePipe: DatePipe,private indexService:IndexService) { }
   getCalculation() {
     this.mergeService
-      .getIShipperCalculation(this.qId, this.uId)
+      .getIShipperCalculation(this.quoteId, this.userId)
       .subscribe((response: any) => {
         this.ishipperCalculation = response;
-       
-        this.collectionDate=this.ishipperCalculation[0].date
+        this.filteredishipperCalculation = this.ishipperCalculation.filter((data: any) => {
+          return !(data.responseType === 'fastCourier' && data.courierName === 'COURIERS PLEASE');
+      });
+      
+        console.log("filtered data---------", this.filteredishipperCalculation);
+        
+        
+        this.mergeService.updateIshipperCalculation(this.ishipperCalculation)
+        const savedForm= this.indexService.indexForm.subscribe(res=>{
+          this.indexForm=res
+          console.log("index form value",res);
+          
+               })
+        
+               console.log("get saved form",this.indexForm);
+               this.collectionDate=this.indexForm.collectionDate
         
         if(this.collectionDate){
           this.convertCollectionDate()

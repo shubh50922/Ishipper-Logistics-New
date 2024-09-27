@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MergeService } from 'src/app/core/services/merge.service';
+import { IndexService } from 'src/app/core/services/index.service';
 import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-postmergequotes',
@@ -8,9 +9,18 @@ import { DatePipe } from '@angular/common';
   providers: [DatePipe]
 })
 export class PostmergequotesComponent implements OnInit {
-  qId: string = localStorage.getItem('quotationId') || '';
-  uId: string = localStorage.getItem('userId') || '';
+  mergeResponse:any
+ // Provide a fallback value
+ quoteId: string = JSON.parse(localStorage.getItem('quoteid') || '""');
+ userId: string = JSON.parse(localStorage.getItem('userid') || '""');
+
+ 
+ 
+  
+  // qId!: string 
+  // uId!: string 
   ishipperCalculation: any;
+  toBeUsedData:any
   collectionDate: any;
   formattedCollectionDate: any;
   estimatedDeliveryDate: any;
@@ -20,31 +30,66 @@ export class PostmergequotesComponent implements OnInit {
   sortedBusinessDays!:any[]
   formattedCurrentDate: any;
   currentDate:any=new Date()
+  filteredishipperCalculation:any
   insuranceList!:any
   offerMessage:any;
   message1:any
+  indexForm:any
   idQuote:any
   idOrder:any
-  constructor(private mergeService: MergeService,private datePipe: DatePipe) {}
+  constructor(private mergeService: MergeService,private datePipe: DatePipe,private indexService:IndexService) {}
+  ngOnInit(): void {
+    this.indexService.mergeResponse$.subscribe(res=> {
+      this.mergeResponse = res;
+      console.log("merge response in post merge quotes",this.mergeResponse);
+      
+    //   this.qId = this.mergeResponse.quptationId;
+    //  this. uId = this.mergeResponse.userId
+        // Subscribe to BehaviorSubject
+    });
+    this.getCalculation();
+    this.getInsuranceList()
+  console.log("quote id",this.quoteId);
+  console.log("user id",this.userId);
+  
+  
+  }
   getCalculation() {
+
+    console.log("get calculation called");
+    
     this.mergeService
-      .getIShipperCalculation(this.qId, this.uId)
+      .getIShipperCalculation(this.quoteId, this.userId)
       .subscribe((response: any) => {
-        this.ishipperCalculation = response;
+        console.log("ishipeer calculation api called");
         
-        localStorage.setItem("calculation", JSON.stringify(this.ishipperCalculation));
+        this.ishipperCalculation = response;
+        console.log("ishipper calculation response",response);
+         this.filteredishipperCalculation = this.ishipperCalculation.filter((data: any) => {
+          return !(data.responseType === 'fastCourier' && data.courierName === 'COURIERS PLEASE');
+      });
+      
+        console.log("filtered data---------", this.filteredishipperCalculation);
+        
+        
+        this.mergeService.updateIshipperCalculation(this.ishipperCalculation)
+        // localStorage.setItem("calculation", JSON.stringify(this.ishipperCalculation));
 
       
         // this.displayOffers()
        console.log("response from services",this.ishipperCalculation);
 
-     const savedForm=  JSON.parse(localStorage.getItem('formValue') || '');
+     const savedForm=  this.indexService.indexForm.subscribe(res=>{
+this.indexForm=res
+console.log("index form value",res);
+
+     })
         
-        console.log("get saved form",savedForm);
-        this.collectionDate=savedForm.collectionDate
+        console.log("get saved form",this.indexForm);
+        this.collectionDate=this.indexForm.collectionDate
         this.convertCollectionDate()
         console.log("collection date",this.collectionDate);
-        console.log('merge response', this.ishipperCalculation);
+        
       
         this.ishipperCalculation.sort((a: any, b: any) => {
       
@@ -56,13 +101,25 @@ export class PostmergequotesComponent implements OnInit {
     });
   }
  
-  getIndex(i:number){
+  getIndex(i:number,ETA:any){
     if(i){
       console.log("index from merge",i);
-      localStorage.setItem("fetchcalculation", JSON.stringify(i));
-    }
-
-  }
+      const collection=this.convertCollectionDate()
+      this.toBeUsedData = {
+        collectionDate: collection,
+        index: i,
+        estimatedDate: this.addBusinessDays(ETA)
+      };
+//       localStorage.setItem("fetchcalculation", JSON.stringify(collection));
+//       localStorage.setItem("convertedCollection", JSON.stringify(i));
+//     }
+// if(ETA){
+//   console.log("store estimated date",this.addBusinessDays(ETA));
+  
+//   localStorage.setItem("estimatedDate", JSON.stringify(this.addBusinessDays(ETA)));
+this.mergeService.updateQuoteData(this.toBeUsedData)
+ }
+   }
 
   convertCollectionDate(){
     // console.log("convert collection date called");
@@ -156,11 +213,7 @@ this.insuranceList=response
     };
     return date.toLocaleDateString('en-US', options);
   }
-  ngOnInit(): void {
-    this.getCalculation();
-    this.getInsuranceList()
-  
-  }
+ 
 //   onHover(type: any, price: any) {
 //     console.log(type, "response type in func");
 

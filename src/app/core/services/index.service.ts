@@ -7,11 +7,23 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class IndexService {
+   isResidential$ = new BehaviorSubject<boolean>(false);
+   isCommercial$ = new BehaviorSubject<boolean>(true);
+   indexForm$ = new BehaviorSubject<any>(null);  // Default to null or an empty object based on your form structure
+   mergeResponse$ = new BehaviorSubject<any>(null);  // Default to null or initial empty state
+  indexForm=this.indexForm$.asObservable()
+  isResedential=this.isResidential$.asObservable()
+  isCommercial=this.isCommercial$.asObservable()
+  
+  mergeResponse=this.mergeResponse$.asObservable()
   private createHeaders(): HttpHeaders {
     return new HttpHeaders({
       'Content-Type': 'application/json',
     'Access-Control-Allow-Origin' :'*'
     });
+  }
+  updateIndexForm(newFormValue: any): void {
+    this.indexForm$.next(newFormValue);
   }
   constructor(private http: HttpClient) { }
     // private apiUrl = environment.apiUrl
@@ -40,4 +52,8 @@ export class IndexService {
   postMergeQuotes(payload: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/Merged/GetQuotation`, payload);
   }
+  
+ 
+
+ 
 }

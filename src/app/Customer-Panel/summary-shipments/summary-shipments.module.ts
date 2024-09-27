@@ -8,12 +8,14 @@ import { PaymentDetailsComponent } from './payment-details/payment-details.compo
 import { ShipmentLayoutComponent } from './shipment-layout/shipment-layout.component';
 
 
+
 @NgModule({
   declarations: [
     ParcelDetailsComponent,
     DeliveryDetailsComponent,
     PaymentDetailsComponent,
-    ShipmentLayoutComponent
+    ShipmentLayoutComponent,
+   
   ],
   imports: [
     CommonModule,

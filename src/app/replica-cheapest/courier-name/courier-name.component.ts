@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MergeService } from 'src/app/core/services/merge.service';
+import { IndexService } from 'src/app/core/services/index.service';
 @Component({
   selector: 'app-courier-name',
   templateUrl: './courier-name.component.html',
@@ -9,8 +10,10 @@ import { MergeService } from 'src/app/core/services/merge.service';
 })
 export class CourierNameComponent implements OnInit {
 
-  qId: string = localStorage.getItem('quotationId') || '';
-  uId: string = localStorage.getItem('userId') || '';
+  quoteId: string = JSON.parse(localStorage.getItem('quoteid') || '""');
+  userId: string = JSON.parse(localStorage.getItem('userid') || '""');
+  filteredishipperCalculation:any
+  indexForm:any 
   ishipperCalculation: any;
   collectionDate: any;
   formattedCollectionDate: any;
@@ -21,14 +24,22 @@ export class CourierNameComponent implements OnInit {
   sortedBusinessDays!:any[]
   formattedCurrentDate: any;
   currentDate:any=new Date()
-  constructor(private mergeService: MergeService,private datePipe: DatePipe) { }
+  constructor(private mergeService: MergeService,private datePipe: DatePipe,private indexService:IndexService) { }
   getCalculation() {
     this.mergeService
-      .getIShipperCalculation(this.qId, this.uId)
+      .getIShipperCalculation(this.quoteId, this.userId)
       .subscribe((response: any) => {
         this.ishipperCalculation = response;
-       
-        this.collectionDate=this.ishipperCalculation[0].date
+        this.filteredishipperCalculation = this.ishipperCalculation.filter((data: any) => {
+          return !(data.responseType === 'fastCourier' && data.courierName === 'COURIERS PLEASE');
+      });
+        const savedForm= this.indexService.indexForm.subscribe(res=>{
+          this.indexForm=res
+          console.log("index form value",res);
+          
+               })
+        
+        this.collectionDate=this.indexForm.collectionDate
         
         if(this.collectionDate){
           this.convertCollectionDate()

@@ -61,11 +61,25 @@ export const ALL_ROUTES: Routes = [
       ).then((m) => m.DeliveryDetailModule),
   },
   {
+    path: 'additional',
+    loadChildren: () =>
+      import(
+        '../../Customer-Panel/additional-info/additional-info.module'
+      ).then((m) => m.AdditionalInfoModule),
+  },
+  {
     path: 'shipments',
     loadChildren: () =>
       import(
         '../../Customer-Panel/summary-shipments/summary-shipments.module'
       ).then((m) => m.SummaryShipmentsModule),
+  },
+  {
+    path: 'paydetails',
+    loadChildren: () =>
+      import(
+        '../../Customer-Panel/payment-methods/payment-methods.module'
+      ).then((m) => m.PaymentMethodsModule),
   },
 
   {

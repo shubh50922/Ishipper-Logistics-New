@@ -8,12 +8,12 @@
         <div class="ship-sum-col">
           <label>Courier</label>
           <span class="str-logo"
-            ><img [src]="savedCalculation.logo" alt=""
+            ><img [src]=" getQuoteById.logo" alt=""
           /></span>
         </div>
         <div class="ship-sum-col">
           <label>Shipment</label>
-          <input type="text" placeholder="5 Kgs parcel" readonly />
+          <input type="text" [placeholder]="indexForm.weights + ' kgs'" readonly />
         </div>
         <div class="ship-sum-col">
           <label>From</label>
@@ -27,20 +27,20 @@
           <label>Collection Date</label>
           <input
             type="text"
-            [placeholder]="indexForm.collectionDate"
+            [placeholder]=" getQuoteById"
             formControlName="collectionDate"
             readonly
           />
         </div>
         <div class="ship-sum-col">
-          <label>Estimated Delivey Date</label>
-          <input type="text" placeholder="22 May 2023" readonly />
+          <label>Estimated Delivery Date</label>
+          <input type="text" [placeholder]="estimatedDate" readonly />
         </div>
         <div class="ship-sum-col">
           <label>Shipment Cost</label>
           <input
             type="text"
-            [placeholder]="savedCalculation.ishhiperFinalPrice"
+            [placeholder]=" '$ ' + getQuoteById.ishhiperFinalPrice"
             readonly
           />
         </div>
@@ -55,13 +55,18 @@
               ><i class="fa fa-plus-circle"></i> Add Address</a
             >
           </div>
-          <div class="ship-sum-col w-full mb-3">
+          <div class="ship-sum-col w-full mb-3" >
             <label>First Name <span class="tx-red">*</span></label>
+            
             <input
               type="text"
               placeholder="John Parker"
               formControlName="pickupFirstName"
             />
+            <div class="text-danger" *ngIf="(orderForm.controls['pickupFirstName'].touched || orderForm.controls['pickupFirstName'].dirty ) && orderForm.controls['pickupFirstName'].invalid">
+                <small  *ngIf="orderForm.get('pickupFirstName')?.errors?.['required']">First Name is required.</small>
+                <small  *ngIf="orderForm.get('pickupFirstName')?.errors?.['pattern']"> First Name can only contain letters and spaces.</small>
+            </div>
           </div>
           <div class="ship-sum-col w-full mb-3">
             <label>Last Name <span class="tx-red">*</span></label>
@@ -70,6 +75,10 @@
               placeholder="John Parker"
               formControlName="pickupLastName"
             />
+            <div class="text-danger" *ngIf="(orderForm.controls['pickupLastName'].touched || orderForm.controls['pickupLastName'].dirty ) && orderForm.controls['pickupLastName'].invalid">
+                <small  *ngIf="orderForm.get('pickupLastName')?.errors?.['required']">Last Name is required.</small>
+                <small  *ngIf="orderForm.get('pickupLastName')?.errors?.['pattern']"> Last Name can only contain letters and spaces.</small>
+            </div>
           </div>
           <div class="ship-sum-col w-full mb-3">
             <label>Company <span class="tx-light">(optional)</span></label>
@@ -79,11 +88,12 @@
               formControlName="pickupCompanyName"
             />
           </div>
+
           <div class="ship-sum-col w-full mb-3" style="position: relative">
             <label>Address 1 <span class="tx-red">*</span></label>
             <input
               type="text"
-              placeholder="Lorem ipsum"
+              placeholder=""
               [options]="options"
               ngx-google-places-autocomplete
               #placesRef1="ngx-places"
@@ -94,9 +104,14 @@
               style="padding-right: 30px"
               formControlName="pickupAddress1"
             />
+            <div class="text-danger" *ngIf="(orderForm.controls['pickupAddress1'].touched || orderForm.controls['pickupAddress1'].dirty ) && orderForm.controls['pickupAddress1'].invalid">
+                <small  *ngIf="orderForm.get('pickupAddress1')?.errors?.['required']">Select pickup address.</small>
+
+            </div>
             <i
+            *ngIf="formattedAddress1"
               class="bi bi-x-circle close-icon"
-              (click)="clearAddresses()"
+              (click)="clearAddress('formattedAddress1')"
               style="
                 position: absolute;
                 right: 10px;
@@ -111,7 +126,7 @@
             <label>Address 1</label>
             <input
               type="text"
-              placeholder="$142"
+              placeholder=""
               [options]="options"
               ngx-google-places-autocomplete
               #placesRef2="ngx-places"
@@ -123,8 +138,9 @@
               formControlName="pickupAddress2"
             />
             <i
+            *ngIf="formattedAddress2"
               class="bi bi-x-circle close-icon"
-              (click)="clearAddresses()"
+              (click)="clearAddress('formattedAddress2')"
               style="
                 position: absolute;
                 right: 10px;
@@ -135,13 +151,18 @@
               "
             ></i>
           </div>
-          <div class="ship-sum-col w-full mb-3">
+          <div class="inp-group ">
             <label>Telephone <span class="tx-red">*</span></label>
             <input
+            class="border"
               type="text"
               placeholder="0886767933"
               formControlName="pickupPhone"
             />
+            <div class="text-danger" *ngIf="(orderForm.controls['pickupPhone'].touched || orderForm.controls['pickupPhone'].dirty ) && orderForm.controls['pickupPhone'].invalid">
+                <small  *ngIf="orderForm.get('pickupPhone')?.errors?.['required']">Phone number is required.</small>
+
+            </div>
           </div>
           <div class="ship-sum-col w-full">
             <label>Email <span class="tx-red">*</span></label>
@@ -150,6 +171,10 @@
               placeholder="Johnp@xyz.com"
               formControlName="pickupEmail"
             />
+            <div class="text-danger" *ngIf="(orderForm.controls['pickupEmail'].touched || orderForm.controls['pickupEmail'].dirty ) && orderForm.controls['pickupEmail'].invalid">
+                <small  *ngIf="orderForm.get('pickupEmail')?.errors?.['required']">Email is required.</small>
+                <small *ngIf="orderForm.get('pickupEmail')?.errors?.['email']">Please enter a valid email</small>
+            </div>
           </div>
         </div>
       </div>
@@ -166,6 +191,10 @@
               placeholder="John Parker"
               formControlName="destinationFirstName"
             />
+            <div class="text-danger" *ngIf="(orderForm.controls['destinationFirstName'].touched || orderForm.controls['destinationFirstName'].dirty ) && orderForm.controls['destinationFirstName'].invalid">
+                <small  *ngIf="orderForm.get('destinationFirstName')?.errors?.['required']">First Name is required.</small>
+                <small  *ngIf="orderForm.get('destinationFirstName')?.errors?.['pattern']"> First Name can only contain letters and spaces.</small>
+            </div>
           </div>
           <div class="ship-sum-col w-full mb-3" style="position: relative">
             <label>Last Name <span class="tx-red">*</span></label>
@@ -174,6 +203,10 @@
               placeholder="John Parker"
               formControlName="destinationLastName"
             />
+            <div class="text-danger" *ngIf="(orderForm.controls['destinationLastName'].touched || orderForm.controls['destinationLastName'].dirty ) && orderForm.controls['destinationLastName'].invalid">
+                <small  *ngIf="orderForm.get('destinationLastName')?.errors?.['required']">Last Name is required.</small>
+                <small  *ngIf="orderForm.get('destinationLastName')?.errors?.['pattern']"> Last Name can only contain letters and spaces.</small>
+            </div>
           </div>
           <div class="ship-sum-col w-full mb-3">
             <label>Company <span class="tx-light">(optional)</span></label>
@@ -187,7 +220,7 @@
             <label>Address 1 <span class="tx-red">*</span></label>
             <input
               type="text"
-              placeholder="Lorem ipsum"
+              placeholder=""
               [options]="options"
               ngx-google-places-autocomplete
               #placesRef3="ngx-places"
@@ -198,9 +231,14 @@
               style="padding-right: 30px"
               formControlName="destinationAddress1"
             />
+            <div class="text-danger" *ngIf="(orderForm.controls['destinationAddress1'].touched || orderForm.controls['destinationAddress1'].dirty ) && orderForm.controls['destinationAddress1'].invalid">
+                <small  *ngIf="orderForm.get('destinationAddress1')?.errors?.['required']">Select destination address.</small>
+
+            </div>
             <i
+            *ngIf="formattedAddress3"
               class="bi bi-x-circle close-icon"
-              (click)="clearAddresses()"
+              (click)="clearAddress('formattedAddress3')"
               style="
                 position: absolute;
                 right: 10px;
@@ -212,11 +250,11 @@
             ></i>
           </div>
           <div class="ship-sum-col w-full mb-3" style="position: relative">
-            <label>Address 2</label>
-            <
+            <label>Address 1</label>
+            
             <input
               type="text"
-              placeholder="$142"
+              placeholder=""
               [options]="options"
               ngx-google-places-autocomplete
               #placesRef4="ngx-places"
@@ -228,8 +266,9 @@
               formControlName="destinationAddress2"
             />
             <i
+            *ngIf="formattedAddress4"
               class="bi bi-x-circle close-icon"
-              (click)="clearAddresses()"
+              (click)="clearAddress('formattedAddress4')"
               style="
                 position: absolute;
                 right: 10px;
@@ -240,13 +279,18 @@
               "
             ></i>
           </div>
-          <div class="ship-sum-col w-full mb-3">
+          <div class="inp-group">
             <label>Telephone <span class="tx-red">*</span></label>
             <input
+            class="border"
               type="text"
               placeholder="0886767933"
               formControlName="destinationPhone"
             />
+            <div class="text-danger" *ngIf="(orderForm.controls['destinationPhone'].touched || orderForm.controls['destinationPhone'].dirty ) && orderForm.controls['destinationPhone'].invalid">
+                <small  *ngIf="orderForm.get('destinationPhone')?.errors?.['required']">Phone number is required.</small>
+
+            </div>
           </div>
           <div class="ship-sum-col w-full">
             <label>Email <span class="tx-red">*</span></label>
@@ -255,6 +299,10 @@
               placeholder="Johnp@xyz.com"
               formControlName="destinationEmail"
             />
+            <div class="text-danger" *ngIf="(orderForm.controls['destinationEmail'].touched || orderForm.controls['destinationEmail'].dirty ) && orderForm.controls['destinationEmail'].invalid">
+                <small  *ngIf="orderForm.get('destinationEmail')?.errors?.['required']">Email is required.</small>
+                <small *ngIf="orderForm.get('destinationEmail')?.errors?.['email']">Please enter a valid email</small>
+            </div>
           </div>
         </div>
       </div>
@@ -263,31 +311,52 @@
           <div class="bg-white htd_head ship-sum p-0 mb-3">
             <h4>Parcel Details</h4>
           </div>
-          <div class="ship-sum-col w-full mb-3">
+          <!-- <div class="ship-sum-col w-full mb-3">
             <label>Contents*</label>
             <input
               type="text"
               placeholder="$142"
               formControlName="parcelContent"
-            />
-          </div>
+            /> -->
+            <div class="inp-group">
+                <label >Contents*</label>
+                <select  formControlName="parcelContent"  class="sel-prt form-select  mt-2 border" id="parcelContent" >
+                    <option  *ngFor="let content of ContentList"
+                    [value]="content" >{{content}}</option>
+                    
+                </select>
+                <div class="text-danger" *ngIf="(orderForm.controls['parcelContent'].touched || orderForm.controls['parcelContent'].dirty ) && orderForm.controls['parcelContent'].invalid">
+                    <small  *ngIf="orderForm.get('parcelContent')?.errors?.['required']">Select content type.</small>
+                    
+                </div>
+              </div>
+          
           <div class="ship-sum-col w-full mb-3">
             <label>Your Reference</label>
-            <input type="text" placeholder="$142" />
+            <input type="text" placeholder="" />
+            
           </div>
           <div class="inp-group">
             <label>Pickup Time Window</label>
-            <select formControlName="pickupTimeWindow" id="pickupTimeWindow">
-                <option value="9am to 5pm">9am to 5pm</option>
+            <select formControlName="pickupTimeWindow" id="pickupTimeWindow" >
+                <option value="9am to 5pm" >9am to 5pm</option>
                 <option value="5pm to 9am">5pm to 9am</option>
             </select>
+            <div class="text-danger" *ngIf="(orderForm.controls['pickupTimeWindow'].touched || orderForm.controls['pickupTimeWindow'].dirty ) && orderForm.controls['pickupTimeWindow'].invalid">
+                <small  *ngIf="orderForm.get('pickupTimeWindow')?.errors?.['required']">Select pickup slot.</small>
+                
+            </div>
           </div>
           <div class="ship-sum-col w-full mb-3">
             <label>Delivery Instructions</label>
             <textarea
-              placeholder="Lorem ipsum doler sit amet..."
+              placeholder=""
               formControlName="specialInstructions"
             ></textarea>
+            <div class="text-danger" *ngIf="(orderForm.controls['specialInstructions'].touched || orderForm.controls['specialInstructions'].dirty ) && orderForm.controls['specialInstructions'].invalid">
+                <small  *ngIf="orderForm.get('specialInstructions')?.errors?.['required']">Add special instructions.</small>
+                
+            </div>
           </div>
           <div class="ship-sum-col w-full mb-3">
             <p class="tx-small-r">
@@ -302,7 +371,7 @@
               </div>
               <div class="content">
                 <label class="switch m5">
-                  <input type="checkbox" checked="" />
+                  <input type="checkbox" checked="" (change)="authorityToLeave($event)" />
                   <small></small>
                 </label>
               </div>
@@ -320,7 +389,7 @@
       <div class="col-md-12">
         <div class="ship-btn-row">
           <button class="cr-btn">Previous Step</button>
-          <button class="cr-btn cr-btn-bor" type="submit">Next Step</button>
+          <button class="cr-btn cr-btn-bor" type="submit"  [routerLink]="'/application/additional'" (click)="onSubmit()"  >Next Step</button>
         </div>
       </div>
     </div>

@@ -23,12 +23,13 @@
         </p>
       </div>
       <div class="tab-container">
-        <div class="tab-menu">
+        <!-- <div class="tab-menu">
           <ul>
             <li>
               <a
                 [routerLink]="'application/replica/post'"
                 class="tab-a"
+                
                 >Cheapest Service</a
               >
             </li>
@@ -73,7 +74,27 @@
               >
             </li>
           </ul>
+        </div> -->
+        <div class="tab-menu">
+          <ul>
+            <li >
+              <a [routerLink]="'application/replica/post'" class="tab-a" routerLinkActive="active">Cheapest Service</a>
+            </li>
+            <li >
+              <a [routerLink]="'application/replica/fastestservice'" class="tab-a">Fastest Service</a>
+            </li>
+            <li >
+              <a [routerLink]="'application/replica/collectiontoday'" class="tab-a">Collection Today</a>
+            </li>
+            <li >
+              <a [routerLink]="'application/replica/samedayservice'" class="tab-a">Same Day Service</a>
+            </li>
+            <li >
+              <a [routerLink]="'application/replica/name'" class="tab-a">Carrier Name</a>
+            </li>
+          </ul>
         </div>
+        
       </div>
       <div>
         <router-outlet></router-outlet>

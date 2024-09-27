@@ -39,8 +39,15 @@
         width: 93%;
         left: 7%;
     }
-    .input_bxs{
-        gap: 15px 30px !important;
+}
+
+@media only screen and (min-width: 1491px) and (max-width: 1700px) {
+    .ship-sum-row {
+        overflow: auto;
+        gap: 12px;
+    }
+    .ship-sum-col {
+        min-width: 180px;
     }
 }
 
@@ -81,6 +88,7 @@
         font-size: 16px;
     }
 }
+
 
 @media screen and (max-width: 1490px) {
     .container {
@@ -176,8 +184,99 @@
         gap: 30px;
     }
 
-    .user_formsdtls {
+    .user_formsdtls, .user_formnum  {
         height: 50px;
+    }
+    .ship-table td {
+        padding: 12px 8px;
+        font-size: 14px;
+    }
+    ul.dev-dl-list li h5 {
+        font-size: 16px;
+    }
+    ul.dev-dl-list li p {
+        font-size: 14px;
+    }
+    ul.dev-dl-list li h5 span {
+        font-size: 14px;
+    }
+    .code-sub {
+        font-size: 16px;
+        width: 225px;
+    }
+    .dl-pay .form-check .form-check-label {
+        column-gap: 5px;
+        padding-left: 45px;
+        font-size: 14px;
+    }
+    .dl-pay .form-check .form-check-label img {
+        max-width: 34px;
+    }
+    .dl-pay .form-check .form-check-input {
+        left: 15px;
+        top: 38%;
+    }
+    .dl-pay .form-check-input:checked[type=radio] + .form-check-label:after {
+        left: 22px;
+        top: 43%;
+    }
+    .war-head {
+        font-size: 13px;
+    }
+    .war-body {
+        font-size: 13px;
+    }
+    .wat-tfeild {
+        max-width: 85px;
+    }
+    .amu-check {
+        column-gap: 10px;
+    }
+    .ship-sum-col label {
+        font-size: 14px;
+        white-space: nowrap;
+    }
+    .ship-sum-row {
+        overflow: auto;
+        gap: 12px;
+    }
+    .ship-sum-col {
+        width: 180px;
+        min-width: 180px;
+    }
+    .ship-sum-col input[type="text"] {
+        width: 90%;
+        background: #F9F9F9;
+        border: 1px solid #ccc;
+        padding: 13px 14px;
+        border-radius: 6px;
+    }
+    .w-full {
+        width: 100%;
+    }
+    .w-full input[type="text"] {
+        width: 100%;
+        padding: 10px 14px;
+    }
+    .tab-a {
+        font-size: 16px !important;
+        padding: 18px !important;
+    }
+    .tab-head-col {
+        font-size: 14px;
+        padding: 15px 15px;
+        width: 20%;
+    }
+    .cl-rate {
+        font-size: 16px;
+    }
+    .tab-row-col .cr-btn {
+        max-width: 150px;
+        font-size: 16px;
+        padding: 10px;
+    }
+    .tab-box-head, .tab-box-row {
+        min-width: 1300px;
     }
 }
 
@@ -211,6 +310,13 @@
     .profile-admtxt span {
         width: 84%;
         left: 16%;
+    }
+    .war-box {
+        margin: 0 -1.5rem;
+        overflow: auto;
+    }
+    .war-head, .war-body {
+        min-width: 495px;
     }
 }
 
@@ -363,6 +469,59 @@
         width: 80%;
         left: 20%;
     }
+    /* .tab-a {
+        font-size: 14px;
+        padding: 10px;
+    } */
+    .tab-head-col {
+        font-size: 13px;
+        padding: 10px;
+        width: 20%;
+    }
+    .tab-row-col {
+        width: 20%;
+        padding: 10px;
+        font-size: 13px;
+    }
+    .tab-row-col .cr-btn {
+        max-width: 150px;
+        font-size: 14px;
+        padding: 8px;
+    }
+    .ex-tyle {
+        font-size: 12px;
+        margin-top: 0;
+    }
+    .cl-small {
+        font-size: 10px;
+    }
+    .cor-way {
+        padding: 5px 0;
+        margin: 0 5px;
+    }
+    
+    /* commission */
+
+    .commission-space label{
+        margin-top: 0;
+    }
+
+    .btn-cancelation, .btn_clientApply {
+        padding: 10px 30px;
+        font-size: 16px;
+    }
+    .edit-commission, .delete-commission{
+        width: 21px;
+        height: 21px;
+        font-size: 12px;
+        line-height: 22px;
+    }
+    .tab-menu {
+        overflow: auto;
+    }
+    .tab-menu ul {
+        min-width: 1000px;
+    }
 }
 
 @media screen and (max-width: 1100px) {
@@ -401,12 +560,13 @@
         padding: 10px 30px;
     }
 
-    .btn-cancelation {
-        padding: 10px 30px;
-        font-size: 16px;
-    }
     .adv_para p {
         font-size: 15px;
+    }
+    .btn-client_calncelation{
+        align-items: start;
+        flex-wrap: wrap;
+        margin: 40px 5px 20px;
     }
 }
 
@@ -468,7 +628,7 @@
         position: relative;
     }
 
-    /* .navbar-toggler-icon:after {
+    .navbar-toggler-icon:after {
         content: "";
         position: absolute;
         width: 80%;
@@ -483,7 +643,7 @@
         border-bottom: 2px solid #36b0ea;
         border-top: 2px solid #36b0ea;
         height: 25px;
-    } */
+    }
 
     .tab button:not(:last-child) {
         margin-right: 15px;
@@ -626,6 +786,50 @@
         flex-direction: column;
         gap: 12px;
         align-items: start !important;
+    }
+    .dl-pay {
+        flex-wrap: wrap;
+    }
+    .dl-pay .form-check {
+        border: none;
+        width: 100%;
+    }
+    .dl-pay .form-check .form-check-input {
+        left: 15px;
+        top: 32%;
+    }
+    .check-list-box .form-check-input:checked[type=radio] + .form-check-label:after {
+        left: 22px;
+        top: 39%;
+    }
+    ul.dev-dl-list li {
+        padding: 20px;
+        width: 100%;
+    }
+    .ship-sum-col input[type="text"] {
+        padding: 10px 14px;
+    }
+    .ship-sum-col {
+        width: 50%;
+        min-width: 50%;
+    }
+    .ship-sum-row {
+        overflow: auto;
+        flex-wrap: wrap;
+    }
+    .ship-sum-col label {
+        display: block;
+    }
+    .w-full {
+        width: 100%;
+    }
+    .w-full input[type="text"] {
+        width: 100%;
+        padding: 10px 14px;
+    }
+    .tab-box {
+        max-height: 700px;
+        overflow: auto;
     }
 }
 
@@ -900,7 +1104,11 @@
         align-items: start;
     }
 
-    .user_formsdtls {
+    .btn_moreaddress{
+       gap: 20px; 
+    }
+
+    .user_formsdtls, .user_formnum  {
         height: 50px;
         padding: 5px 20px;
     }
@@ -952,9 +1160,97 @@
         width: 86%;
         left: 14%;
     }
-    .customInp{
-        width: 100% !important;
-      }
+    .code-sub {
+        font-size: 14px;
+        width: 120px;
+    }
+    .apl-feild {
+        width: calc(100% - 120px);
+        padding: 10px 15px;
+    }
+    .dl-pay {
+        margin: 0 -5px;
+    }
+    .h5, h5 {
+        font-size: 1rem;
+    }
+    .form-check .form-check-label {
+        margin-top: 0;
+    }
+    .ship-sum-col input[type="text"] {
+        padding: 10px 14px;
+    }
+    .ship-sum-col {
+        width: 100%;
+        min-width: 100%;
+    }
+    .ship-sum-col label {
+        display: block;
+    }
+    .w-full {
+        width: 100%;
+    }
+    .w-full input[type="text"] {
+        width: 100%;
+        padding: 10px 14px;
+    }
+    .ship-btn-row .cr-btn {
+        min-width: 140px;
+        font-size: 14px;
+    }
+    .ship-btn-row {
+        column-gap: 15px;
+    }
+    .ship-sum-row {
+        margin-top: 0;
+    }
+    .htd_head {
+        gap: 0;
+    }
+    .tx-edit {
+        font-size: 14px;
+    }
+    .ship-sum-col input[type="text"] {
+        width: 100%;
+        padding: 10px 14px;
+    }
+    .tx-add {
+        font-size: 14px;
+    }
+    .ship-sum h4 {
+        font-size: 16px;
+        margin: 0;
+    }
+    .cr-btn {
+        padding: 10px;
+    }
+    /* .tab-a {
+        font-size: 12px;
+        padding: 10px;
+    } */
+    .tab-row-col {
+        font-size: 12px;
+    }
+    .search_addfld {
+        width: calc(100% - 100px);
+        padding: 10px 15px;
+    }
+    .search-btnaddress {
+        font-size: 14px;
+        width: 100px;
+    }
+    .btns_data{
+        gap: 12px !important;
+    }
+    .btn-newaddress {
+        padding: 6px 14px;
+        font-size: 15px;
+    }
+    .btn-datafld {
+        padding: 6px 14px;
+        border-radius: 4px;
+        font-size: 15px;
+    }
 }
 
 @media screen and (max-width: 575px) {
@@ -968,7 +1264,7 @@
         width: 290px;
     }
 
-    .user_formsdtls {
+    .user_formsdtls, .user_formnum  {
         height: 40px;
         padding: 5px 20px;
     }
@@ -1153,16 +1449,12 @@
         width: 75%;
         left: 25%;
     }
+    /* commission */
+
+    .btn_clientApply {
+        font-size: 16px;
+    }
+    .str-logo img{
+        max-width: 220px !important;
+    }
 }
-
-
-
-/* Changed CSS  */
-
-li a {
-    color: white;
-}
-a{
-    text-decoration: none;
-}
-

@@ -23,6 +23,7 @@ import { FormsModule } from '@angular/forms';
 import { SearchPipe } from './pipes/search.pipe';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core'; 
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { MatOptionModule } from '@angular/material/core';
     SearchPipe,
   ],
   imports: [
+
     CommonModule,
     UserRoutingModule,
     ReactiveFormsModule,
@@ -51,6 +53,8 @@ import { MatOptionModule } from '@angular/material/core';
     FormsModule,
     MatSelectModule,
     MatOptionModule, 
+    ToastrModule.forRoot(),
+    
   ]
 })
 export class UserModule { }

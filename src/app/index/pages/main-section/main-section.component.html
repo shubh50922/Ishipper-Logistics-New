@@ -79,15 +79,12 @@
                         <option *ngFor="let country of Countries">
                           {{ country.countryName }}
                         </option>
-                        
                       </select>
-                      
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-md-5 col-xl-4">
-                
                 <div class="inp-group">
                   <label for="">Pickup Suburb/Postcode </label>
                   <div class="search-container">
@@ -100,18 +97,26 @@
                       placeholder="Search Suburb"
                       class="formControl"
                       formControlName="fromSuburb"
-                      
                     />
-                    <div class="text-danger" *ngIf="(userForm.controls['fromSuburb'].touched || userForm.controls['fromSuburb'].dirty ) && userForm.controls['fromSuburb'].invalid">
-                      <small>  Please select the pickup suburb.</small>
-                      </div>
-                    <i class="bi bi-x-circle close-icon"
-                    *ngIf="searchTextOne && isShowDropdownOne"
-                    (click)="clearSearch('one')"></i>
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        (userForm.controls['fromSuburb'].touched ||
+                          userForm.controls['fromSuburb'].dirty) &&
+                        userForm.controls['fromSuburb'].invalid
+                      "
+                    >
+                      <small> Please select the pickup suburb.</small>
+                    </div>
+                    <i
+                      class="bi bi-x-circle close-icon"
+                      *ngIf="searchTextOne && isShowDropdownOne"
+                      (click)="clearSearch('one')"
+                    ></i>
                     <!-- <div *ngIf="userForm?.get('toSuburb')?.hasError('required')">
                       <small class="error">Please select the destination suburb.</small>
                     </div> -->
-                  
+
                     <!-- Dropdown list of suggestions for the first input -->
                     <ul
                       *ngIf="isShowDropdownOne && filteredSuburbsOne.length > 0"
@@ -134,7 +139,6 @@
                   </div>
                 </div>
               </div>
-             
 
               <div class="col-md-6 col-xl-4" *ngIf="isInternational">
                 <div class="inp-group">
@@ -172,17 +176,26 @@
                       class="formControl"
                       formControlName="toSuburb"
                     />
-                    <div class="text-danger" *ngIf="(userForm.controls['toSuburb'].touched || userForm.controls['toSuburb'].dirty ) && userForm.controls['toSuburb'].invalid">
-                      <small>  Please select the pickup suburb.</small>
-                      </div>
-                    <i class="bi bi-x-circle close-icon"
-                    *ngIf="searchTextTwo && isShowDropdownTwo"
-                    (click)="clearSearch('two')"></i>
+                    <div
+                      class="text-danger"
+                      *ngIf="
+                        (userForm.controls['toSuburb'].touched ||
+                          userForm.controls['toSuburb'].dirty) &&
+                        userForm.controls['toSuburb'].invalid
+                      "
+                    >
+                      <small> Please select the pickup suburb.</small>
+                    </div>
+                    <i
+                      class="bi bi-x-circle close-icon"
+                      *ngIf="searchTextTwo && isShowDropdownTwo"
+                      (click)="clearSearch('two')"
+                    ></i>
                     <!-- Dropdown list of suggestions for the second input -->
                     <!-- <div *ngIf="userForm?.get('fromSuburb')?.hasError('required')">
                       <small class="error">Please select the pickup suburb.</small>
                     </div> -->
-                    
+
                     <ul
                       *ngIf="isShowDropdownTwo && filteredSuburbsTwo.length > 0"
                       class="dropdown-list"
@@ -206,7 +219,7 @@
               </div>
               <div class="col-md-3 col-xl-4">
                 <div class="inp-group">
-                  <label for="collection">Collection</label>
+                  <label for="collection">Collection Date</label>
                   <input
                     type="date"
                     id="birthday"
@@ -218,9 +231,16 @@
                   <!-- <div *ngIf="userForm?.get('collectionDate')?.hasError('required')">
                     <small class="error">Please select the collection date.</small>
                   </div> -->
-                  <div class="text-danger" *ngIf="(userForm.controls['collectionDate'].touched || userForm.controls['collectionDate'].dirty ) && userForm.controls['collectionDate'].invalid">
-                    <small>  Please select the pickup suburb.</small>
-                    </div>
+                  <div
+                    class="text-danger"
+                    *ngIf="
+                      (userForm.controls['collectionDate'].touched ||
+                        userForm.controls['collectionDate'].dirty) &&
+                      userForm.controls['collectionDate'].invalid
+                    "
+                  >
+                    <small> Please select the pickup suburb.</small>
+                  </div>
                 </div>
               </div>
               <!-- <div class="form-check commission-space col-md-4 col-xl-4">
@@ -241,6 +261,7 @@
                       type="radio"
                       value="commercial"
                       name="displayOption"
+                      (change)="postRadioValue(true)"
                       checked
                     />
                     <span class="check_radio"></span>
@@ -251,6 +272,7 @@
                       type="radio"
                       value="resedential"
                       name="displayOption"
+                      (change)="postRadioValue(false)"
                     />
                     <span class="check_radio"></span>
                   </label>
@@ -265,7 +287,7 @@
                   [formGroupName]="i"
                   class="row"
                 >
-                   <!-- <div class="col-md-4 col-xl-2">
+                  <!-- <div class="col-md-4 col-xl-2">
                     <div class="inp-group">
                       <label for="" >Item Type</label>
                       <div class="sel-prt">
@@ -297,34 +319,35 @@
                         id="weight"
                         (input)="patchphysicalWeight($event)"
                       />
-                      <div class="text-danger" *ngIf="(item.get('weight')?.touched || item.get('weight')?.dirty) && item.get('weight')?.invalid">
-                        <small>Please enter item's weight.</small>
-                                              </div>
-                      <!-- <div
+                      <div
+                        class="text-danger"
                         *ngIf="
-                          userForm.get('weight')?.invalid &&
-                          (userForm.get('weight')?.touched ||
-                            userForm.get('weight')?.dirty)
+                          (item.get('weight')?.touched ||
+                            item.get('weight')?.dirty) &&
+                          item.get('weight')?.invalid
                         "
                       >
-                        <small
-                          *ngIf="userForm.get('weight')?.errors?.['required']"
-                          >Weight is required.</small
-                        >
-                        <small *ngIf="userForm.get('weight')?.errors?.['min']"
-                          >Weight must be at least 0.01 kg.</small
-                        >
-                        <small *ngIf="userForm.get('weight')?.errors?.['max']"
-                          >Weight cannot exceed 25 kg.</small
-                        >
-                        <small
-                          *ngIf="userForm.get('weight')?.errors?.['pattern']"
-                          >Weight must be a valid decimal number.</small
-                        >
-                      </div> -->
-                      
+                        <small>Please enter item's weight.</small>
+                      </div>
                     </div>
                   </div>
+                  <!-- <div class="col-md-4 col-xl-2 customInp">
+                    <div class="inp-group">
+                      <label for="quantitys">Quantity (cm)</label>
+                      <input
+                      placeholder="quantity"
+                        type="text"
+                        formControlName="quantitys"
+                        id="quantitys"
+                        min="1"
+                        max="200" 
+                        step="1"
+                      />
+                      <div class="text-danger" *ngIf="(item.get('quantitys')?.touched || item.get('quantitys')?.dirty) && item.get('quantitys')?.invalid">
+                        <small>Please enter  quantity.</small>
+                                              </div>
+                    </div>
+                  </div> -->
 
                   <div class="col-md-4 col-xl-2 customInp">
                     <div class="inp-group">
@@ -338,39 +361,23 @@
                         step="1"
                         placeholder="Length"
                       />
-                      <div class="text-danger" *ngIf="(item.get('length')?.touched || item.get('length')?.dirty) && item.get('length')?.invalid">
-                        <small>Please enter item's length.</small>
-                                              </div>
-                      <!-- <div
+                      <div
+                        class="text-danger"
                         *ngIf="
-                          userForm.get('length')?.invalid &&
-                          (userForm.get('length')?.touched ||
-                            userForm.get('length')?.dirty)
+                          (item.get('length')?.touched ||
+                            item.get('length')?.dirty) &&
+                          item.get('length')?.invalid
                         "
                       >
-                        <small
-                          *ngIf="userForm.get('length')?.errors?.['required']"
-                          >Length is required.</small
-                        >
-                        <small *ngIf="userForm.get('length')?.errors?.['min']"
-                          >Length must be at least 1 cm.</small
-                        >
-                        <small *ngIf="userForm.get('length')?.errors?.['max']"
-                          >Length cannot exceed 200 cm.</small
-                        >
-                        <small
-                          *ngIf="userForm.get('length')?.errors?.['pattern']"
-                          >Length must be a whole number.</small
-                        >
-                      </div> -->
-                     
+                        <small>Please enter item's length.</small>
+                      </div>
                     </div>
                   </div>
                   <div class="col-md-4 col-xl-2 customInp">
                     <div class="inp-group">
                       <label for="width">Width (cm)</label>
                       <input
-                      placeholder="Width"
+                        placeholder="Width"
                         type="text"
                         formControlName="width"
                         id="width"
@@ -378,18 +385,23 @@
                         max="200"
                         step="1"
                       />
-                      <div class="text-danger" *ngIf="(item.get('width')?.touched || item.get('width')?.dirty) && item.get('width')?.invalid">
-<small>Please enter item's width.</small>
+                      <div
+                        class="text-danger"
+                        *ngIf="
+                          (item.get('width')?.touched ||
+                            item.get('width')?.dirty) &&
+                          item.get('width')?.invalid
+                        "
+                      >
+                        <small>Please enter item's width.</small>
                       </div>
-                     
                     </div>
-                   
                   </div>
                   <div class="col-md-4 col-xl-2 customInp">
                     <div class="inp-group">
                       <label for="height">Height (cm)</label>
                       <input
-                      placeholder="height"
+                        placeholder="height"
                         type="text"
                         formControlName="height"
                         id="height"
@@ -397,40 +409,42 @@
                         max="200"
                         step="1"
                       />
-                      <div class="text-danger" *ngIf="(item.get('height')?.touched || item.get('height')?.dirty) && item.get('height')?.invalid">
-                        <small>Please enter item's height.</small>
-                                              </div>
-                    </div>
-                      <!-- <div
+                      <div
+                        class="text-danger"
                         *ngIf="
-                          userForm.get('height')?.invalid &&
-                          (userForm.get('height')?.touched ||
-                            userForm.get('height')?.dirty)
+                          (item.get('height')?.touched ||
+                            item.get('height')?.dirty) &&
+                          item.get('height')?.invalid
                         "
                       >
-                        <small
-                          *ngIf="userForm.get('height')?.errors?.['required']"
-                          >height is required.</small
-                        >
-                        <small *ngIf="userForm.get('height')?.errors?.['min']"
-                          >height must be at least 1 cm.</small
-                        >
-                        <small *ngIf="userForm.get('height')?.errors?.['max']"
-                          >height cannot exceed 200 cm.</small
-                        >
-                        <small
-                          *ngIf="userForm.get('height')?.errors?.['pattern']"
-                          >height must be a whole number.</small
-                        >
-                      </div> -->
-                      
-                  </div>
-                  <!-- <div class="col-md-4 col-xl-2">
-                    <div class="inp-group">
-                      <label for="">Cm</label>
-                      <input type="number" formControlName="quantity" />
+                        <small>Please enter item's height.</small>
+                      </div>
                     </div>
-                  </div> -->
+                  </div>
+                  <div class="col-md-4 col-xl-2 customInp">
+                    <div class="inp-group">
+                      <label for="quantity">Quantity</label>
+                      <input
+                        placeholder="quantity"
+                        type="text"
+                        formControlName="quantity"
+                        id="quantity"
+                        min="1"
+                        max="200"
+                        step="1"
+                      />
+                      <div
+                        class="text-danger"
+                        *ngIf="
+                          (item.get('quantity')?.touched ||
+                            item.get('quantity')?.dirty) &&
+                          item.get('quantity')?.invalid
+                        "
+                      >
+                        <small>Please enter item's quantity.</small>
+                      </div>
+                    </div>
+                  </div>
 
                   <div class="col-md-4 col-xl-2">
                     <div class="inp-group">
@@ -441,10 +455,9 @@
                           formControlName="type"
                           class="sel-prt"
                         >
-                        
-                        <option value="" disabled selected>
-                          Select package 
-                        </option>
+                          <option value="" disabled selected>
+                            Select package
+                          </option>
                           <option
                             *ngFor="let item of packagingType"
                             [value]="item.value"
@@ -452,21 +465,29 @@
                             {{ item.packaging_Type }}
                           </option>
                         </select>
-                        <div class="text-danger" *ngIf="(item.get('type')?.touched || item.get('type')?.dirty) && item.get('type')?.invalid">
+                        <div
+                          class="text-danger"
+                          *ngIf="
+                            (item.get('type')?.touched ||
+                              item.get('type')?.dirty) &&
+                            item.get('type')?.invalid
+                          "
+                        >
                           <small>Please select the package type.</small>
-                                                </div> 
+                        </div>
                       </div>
                     </div>
                   </div>
+
                   <!-- Remove button -->
 
                   <div class="col-md-4 col-xl-1 removeItemsmain">
-                    <a 
+                    <a
                       class="remove_trash bg-red"
                       (click)="removeItem(i)"
                       *ngIf="items.length > 1"
                     >
-                    <i class="fa fa-trash"></i>
+                      <i class="fa fa-trash"></i>
                       <!-- <span>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -550,17 +571,13 @@
               /></a>
               <!-- <button class="btn btn-primary" (click)="addItem()"    >Check</button> -->
 
-              <button
-              
-                class="c_btn c_trn"
-                type="submit"
-                (click)="submitForm()"
-               
-                >Get a Quote
+              <button class="c_btn c_trn" type="submit" (click)="submitForm()">
+                Get a Quote
                 <img
                   src="../../../../assets/images/admin/images/blue-btn-arrow.svg"
                   alt="arrow"
-              /></button>
+                />
+              </button>
             </div>
           </form>
         </div>

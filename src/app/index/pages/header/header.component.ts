@@ -23,6 +23,7 @@ export class HeaderComponent implements OnInit {
 
     // Getting User Role 
     this.userRole = localStorage.getItem('role');
+    
   }
   homeLogout() {
     this.coreService.clearToken();

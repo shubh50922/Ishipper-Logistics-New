@@ -54,7 +54,7 @@ userRole:any
 
               }
              else if(this.userRole=='User'){
-              this.router.navigate(['/application/dashboardlayout']);
+              this.router.navigate(['/application/replica']);
              } 
              else if(this.userRole=='SuperAdmin'){
               this.router.navigate(['/application/commission']);

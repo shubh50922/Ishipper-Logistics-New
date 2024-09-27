@@ -26,6 +26,8 @@ export class MainSectionComponent implements OnInit {
   Countries!: any[];
   ContentList: any[] = [];
   isInternational: boolean = true;
+  isResedential:boolean=false
+  isCommercial: boolean = true;
   selectedCountry: string = '';
   selectedOption: string = '';
   selectedCountryCode: string = ''; // Declare and initialize the variable
@@ -56,6 +58,9 @@ export class MainSectionComponent implements OnInit {
   GetRes: boolean = true;
   packagingType!: any[];
   today!: string;
+  
+
+   
   weightType!: any[];
   minDate!: string;
   getWeights!: string;
@@ -99,7 +104,7 @@ console.log("date",changeDate);
     // console.log('calender date disable', this.minDate);
     this.getUserId();
     this.getCountryInDropdown();
-    this.getContentListInDropdown();
+    
     this.getPackagingTypeDropdown();
     // this.onDomesticClick()
     // this.userForm = new FormGroup({
@@ -153,6 +158,8 @@ console.log("date",changeDate);
       quantitys: [1],
       items: new FormArray([this.createItem()]),
       createdby: [this.userId],
+      commercial:[],
+      resedential:[]
     });
     // console.log(this.userForm.get('items') as FormArray);
     // this.addItem();
@@ -245,18 +252,7 @@ console.log("date",changeDate);
   //   });
   // }
 
-  getContentListInDropdown() {
-    this.indexService.getContentList().subscribe(
-      (response: any) => {
-        // console.log('========------> ', response);
-        this.ContentList = response.data; // Adjusted to match the actual response structure
-        // this.cdr.detectChanges();
-      },
-      (error) => {
-        this.GetRes = false;
-      }
-    );
-  }
+  
   getUserId() {
     const getUser: any = localStorage.getItem('user');
     //  console.log("get user in index", getUser);
@@ -342,7 +338,12 @@ console.log("date",changeDate);
   toggleDropdown(isInternational: boolean): void {
     this.isInternational = isInternational;
   }
-
+  postRadioValue(iscommercial: boolean): void {
+    this.isCommercial=iscommercial
+//  this.indexService.toggleRadio(this.isCommercial)
+this.indexService.isCommercial$.next(this.isCommercial)
+this.indexService.isResidential$.next(this.isResedential)
+  }
   // onDomesticClick() {
   //   this.isInternational = false; // Set isInternational to false when domestic option is clicked
   //   if(this.isInternational==false){
@@ -471,7 +472,12 @@ console.log("date",changeDate);
   
   submitForm() {
     this.getDimensions();
-
+    if (this.userForm.invalid) {
+      // Mark all controls as touched to trigger validation messages
+      this.userForm.markAllAsTouched();
+      console.log('Form is invalid');
+      return; // Stop submission if the form is invalid
+    }
     console.log('weight in submit', this.getWeights);
 
     // if (this.userForm.invalid) {
@@ -485,7 +491,10 @@ console.log("date",changeDate);
     if (!this.GetRes) {
       
     } else if (this.GetRes) {
-      localStorage.setItem('formValue', JSON.stringify(this.userForm.value));
+      console.log('userform',this.userForm.value);
+      
+      this.indexService.updateIndexForm(this.userForm.value)
+      // localStorage.setItem('formValue', JSON.stringify(this.userForm.value));
       this.isLoading = true;
       this.indexService.postMergeQuotes(this.userForm.value).subscribe((response:any)=>{
        
@@ -502,8 +511,10 @@ console.log("date",changeDate);
         {const quotes=response
         console.log("quotes",response);
         if(quotes){
-          localStorage.setItem("quotationId",response.userData.quptationId)
-          localStorage.setItem("userId",response.userData.userId)
+           localStorage.setItem('quoteid', JSON.stringify(response.userData.quptationId));
+           localStorage.setItem('userid',JSON.stringify(response.userData.userId))
+          // this.indexService.saveMergeResponse(response.userData)
+          this.indexService.mergeResponse$.next(response.userData)
         }}
         
       },(error:any)=>{

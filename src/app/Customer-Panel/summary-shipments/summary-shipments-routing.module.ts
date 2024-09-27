@@ -5,6 +5,7 @@ import { AuthGuardGuard } from 'src/app/core/guards/auth-guard.guard';
 import { ParcelDetailsComponent } from './parcel-details/parcel-details.component';
 import { DeliveryDetailsComponent } from './delivery-details/delivery-details.component';
 import { PaymentDetailsComponent } from './payment-details/payment-details.component';
+
 const routes: Routes = [
   {
     path:'',
@@ -15,6 +16,7 @@ const routes: Routes = [
       { path: 'parcel', component: ParcelDetailsComponent, canActivate:[AuthGuardGuard] },
       { path: 'delivery', component:DeliveryDetailsComponent, canActivate:[AuthGuardGuard] },
       { path: 'payment', component:PaymentDetailsComponent, canActivate:[AuthGuardGuard] },
+   
     ]
   }
 ];

@@ -74,6 +74,7 @@ export class AuthService {
     console.log('token cleared');
     localStorage.removeItem('token');
     localStorage.removeItem('CompanyID');
+    localStorage.removeItem('role');
   }
   getUserId(): string | null {
     const user = localStorage.getItem('user');

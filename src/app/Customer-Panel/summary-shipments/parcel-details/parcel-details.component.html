@@ -11,7 +11,7 @@
                                         <td>Width</td>
                                         <td>Height</td>
                                         <td>Package Type</td>
-                                        <td>Unit Type</td>
+                                        <td>Content Type</td>
                                         <td>Estimated Value</td>
                                         <td>Shipping Cost</td>
                                         <td>Warranty Cost</td>
@@ -19,21 +19,24 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>John Parker</td>
-                                        <td>31-May-2020</td>
-                                        <td>7Kg</td>
-                                        <td>John Parker</td>
-                                        <td>2.23 m </td>
-                                        <td>2.5m</td>
-                                        <td>Box</td>
-                                        <td>Box</td>
-                                        <td>$5,000.00</td>
-                                        <td>$200</td>
-                                        <td>$50</td>
-                                        <td>$450</td>
-                                    </tr>
+                                    
+                                            <tr>
+                                                <td>{{parcelData.customer}}</td>
+                                                <td>{{parcelData.date}}</td>
+                                                <td>{{parcelData.weight}}</td>
+                                                <td>{{parcelData.length}}</td>
+                                                <td>{{parcelData.width }}</td>
+                                                <td>{{parcelData.height}}</td>
+                                                <td>{{parcelData.packageType}}</td>
+                                                <td>{{parcelData.contentType}}</td>
+                                                <td>$5,000.00</td>
+                                                <td>$200</td>
+                                                <td>$50</td>
+                                                <td>$450</td>
+                                            </tr>
                                 </tbody>
+                                  
+                                
                             </table>
                         </div>
                     </div>

@@ -3,27 +3,27 @@
     <ul class="dev-dl-list">
         <li>
             <h5>Collection Details <span>(Residential Address)</span></h5>
-            <p>Collection Date:  <span>22 May 24</span></p>
-            <p>Name:  <span>John Smith</span></p>
-            <p>Address: <span>12 Green park schofileds, lane 22 NSW 23566</span></p>
-            <p>Phone:  <span>0858994432</span></p>
-            <p>Email:  <span>john@xyz.com</span></p>
+            <p>Collection Date:  <span>{{this.indexForm.collectionDate}}</span></p>
+            <p>Name:  <span>{{orderForm.pickupFirstName + ' ' + orderForm.pickupLastName}}</span></p>
+            <p>Address: <span>{{orderForm.pickupAddress1}}</span></p>
+            <p>Phone:  <span>{{orderForm.pickupPhone}}</span></p>
+            <p>Email:  <span>{{orderForm.pickupEmail}}</span></p>
         </li>
         <li>
             <h5>Delivery Details <span>(Residential Address)</span></h5>
-            <p>Est Deluivery:  <span>25 May 24</span></p>
-            <p>Name:  <span>ChrisSmith</span></p>
-            <p>Address:  <span>43 Green park schofileds, lane 22 NSW 23566</span></p>
-            <p>Phone:  <span>0858994432</span></p>
-            <p>Email:  <span>john@xyz.com</span></p>
+            <p>Est Deluivery:  <span>{{estimatedDate}}</span></p>
+            <p>Name:  <span>{{orderForm.destinationFirstName + ' ' + orderForm.destinationLastName}}</span></p>
+            <p>Address: <span>{{orderForm.destinationAddress1}}</span></p>
+            <p>Phone:  <span>{{orderForm.destinationPhone}}</span></p>
+            <p>Email:  <span>{{orderForm.destinationEmail}}</span></p>
         </li>
         <li>
             <h5>Service Provider</h5>
-            <p>Courier Name:  <span>Startrack</span></p>
-            <p>Service Name:  <span>Road Express</span></p>
-            <p>Estimated Transit Time:  <span>2 business days</span></p>
+            <p>Courier Name:  <span>{{getDataByIndex.courierName}}</span></p>
+            <p>Service Name:  <span>{{getDataByIndex.name}}</span></p>
+            <p>Estimated Transit Time:  <span>{{getDataByIndex.eta}}</span></p>
             <p>Authority to Leave:  <span>Yes</span></p>
-            <p>Pickup Required:  <span>No</span></p>
+            <p>Pickup Required:  <span>{{pickupRequired}}</span></p>
         </li>
     </ul>
 </div>

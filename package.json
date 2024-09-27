@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^14.2.0",
+    "@angular/animations": "^14.3.0",
     "@angular/cdk": "^13.0.0",
     "@angular/common": "^14.2.0",
     "@angular/compiler": "^14.2.0",
@@ -39,6 +39,7 @@
     "ngx-google-places-autocomplete": "^2.0.5",
     "ngx-owl-carousel-o": "^14.0.1",
     "ngx-permissions": "^14.1.0",
+    "ngx-toastr": "^15.2.2",
     "owl.carousel": "^2.3.4",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

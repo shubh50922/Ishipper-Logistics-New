@@ -31,10 +31,10 @@
             </li>
             
             <li>
-              <a [routerLink]="userRole === 'SuperAdmin' ? '/application/commission' : (userRole === 'Admin' ? '/application' : (userRole === 'User' ? '/application/dashboardlayout' : '/auth/signup'))"
-   class="c_btn c_black">
-                {{  userRole === 'SuperAdmin'|| userRole === 'Admin' || userRole === 'User' ? 'Dashboard' : 'Signup' }}
-              </a>
+           <a [routerLink]="userRole === 'SuperAdmin' ? '/application/commission' : (userRole === 'Admin' ? '/application' : (userRole === 'User' ? '/application/dashboardlayout' : '/auth/signup'))"
+class="c_btn c_black">
+    {{  userRole === 'SuperAdmin'|| userRole === 'Admin' || userRole === 'User' ? 'Dashboard' : 'Signup' }}
+  </a>
             </li>
             
           </ul>
