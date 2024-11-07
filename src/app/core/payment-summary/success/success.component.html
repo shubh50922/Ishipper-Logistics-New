@@ -1,0 +1,160 @@
+<div class="main_content">
+    <div *ngIf="isLoading" class="loader-overlay">
+        <app-loader></app-loader>  
+               </div> 
+    <div class="getSuccess text-center">
+        <h2>Get An Instant Quote Today with Fast Courier</h2>
+    </div>
+
+    <div class="bg-white packageDtlsBg">
+
+        <div class="successMsgPrt">
+            <h3 class="printSuccess"><i class="fa fa-check"></i> Success!</h3>
+        </div>
+        <div class="htd_content successTbltransparentBrd bgTablePackage">
+            <div class="table_overflow">
+                <table>
+                    <tbody>
+                    <tr>
+                        <th colspan="2" class="tblAdditionalDtls">Package Details <span>(Edit)</span></th>
+                        <th colspan="2" class="tblAdditionalDtls">Quote <span>(Edit)</span></th>
+                        <th colspan="2" class="tblAdditionalDtls">Address Details <span>(Edit)</span></th>
+                    </tr>
+                    <tr>
+                        <td class="weightPackages">Package Type:</td>
+                        <td>bag</td>
+                        <td class="weightPackages">14$Est. Delivery:</td>
+                        <td>4 Business Days</td>
+                        <td class="weightPackages">From:</td>
+                        <td>Testing hello BARANGAROO, NSW 2000</td>
+                    </tr>
+                    <tr>
+                        <td class="weightPackages">Weight:</td>
+                        <td>5kg</td>
+                        <td class="weightPackages">Price:</td>
+                        <td>$28.85 (Excl. GST)</td>
+                        <td class="weightPackages">To:</td>
+                        <td>Testing hello GWABEGAR, NSW 2356</td>
+                    </tr>
+                    <tr>
+                        <td class="weightPackages">Dimensions:</td>
+                        <td>(L) 20cm x (W) 50cm x (H) 20cm</td>
+                        <td class="weightPackages">Warranty:</td>
+                        <td>$0.00</td>
+                    </tr>
+                    <tr>
+                        <td class="weightPackages">Quantity:</td>
+                        <td>1</td>
+                        <td class="weightPackages">Total Price:</td>
+                        <td>$31.73 (Inc. GST)</td>
+                    </tr>
+                    <tr>
+                        <td class="weightPackages">Contents:</td>
+                        <td>Other</td>
+                    </tr>
+                    <tr>
+                        <td class="weightPackages">Courier Selected:</td>
+                        <td>Aramex</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="container pt-3">
+
+            <div class="fullMsgs">
+                <p>Your order has been successfully submitted. You will receive an email shortly. if you do
+                    not
+                    receive an email, please double check your spam / junk folder.</p>
+                <h5>Reference : <span>{{retreiveSession?.orderId}}</span></h5>
+                <div class="btnBackBook">
+                    <a href="javascript:void(0)" class="btnBack">Send the same package</a>
+                    <a href="javascript:void(0)" class="btnBookNow">Download Labels</a>
+                </div>
+                <div class="mt-3">
+                    <a href="javascript:void(0)" class="btnBookNow">Download Invoice</a>
+                </div>
+            </div>
+        </div>
+        <div class="returnPage">
+            <i class="fa fa-angle-double-left"></i> <a href="#" class="text-decoration-underline"> Return Home</a>
+        </div>
+    </div>
+
+    <!-- <div class="termsConditionBg">
+        <div class="termsHeading">
+            <h4>Terms & Conditions</h4>
+        </div>
+        <div class="condiionSpace">
+            <div class="form-check">
+                <input class="form-check-input formConditionCheckeds" type="checkbox" value=""
+                    id="war-info-1">
+                <label class="form-check-label labelFs" for="war-info-1">
+                    I Confirmed that all details entered in the booking are accurate and truthful to the
+                    best of my knowledge. Extra charges will apply for any incorrectly declared information
+                    including but not limited to weights, dimensions, address type and/or package types.
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input formConditionCheckeds" type="checkbox" value=""
+                    id="war-info-2">
+                <label class="form-check-label labelFs" for="war-info-2">
+                    Yes - I have read, understood & agree to the <a href="#">Terms & Conditions.</a>
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input formConditionCheckeds" type="checkbox" value=""
+                    id="war-info-3" checked>
+                <label class="form-check-label labelFs" for="war-info-3">
+                    Yes - I have read the <a href="#">prohibited/restricted product list</a> and declare
+                    that this shipment does not contain dangerous goods.
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input formConditionCheckeds" type="checkbox" value=""
+                    id="war-info-3">
+                <label class="form-check-label labelFs" for="war-info-3">
+                    Yes - I/We have read and understood the <a href="#">policy Terms and Conditions</a> and
+                    I accept the option I have elected.
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input formConditionCheckeds" type="checkbox" value=""
+                    id="war-info-3">
+                <label class="form-check-label labelFs" for="war-info-3">
+                    Agree to all of the above.
+                </label>
+            </div>
+        </div>
+
+        <div class="addCouponCode">
+            <h4>Add Coupon code for discount</h4>
+
+            <div class="discountField">
+                <div class="insideBtnName">
+                    <input type="text" class="student-input" placeholder="Coupon" />
+                    <span>Coupon</span>
+                </div>
+                <button class="searchFld">Apply Coupon</button>
+            </div>
+        </div>
+
+        <div class="addCouponCode">
+            <h4>Additional Emails to send labels & invoices to</h4>
+
+            <div class="discountField">
+                <div class="insideBtnName">
+                    <input type="text" class="emailCoupon" placeholder="Email" />
+                    <span>Email</span>
+                </div>
+                <button class="searchFld">Add Email</button>
+            </div>
+        </div>
+
+        <div class="btnBackBook">
+            <a href="javascript:void(0)" class="btnBack">Back</a>
+            <a href="javascript:void(0)" class="btnBookNow">Book Now</a>
+        </div>
+    </div> -->
+
+</div>

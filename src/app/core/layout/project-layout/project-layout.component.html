@@ -114,6 +114,7 @@
           />Dashboard</a
         >
       </li>
+    
       <li
         *ngIf="userRole === 'User'"
         routerLinkActive="active"
@@ -162,6 +163,28 @@
           />Warrenty Info</a
         >
       </li>
+      <li
+      *ngIf="userRole === 'User'"
+      routerLinkActive="active"
+    >
+      <a [routerLink]="'/application/trackOrder'"
+        ><img
+          src="../../../../assets/images/customer/images/dashboard.svg"
+          alt="dashboard"
+        />Track Order</a
+      >
+    </li>
+      <li
+      *ngIf="userRole === 'User'"
+      routerLinkActive="active"
+    >
+      <a [routerLink]="'/application/cancellation'"
+        ><img
+          src="../../../../assets/images/customer/images/dashboard.svg"
+          alt="dashboard"
+        />Cancel Order</a
+      >
+    </li>
       <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a [routerLink]="'/application/contact'"
           ><img

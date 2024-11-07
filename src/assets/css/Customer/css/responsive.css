@@ -351,6 +351,7 @@
     .service_img>img:first-child {
         height: 215px;
         object-fit: cover;
+        
     }
 
     .dotted-line {

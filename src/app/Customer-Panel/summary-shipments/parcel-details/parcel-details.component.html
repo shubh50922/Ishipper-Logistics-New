@@ -20,20 +20,20 @@
                                 </thead>
                                 <tbody>
                                     
-                                            <tr>
-                                                <td>{{parcelData.customer}}</td>
-                                                <td>{{parcelData.date}}</td>
-                                                <td>{{parcelData.weight}}</td>
-                                                <td>{{parcelData.length}}</td>
-                                                <td>{{parcelData.width }}</td>
-                                                <td>{{parcelData.height}}</td>
-                                                <td>{{parcelData.packageType}}</td>
-                                                <td>{{parcelData.contentType}}</td>
-                                                <td>$5,000.00</td>
-                                                <td>$200</td>
-                                                <td>$50</td>
-                                                <td>$450</td>
-                                            </tr>
+                                    <tr *ngIf="parcelData?.length > 0">
+                                        <td>{{ parcelData[0]?.customer }}</td>
+                                        <td>{{ parcelData[0]?.date }}</td>
+                                        <td>{{ parcelData[0]?.weight }}</td>
+                                        <td>{{ parcelData[0]?.length }}</td>
+                                        <td>{{ parcelData[0]?.width }}</td>
+                                        <td>{{ parcelData[0]?.height }}</td>
+                                        <td>{{ parcelData[0]?.packageType }}</td>
+                                        <td>{{ parcelData[0]?.contentType }}</td>
+                                        <td>{{ parcelData[0]?.estimatedValue | currency }}</td>
+                                        <td>{{ parcelData[0]?.shippingCost | currency }}</td>
+                                        <td>{{ parcelData[0]?.warrantyCost | currency }}</td>
+                                        <td>{{ parcelData[0]?.total | currency }}</td>
+                                    </tr>
                                 </tbody>
                                   
                                 

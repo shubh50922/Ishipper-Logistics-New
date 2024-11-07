@@ -1,0 +1,84 @@
+
+.brutalist-card {
+    width: 320px;
+    border: 2px solid #000;
+    border-radius : 10px;
+    background-color: #fff;
+    padding: 1.5rem;
+    font-family: "Arial", sans-serif;
+  }
+  
+  .brutalist-card__header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #000;
+    padding-bottom: 1rem;
+  }
+  
+  .brutalist-card__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #77000D;
+    padding: 0.5rem;
+  }
+  
+  .brutalist-card__icon svg {
+    height: 1.5rem;
+    width: 1.5rem;
+    fill: #fff;
+  }
+  
+  .brutalist-card__alert {
+    font-weight: 900;
+    color: #000;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+  }
+  
+  .brutalist-card__message {
+    margin-top: 1rem;
+    color: #000;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    border-bottom: 2px solid #000;
+    padding-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  .brutalist-card__actions {
+    margin-top: 1rem;
+  }
+  
+  .brutalist-card__button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 3px solid #77000D;
+    background-color: #77000D;
+    color: #fff;
+    position: relative;
+    transition: all 0.2s ease;
+    overflow: hidden;
+    text-decoration: none;
+    margin-bottom: 1rem;
+     border-radius : 10px;
+  }
+  
+  .brutalist-card__button--read {
+    background-color: #000;
+    color: #fff;
+  }
+  
+  .brutalist-card__button:active {
+    transform: translate(5px, 5px);
+    box-shadow: none;
+  }
+  

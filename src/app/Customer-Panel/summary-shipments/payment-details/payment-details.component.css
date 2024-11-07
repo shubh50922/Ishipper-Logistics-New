@@ -3430,3 +3430,7 @@ ul.dev-dl-list li p {
     justify-content: center;
     margin-top: 10px;
 }
+
+.form-check { 
+    cursor: pointer;
+}

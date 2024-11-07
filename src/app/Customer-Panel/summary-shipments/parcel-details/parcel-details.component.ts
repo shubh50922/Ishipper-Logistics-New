@@ -17,6 +17,7 @@ export class ParcelDetailsComponent implements OnInit {
   parcelData:any
   checkValues: any;
   orderForm: any = {};
+  payData:any
   constructor(
     private indexService: IndexService,
     private deliveryDetailService: DeliveryDetailService,
@@ -24,51 +25,60 @@ export class ParcelDetailsComponent implements OnInit {
   ) {}
   totalWeight: any;
   ngOnInit(): void {
-    this.fetchIshipperCalculation();
     this.indexService.indexForm$.subscribe((res) => {
-      this.indexForm = res || {}; // Ensure indexForm is never undefined
-      console.log('index form', this.indexForm);
-    });
- 
-    // Subscribe to sharedData$ and assign to orderForm
-    this.deliveryDetailService.sharedData$.subscribe((res) => {
-      this.orderForm = res || {}; // Ensure orderForm is never undefined
-      console.log('orderForm', this.orderForm);
-    });
-
-    this.mergeService.ishipperCalculation$.subscribe((res) => {
-      this.savedCalculation = res;
-      console.log('calculatuion', this.savedCalculation);
-    });
-    this.mergeService.quoteData$.subscribe((res) => {
-      this.quoteData = res;
-      console.log('quotes', this.quoteData);
-    });
-    this.getDataByIndex=this.quoteData.index
-    console.log("get data by index",this.getDataByIndex);
-    this.deliveryDetailService.checkValues$.subscribe((res) => {
-      this.checkValues = res;
-      console.log('check values', this.checkValues);
+      console.log('indexForm data:', res);
+      this.indexForm = res || {};
+      this.populateParcelData(); 
     });
   
-    this.parcelData=[{
-      customer:this.orderForm.pickupFirstName + ' ' + this.orderForm.pickupLastName,
-      date:this.indexForm.collectionDate,
-      weight:this.indexForm.items.weight,
-      length:this.indexForm.items.length,
-      width:this.indexForm.items.width,
-      height:this.indexForm.items.height,
-      packagetype:this.indexForm.items.type,
-      contenttype:this.orderForm.parcelContent,
-      estimatedValue:this.getDataByIndex.ishhiperFinalPrice,
-      shippingcost:'00',
-      warrenycost:'00',
-      total:this.getDataByIndex.ishhiperFinalPrice+this.parcelData.shippingcost+this.parcelData.warrenycost
-
-
-    }]
-    console.log("parcel data",this.parcelData);
-    
+    this.deliveryDetailService.sharedData$.subscribe((res) => {
+      console.log('orderForm data:', res);
+      this.orderForm = res || {};
+      this.populateParcelData(); 
+    });
+  
+    this.mergeService.quoteData$.subscribe((res) => {
+      console.log('quoteData:', res);
+      this.quoteData = res || {};
+      this.populateParcelData(); 
+    });
+this.deliveryDetailService.payData$.subscribe((res)=>{
+  console.log('total cost:', res);
+  this.payData = res || {};
+  this.populateParcelData(); 
+})
+  }
+  
+  populateParcelData() {
+    if (this.indexForm && this.orderForm && this.quoteData) {
+      console.log('Index Form:', this.indexForm);
+      console.log('Order Form:', this.orderForm);
+      console.log('Quote Data:', this.quoteData);
+  
+      const shippingCost =this.payData.shipment;
+      const warrantyCost = 0;
+      const estimatedValue = this.quoteData.index.ishhiperFinalPrice || 0;
+      const totalCost = this.payData.total;
+      const itemsArray = this.indexForm.items;
+      this.parcelData = [{
+        customer: this.orderForm.pickupFirstName + ' ' + this.orderForm.pickupLastName,
+        date: this.indexForm.collectionDate,
+        weight: this.indexForm.weights || 'N/A',
+        length: this.indexForm.lengths || 'N/A',
+        width: this.indexForm.widths || 'N/A',
+        height: this.indexForm.heights || 'N/A',
+        packageType: itemsArray.type || 'N/A',
+        contentType: this.orderForm.parcelContent || 'N/A',
+        estimatedValue: estimatedValue,
+        shippingCost: shippingCost||'00',
+        warrantyCost: warrantyCost,
+        total: totalCost||'00'
+      }];
+  
+      console.log('Parcel Data:', this.parcelData);
+    } else {
+      console.log('Data not yet available for parcelData population');
+    }
   }
   
   fetchIshipperCalculation() {

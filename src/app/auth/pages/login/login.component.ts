@@ -4,10 +4,14 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { HotToastService } from '@ngneat/hot-toast';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
+  
+  
+
 })
 export class LoginComponent implements OnInit {
   userLogin!: FormGroup;
@@ -20,7 +24,8 @@ userRole:any
   constructor(
     private authService: AuthService,
     private router: Router,
-    private toast: HotToastService
+    private toast: HotToastService,
+    
   ) {}
 
   ngOnInit() {
@@ -28,7 +33,7 @@ userRole:any
   }
   initForm() {
     this.userLogin = new FormGroup({
-      username: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
     });
   }

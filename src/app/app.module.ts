@@ -20,6 +20,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { CustomerDashboardModule } from './Customer-Panel/customer-dashboard/customer-dashboard.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { SuperAdminModule } from './super-admin/super-admin.module';
+import { NotificationModule } from '@progress/kendo-angular-notification';
+
 
 // import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 @NgModule({
@@ -50,6 +52,7 @@ import { SuperAdminModule } from './super-admin/super-admin.module';
     CustomerDashboardModule,
     SuperAdminModule,
     NgxPermissionsModule.forRoot(),
+    NotificationModule,
    
     
   ],

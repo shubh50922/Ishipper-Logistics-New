@@ -85,8 +85,8 @@
             </div>
             <div class="condiionSpace">
                 <div class="form-check">
-                    <input class="form-check-input formConditionCheckeds"   [checked]="checkForm.get('acceptInsuranceConditions')?.value" type="checkbox" value=""
-                        id="war-info-1 " (change)="checkTermsConditions('acceptInsuranceConditions')" 
+                    <input class="form-check-input formConditionCheckeds"   type="checkbox" value=""
+                        id="war-info-1 "(change)="checkTermsConditions('acceptInsuranceConditions')" 
                         [checked]="checkForm.get('acceptInsuranceConditions')?.value">
                     <label class="form-check-label labelFs" for="war-info-1">
                         I Confirmed that all details entered in the booking are accurate and truthful to the
@@ -96,7 +96,7 @@
                 </div>
                 <div class="form-check">
                     <input class="form-check-input formConditionCheckeds" type="checkbox" value=""
-                        id="war-info-2" (change)="checkTermsConditions('acceptAttachment')" 
+                        id="war-info-2"  (change)="checkTermsConditions('acceptAttachment')" 
                         [checked]="checkForm.get('acceptAttachment')?.value" >
                     <label class="form-check-label labelFs" for="war-info-2">
                         Yes - I have read, understood & agree to the <a href="#">Terms & Conditions.</a>
@@ -104,7 +104,7 @@
                 </div>
                 <div class="form-check">
                     <input class="form-check-input formConditionCheckeds" type="checkbox" value=""
-                        id="war-info-3" (change)="checkTermsConditions('acceptNoDangerousGoods')" 
+                        id="war-info-3" (change)="checkTermsConditions('acceptNoDangerousGoods')"
                         [checked]="checkForm.get('acceptNoDangerousGoods')?.value" >
                     <label class="form-check-label labelFs" for="war-info-3">
                         Yes - I have read the <a href="#">prohibited/restricted product list</a> and declare
@@ -122,8 +122,8 @@
                 </div>
                 <div class="form-check" >
                     <input class="form-check-input formConditionCheckeds" type="checkbox" value=""
-                        id="war-info-3" (change)="checkTermsConditions('acceptReadFinancialServiceGuide')" 
-                        [checked]="areAllChecked() " 
+                        id="war-info-3"  (change)="checkAllConditions($event,'acceptReadFinancialServiceGuide')" 
+                        [checked]="areAllChecked()" 
                         >
                     <label class="form-check-label labelFs" for="war-info-3">
                         Agree to all of the above.
@@ -134,7 +134,7 @@
        <div w-50><input type="time" /></div> 
         
     </div> -->
-            <div class="addCouponCode">
+            <div class="addCouponCode" style="display: none;">
                 <h4>Add Coupon code for discount</h4>
     
                 <div class="discountField">

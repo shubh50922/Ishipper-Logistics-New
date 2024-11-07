@@ -1,7 +1,12 @@
+
+<div *ngIf="isLoading" class="loader-overlay">
+   <app-loader></app-loader>  
+          </div> 
 <h4 class="mb-3">Delivery Details</h4>
-                <div class="d_htd_content bg-white p-4">
+                
+<div class="d_htd_content bg-white p-4">
                     <div class="check-list-box dl-pay">
-                        <div class="form-check">
+                        <!-- <div class="form-check">
                             <input class="form-check-input" type="radio" name="flexRadioDefault" id="form-check1" checked>
                             <label class="form-check-label" for="form-check1">
                                <span>Pay using credit or debit card</span>
@@ -10,13 +15,13 @@
                                 <img src="../../../../assets/images/customer/images/card-2.png" alt="" />
                                </span>
                             </label>
-                          </div>
-                          <div class="form-check">
+                          </div> -->
+                          <!-- <div class="form-check">
                             <input class="form-check-input" type="radio" name="flexRadioDefault" id="form-check2">
                             <label class="form-check-label" for="form-check2">
                                 Pay using your top up balance
                             </label>
-                          </div>
+                          </div> -->
                           
                           <div class="form-check">
                             <input class="form-check-input" type="radio" name="flexRadioDefault" id="form-check4"  (click)="setMethod('square')" >
@@ -31,7 +36,7 @@
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="form-check3">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="form-check3" (click)="setMethod('paypal')">
                             <label class="form-check-label" for="form-check3">
                                 <span>Pay with your PayPal account</span>
                                <span>
@@ -44,6 +49,7 @@
                   
                     </div>
                     <div class="proceed">
-                      <button  class="payment" (click)="paymentMethod()"     >Proceed To Pay</button>
+                      <button  class="payment" (click)="callThirdParty()"
+                      >Proceed To Pay</button>
                      </div>
                      

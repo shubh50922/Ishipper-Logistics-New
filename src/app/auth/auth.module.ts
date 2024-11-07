@@ -6,12 +6,14 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { ReactiveFormsModule } from '@angular/forms'; // Only import ReactiveFormsModule if not using template-driven forms
 import { CoreModule } from '../core/core.module';
+import { ResetComponent } from './pages/reset/reset.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
     SignupComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    ResetComponent
   ],
   imports: [
     CommonModule,

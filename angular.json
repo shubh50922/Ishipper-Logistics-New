@@ -18,8 +18,14 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
             "styles": [
+              {
+                "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
+              },
               "node_modules/owl.carousel/dist/assets/owl.carousel.min.css",
               "node_modules/owl.carousel/dist/assets/owl.theme.default.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -33,9 +39,7 @@
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/owl.carousel/dist/owl.carousel.min.js",
               "src/assets/js/admin/js/aos.js",
-
               "src/assets/js/admin/js/bootstrap.bundle.min.js",
-
               "src/assets/js/admin/js/custom.js",
               "src/assets/js/admin/js/owl-carousel.js"
             ]
@@ -99,8 +103,16 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              {
+                "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
+              },
+              "src/styles.css"
+            ],
             "scripts": []
           }
         }

@@ -11,7 +11,7 @@ import { environment } from '../../../environments/environment';
 export class AuthService {
   
   user: any; // Remove array declaration
-  // private apiUrl = environment.apiUrl
+   private baseUrl = environment.apiUrl
 
   private httpOptions = {
     headers: new HttpHeaders({ 
@@ -19,12 +19,13 @@ export class AuthService {
       'Content-Type': 'application/json'
     })
   };
-   private apiUrl = "https://gs.mt.cisinlive.com/ishipper/api"
-   
+ // private apiUrl = "https://gs.mt.cisinlive.com/ishipper/api"
+    // private apiUrl = " http://192.168.2.134:8035/api"
+    
   constructor(private http: HttpClient) {}
 
   register(userData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/Authenticate/register`, userData,this.httpOptions).pipe(
+    return this.http.post(`${this.baseUrl}/Authenticate/register`, userData,this.httpOptions).pipe(
       catchError((error) => {
         console.error('Registration error:', error);
         return throwError(error);
@@ -35,7 +36,7 @@ export class AuthService {
   login(data: any): Observable<any> {
     
     return this.http
-      .post(`${this.apiUrl}/Authenticate/login`, data,this.httpOptions)
+      .post(`${this.baseUrl}/Authenticate/login`, data,this.httpOptions)
       .pipe(
         tap((response: any) => {
           // Store user details upon successful login
@@ -87,5 +88,15 @@ export class AuthService {
   getRole() {
     return localStorage.getItem('role');
 
+  }
+  postEmailforReset(email:any){
+    return this.http.post<any>(
+      `${this.baseUrl}/Authenticate/ForgetPassword?email=${encodeURIComponent(email)}`,{}
+    );
+  }
+ SetNewPassword(payload:any){
+    return this.http.post<any>(
+      `${this.baseUrl}/Authenticate/resetpassword`,payload
+    );
   }
 }

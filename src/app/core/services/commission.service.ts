@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SupplierService } from './supplier.service';
+import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,11 +10,12 @@ export class CommissionService {
   apiData: any[] = [];
   serviceProviderTypes: any[] = [];
   serviceNames: string[] = [];
-
+  private baseUrl = environment.apiUrl
   storedCommissionId!:number
-private apiUrl = "https://gs.mt.cisinlive.com/ishipper/api"
+//  private apiUrl = "https://gs.mt.cisinlive.com/ishipper/api"
+//private apiUrl = " http://192.168.2.134:8035/api"
 postCommission(data: any): Observable<any> {
-  return this.http.post(`${this.apiUrl}/Authenticate/PostCommission`, data);
+  return this.http.post(`${this.baseUrl}/Authenticate/PostCommission`, data);
 }
 // setCommissionId(id:number){
 // this.storedCommissionId=id
@@ -26,18 +28,18 @@ postCommission(data: any): Observable<any> {
 
 //}
 getCommisions(){
-  return this.http.get<any>(`${this.apiUrl}/Authenticate/GetCommissions`)
+  return this.http.get<any>(`${this.baseUrl}/Authenticate/GetCommissions`)
 }
 getCommissionById(id: number): Observable<any> {
-  return this.http.get<any>(`${this.apiUrl}/Authenticate/GetCommissionById?id=${id}`);
+  return this.http.get<any>(`${this.baseUrl}/Authenticate/GetCommissionById?id=${id}`);
 }
 deleteCommission(id:number):Observable<any>{
-  return this.http.delete<any>(`${this.apiUrl}/Authenticate/DeleteCommission?id=${id}`);
+  return this.http.delete<any>(`${this.baseUrl}/Authenticate/DeleteCommission?id=${id}`);
 }
 updateCommission( data: any,id: number): Observable<any> {
   console.log("ggggggggggid",id, data);
   
-  return this.http.post<any>(`${this.apiUrl}/Authenticate/UpdateCommission?id=${id}`, data);
+  return this.http.post<any>(`${this.baseUrl}/Authenticate/UpdateCommission?id=${id}`, data);
 }
   constructor(private http: HttpClient, private supplierservice: SupplierService) { }
 }

@@ -1,33 +1,80 @@
 <h4 class="mb-3">Delivery Details</h4>
 <div class="d_htd_content bg-white mb-4">
-    <ul class="dev-dl-list">
-        <li>
-            <h5>Collection Details <span>(Residential Address)</span></h5>
-            <p>Collection Date:  <span>{{this.indexForm.collectionDate}}</span></p>
-            <p>Name:  <span>{{orderForm.pickupFirstName + ' ' + orderForm.pickupLastName}}</span></p>
-            <p>Address: <span>{{orderForm.pickupAddress1}}</span></p>
-            <p>Phone:  <span>{{orderForm.pickupPhone}}</span></p>
-            <p>Email:  <span>{{orderForm.pickupEmail}}</span></p>
-        </li>
-        <li>
-            <h5>Delivery Details <span>(Residential Address)</span></h5>
-            <p>Est Deluivery:  <span>{{estimatedDate}}</span></p>
-            <p>Name:  <span>{{orderForm.destinationFirstName + ' ' + orderForm.destinationLastName}}</span></p>
-            <p>Address: <span>{{orderForm.destinationAddress1}}</span></p>
-            <p>Phone:  <span>{{orderForm.destinationPhone}}</span></p>
-            <p>Email:  <span>{{orderForm.destinationEmail}}</span></p>
-        </li>
-        <li>
-            <h5>Service Provider</h5>
-            <p>Courier Name:  <span>{{getDataByIndex.courierName}}</span></p>
-            <p>Service Name:  <span>{{getDataByIndex.name}}</span></p>
-            <p>Estimated Transit Time:  <span>{{getDataByIndex.eta}}</span></p>
-            <p>Authority to Leave:  <span>Yes</span></p>
-            <p>Pickup Required:  <span>{{pickupRequired}}</span></p>
-        </li>
-    </ul>
+  <ul class="dev-dl-list">
+    <li>
+      <h5>Collection Details <span>(Residential Address)</span></h5>
+      <p>
+        Collection Date: <span>{{ this.indexForm.collectionDate }}</span>
+      </p>
+      <p>
+        Name:
+        <span>{{
+          orderForm.pickupFirstName + " " + orderForm.pickupLastName
+        }}</span>
+      </p>
+      <p>
+        Address: <span>{{ orderForm.pickupAddress1 }}</span>
+      </p>
+      <p>
+        Phone: <span>{{ orderForm.pickupPhone }}</span>
+      </p>
+      <p>
+        Email: <span>{{ orderForm.pickupEmail }}</span>
+      </p>
+    </li>
+    <li>
+      <h5>Delivery Details <span>(Residential Address)</span></h5>
+      <p>
+        Est Deluivery: <span>{{ estimatedDate }}</span>
+      </p>
+      <p>
+        Name:
+        <span>{{
+          orderForm.destinationFirstName + " " + orderForm.destinationLastName
+        }}</span>
+      </p>
+      <p>
+        Address: <span>{{ orderForm.destinationAddress1 }}</span>
+      </p>
+      <p>
+        Phone: <span>{{ orderForm.destinationPhone }}</span>
+      </p>
+      <p>
+        Email: <span>{{ orderForm.destinationEmail }}</span>
+      </p>
+    </li>
+    <li>
+      <h5>Service Provider</h5>
+      <p>
+        Courier Name: <span>{{ getDataByIndex.courierName }}</span>
+      </p>
+      <p>
+        Service Name: <span>{{ getDataByIndex.name }}</span>
+      </p>
+      <p>
+        Estimated Transit Time: <span>{{ getDataByIndex.eta }}</span>
+      </p>
+      <p>Authority to Leave: <span>Yes</span></p>
+      <p>
+        Pickup Required: <span>{{ pickupRequired }}</span>
+      </p>
+    </li>
+  </ul>
 </div>
-<div class="appl-cup mb-4">
-    <input type="text" class="apl-feild" placeholder="Voucher code?" />
-    <button type="submit" class="code-sub">Apply Voucher</button>
+<div class="appl-cup mb-4" *ngIf="payData">
+  <input
+    type="text"
+    class="apl-feild"
+    placeholder="Voucher code?"
+    [(ngModel)]="voucherCode"
+    [readonly]="removeEnable"
+  />
+
+  <button
+    type="submit"
+    [ngClass]="removeEnable ? 'btn btn-danger' : 'code-sub'"
+    (click)="removeEnable ? removeVoucherCode() : getPromotionCode()"
+  >
+    {{ removeEnable ? "Remove Voucher" : "Apply Voucher" }}
+  </button>
 </div>

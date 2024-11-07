@@ -21,12 +21,22 @@ export const ALL_ROUTES: Routes = [
     loadChildren: () =>
       import('../../supplier/supplier.module').then((m) => m.SupplierModule),
   },
-
+  {
+    path: 'trackOrder',
+    loadChildren: () =>
+      import('../track-order-ui/track-order-ui.module').then((m) => m.TrackOrderUIModule),
+  },
+  {
+    path: 'cancellation',
+    loadChildren: () =>
+      import('../cancellation/cancellation.module').then((m) => m.CancellationModule),
+  },
   {
     path: 'profile',
     loadChildren: () =>
       import('../../profile/profile.module').then((m) => m.ProfileModule),
   },
+ 
   {
     path: 'order',
     loadChildren: () =>
@@ -80,6 +90,13 @@ export const ALL_ROUTES: Routes = [
       import(
         '../../Customer-Panel/payment-methods/payment-methods.module'
       ).then((m) => m.PaymentMethodsModule),
+  },
+  {
+    path: 'paymentsummary',
+    loadChildren: () =>
+      import(
+        '../payment-summary/payment-summary.module'
+      ).then((m) => m.PaymentSummaryModule),
   },
 
   {

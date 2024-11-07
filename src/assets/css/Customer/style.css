@@ -222,6 +222,7 @@ label {
 
 .btn_flx>a:not(:last-child) {
     margin-right: 22px;
+    text-decoration: none;
 }
 
 .btn_flx>a>img {

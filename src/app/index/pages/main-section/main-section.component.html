@@ -58,255 +58,592 @@
               </label>
             </div>
 
-            <div class="row">
-              <div class="col-md-4 col-xl-4" *ngIf="isInternational">
-                <div class="inp-group">
-                  <div for="">
-                    <label>From</label>
-                    <div class="sel-prt">
-                      <select
-                        name="fromCountry"
-                        id="fromCountry"
-                        #selectElement
-                        [(ngModel)]="selectedCountryCode"
-                        [ngModelOptions]="{ standalone: true }"
-                        (ngModelChange)="selectCountryToFetchCode($event)"
-                        [disabled]="!isInternational"
-                      >
-                        <option value="" disabled selected>
-                          Select a country
-                        </option>
-                        <option *ngFor="let country of Countries">
-                          {{ country.countryName }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-5 col-xl-4">
-                <div class="inp-group">
-                  <label for="">Pickup Suburb/Postcode </label>
-                  <div class="search-container">
-                    <input
-                      type="text"
-                      name="searchInputOne"
-                      id="searchInputOne"
-                      [(ngModel)]="searchTextOne"
-                      (input)="getInputValue($event, 'one')"
-                      placeholder="Search Suburb"
-                      class="formControl"
-                      formControlName="fromSuburb"
-                    />
-                    <div
-                      class="text-danger"
-                      *ngIf="
-                        (userForm.controls['fromSuburb'].touched ||
-                          userForm.controls['fromSuburb'].dirty) &&
-                        userForm.controls['fromSuburb'].invalid
-                      "
-                    >
-                      <small> Please select the pickup suburb.</small>
-                    </div>
-                    <i
-                      class="bi bi-x-circle close-icon"
-                      *ngIf="searchTextOne && isShowDropdownOne"
-                      (click)="clearSearch('one')"
-                    ></i>
-                    <!-- <div *ngIf="userForm?.get('toSuburb')?.hasError('required')">
-                      <small class="error">Please select the destination suburb.</small>
-                    </div> -->
+            <div class="tab_items">
+<div class="tab_1" *ngIf="isInternational">
+  <div class="row">
+    <div class="col-md-4 col-xl-6"   >
+      <div class="inp-group">
+        <div for="">
+          <label>From</label>
+          <div class="sel-prt">
+            <select
+              name="fromCountry"
+              id="fromCountry"
+              #selectElement
+              [(ngModel)]="selectedCountryCode"
+              [ngModelOptions]="{ standalone: true }"
+              (ngModelChange)="selectCountryToFetchCode($event)"
+              [disabled]="!isInternational"
+            >
+              <option value="" disabled selected>
+                Select a country
+              </option>
+              <option *ngFor="let country of Countries">
+                {{ country.countryName }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-6"  >
+      <div class="inp-group">
+        <label for="" [style.opacity]="isInternational ? 1 : 0"
+          >To</label
+        >
+        <div class="sel-prt">
+          <select
+            id="countryDropdown"
+            (change)="updateCountryCode($event)"
+            [disabled]="!isInternational"
+          >
+            <option
+              *ngFor="let country of Countries"
+              [value]="country.code"
+            >
+              {{ country.countryName }}
+            </option>
+            <input type="text" name="" id="" />
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5 col-xl-6">
+      <div class="inp-group">
+        <label for="">Pickup Suburb/Postcode1 </label>
+        <div class="search-container">
+          <input
+            type="text"
+            name="searchInputOne"
+            id="searchInputOne"
+            [(ngModel)]="searchTextOne"
+            (input)="getInputValue($event, 'one')"
+            placeholder="Search Suburb"
+            class="formControl"
+            formControlName="fromSuburb"
+          />
+          <div
+            class="text-danger"
+            *ngIf="
+              (userForm.controls['fromSuburb'].touched ||
+                userForm.controls['fromSuburb'].dirty) &&
+              userForm.controls['fromSuburb'].invalid
+            "
+          >
+            <small> Please select the pickup suburb.</small>
+          </div>
+          <i
+            class="bi bi-x-circle close-icon"
+            *ngIf="searchTextOne && isShowDropdownOne"
+            (click)="clearSearch('one')"
+          ></i>
+          <!-- <div *ngIf="userForm?.get('toSuburb')?.hasError('required')">
+            <small class="error">Please select the destination suburb.</small>
+          </div> -->
 
-                    <!-- Dropdown list of suggestions for the first input -->
-                    <ul
-                      *ngIf="isShowDropdownOne && filteredSuburbsOne.length > 0"
-                      class="dropdown-list"
-                    >
-                      <li
-                        *ngFor="let element of filteredSuburbsOne"
-                        (click)="selectSuburb(element, 'one')"
-                      >
-                        {{
-                          element.name +
-                            " " +
-                            element.state +
-                            " " +
-                            element.postcode
-                        }}
-                      </li>
-                    </ul>
-                    <div *ngIf="isLoadingOne" class="loader"></div>
-                  </div>
-                </div>
-              </div>
+          <!-- Dropdown list of suggestions for the first input -->
+          <ul
+            *ngIf="isShowDropdownOne && filteredSuburbsOne.length > 0"
+            class="dropdown-list"
+          >
+            <li
+              *ngFor="let element of filteredSuburbsOne"
+              (click)="selectSuburb(element, 'one')"
+            >
+              {{
+                element.name +
+                  " " +
+                  element.state +
+                  " " +
+                  element.postcode
+              }}
+            </li>
+          </ul>
+          <div *ngIf="isLoadingOne" class="loader"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-6">
+      <div class="inp-group">
+        <label for="">Destination Suburb/Postcode</label>
+        <div class="search-container">
+          <input
+            type="text"
+            name="searchInputTwo"
+            id="searchInputTwo"
+            [(ngModel)]="searchTextTwo"
+            (input)="getInputValue($event, 'two')"
+            placeholder="Search Suburb"
+            class="formControl"
+            formControlName="toSuburb"
+          />
+          <div
+            class="text-danger"
+            *ngIf="
+              (userForm.controls['toSuburb'].touched ||
+                userForm.controls['toSuburb'].dirty) &&
+              userForm.controls['toSuburb'].invalid
+            "
+          >
+            <small> Please select the pickup suburb.</small>
+          </div>
+          <i
+            class="bi bi-x-circle close-icon"
+            *ngIf="searchTextTwo && isShowDropdownTwo"
+            (click)="clearSearch('two')"
+          ></i>
+          <!-- Dropdown list of suggestions for the second input -->
+          <!-- <div *ngIf="userForm?.get('fromSuburb')?.hasError('required')">
+            <small class="error">Please select the pickup suburb.</small>
+          </div> -->
 
-              <div class="col-md-6 col-xl-4" *ngIf="isInternational">
-                <div class="inp-group">
-                  <label for="" [style.opacity]="isInternational ? 1 : 0"
-                    >To</label
-                  >
-                  <div class="sel-prt">
-                    <select
-                      id="countryDropdown"
-                      (change)="updateCountryCode($event)"
-                      [disabled]="!isInternational"
-                    >
-                      <option
-                        *ngFor="let country of Countries"
-                        [value]="country.code"
-                      >
-                        {{ country.countryName }}
-                      </option>
-                      <input type="text" name="" id="" />
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-xl-4">
-                <div class="inp-group">
-                  <label for="">Destination Suburb/Postcode</label>
-                  <div class="search-container">
-                    <input
-                      type="text"
-                      name="searchInputTwo"
-                      id="searchInputTwo"
-                      [(ngModel)]="searchTextTwo"
-                      (input)="getInputValue($event, 'two')"
-                      placeholder="Search Suburb"
-                      class="formControl"
-                      formControlName="toSuburb"
-                    />
-                    <div
-                      class="text-danger"
-                      *ngIf="
-                        (userForm.controls['toSuburb'].touched ||
-                          userForm.controls['toSuburb'].dirty) &&
-                        userForm.controls['toSuburb'].invalid
-                      "
-                    >
-                      <small> Please select the pickup suburb.</small>
-                    </div>
-                    <i
-                      class="bi bi-x-circle close-icon"
-                      *ngIf="searchTextTwo && isShowDropdownTwo"
-                      (click)="clearSearch('two')"
-                    ></i>
-                    <!-- Dropdown list of suggestions for the second input -->
-                    <!-- <div *ngIf="userForm?.get('fromSuburb')?.hasError('required')">
-                      <small class="error">Please select the pickup suburb.</small>
-                    </div> -->
+          <ul
+            *ngIf="isShowDropdownTwo && filteredSuburbsTwo.length > 0"
+            class="dropdown-list"
+          >
+            <li
+              *ngFor="let element of filteredSuburbsTwo"
+              (click)="selectSuburb(element, 'two')"
+            >
+              {{
+                element.name +
+                  " " +
+                  element.state +
+                  " " +
+                  element.postcode
+              }}
+            </li>
+          </ul>
+          <div *ngIf="isLoadingTwo" class="loader"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-6">
+      <label >Pickup Building type</label>
+      <div class="inp-group">
+        <label class="custom_radiobtn">
+          Commercial
+          <input
+            type="radio"
+            value="commercial"
+            name="displayOption"
+            (change)="postRadioValue(true)"
+            checked
+          />
+          <span class="check_radio"></span>
+        </label>
+        <label class="custom_radiobtn">
+          Residential
+          <input
+            type="radio"
+            value="resedential"
+            name="displayOption"
+            (change)="postRadioValue(false)"
+          />
+          <span class="check_radio"></span>
+        </label>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label class="">Building type</label>
+      <div class="inp-group">
+        <label class="custom_radiobtn">
+          Commercial
+          <input
+            type="radio"
+            value="commercial"
+            name="displayOption1"
+            (change)="destinationRadioValue(true)"
+            checked
+          />
+          <span class="check_radio"></span>
+        </label>
+        <label class="custom_radiobtn">
+          Residential
+          <input
+            type="radio"
+            value="resedential"
+            name="displayOption1"
+            (change)="destinationRadioValue(false)"
+          />
+          <span class="check_radio"></span>
+        </label>
+      </div>
+    </div>
 
-                    <ul
-                      *ngIf="isShowDropdownTwo && filteredSuburbsTwo.length > 0"
-                      class="dropdown-list"
-                    >
-                      <li
-                        *ngFor="let element of filteredSuburbsTwo"
-                        (click)="selectSuburb(element, 'two')"
-                      >
-                        {{
-                          element.name +
-                            " " +
-                            element.state +
-                            " " +
-                            element.postcode
-                        }}
-                      </li>
-                    </ul>
-                    <div *ngIf="isLoadingTwo" class="loader"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-3 col-xl-4">
-                <div class="inp-group">
-                  <label for="collection">Collection Date</label>
-                  <input
-                    type="date"
-                    id="birthday"
-                    name="birthday"
-                    formControlName="collectionDate"
-                    [min]="minDate"
-                    class="border bg-datePic"
-                  />
-                  <!-- <div *ngIf="userForm?.get('collectionDate')?.hasError('required')">
-                    <small class="error">Please select the collection date.</small>
-                  </div> -->
-                  <div
-                    class="text-danger"
-                    *ngIf="
-                      (userForm.controls['collectionDate'].touched ||
-                        userForm.controls['collectionDate'].dirty) &&
-                      userForm.controls['collectionDate'].invalid
-                    "
-                  >
-                    <small> Please select the pickup suburb.</small>
-                  </div>
-                </div>
-              </div>
-              <!-- <div class="form-check commission-space col-md-4 col-xl-4">
-                <input class="form-check-input form_checkbg" type="radio" name="displayOption" checked  >
-                <label class="form-check-label fw-bold mb-0" >Resedential</label>
-              </div>
-              <div class="form-check commission-space col-md-4 col-xl-4">
-                <input class="form-check-input form_checkbg" type="radio" name="displayOption"  >
-                <label class="form-check-label fw-bold mb-0" >Commercial</label>
-              </div> -->
+    <div class="col-md-6">
+      <label class="mb-0">Pick Up options</label>
+      <div class="ship-sum-col w-full mb-3">
+        <div class="couriers-wtxt d-flex align-items-center mt-4">
+          <div class="content">
+            <label class="switch m5">
+              <input
+                type="checkbox"
+                checked=""
+                (change)="pickupTail($event)"
+              />
+              <small></small>
+            </label>
+          </div>
+          <div class="only_courierstxt mx-2">
+            <p class="mb-0">Tail Lift <span><svg width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 2.2a10.3 10.3 0 1 0 10.3 10.3A10.299 10.299 0 0 0 12.5 2.2zm0 3.3a1 1 0 1 1-1 1 1.002 1.002 0 0 1 1-1zM14 19h-3v-1h1v-8h-1V9h2v9h1z" style="
+              fill: #00B0EA;
+          "/><path fill="none" d="M0 0h24v24H0z"/></svg></span></p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+     <div>
+      <label  class="mb-0">Delivery options</label>
+      <div class="ship-sum-col w-full mb-3">
+        <div class="couriers-wtxt d-flex align-items-center mt-4">
+          
+          <div class="content">
+            <label class="switch m5">
+              <input
+                type="checkbox"
+                checked=""
+                (change)="deliveryTail($event)"
+              />
+              <small></small>
+            </label>
+           
+  
+          </div>
+          <div class="only_courierstxt mx-2">
+            <p class="mb-0">Tail Lift <span><svg width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 2.2a10.3 10.3 0 1 0 10.3 10.3A10.299 10.299 0 0 0 12.5 2.2zm0 3.3a1 1 0 1 1-1 1 1.002 1.002 0 0 1 1-1zM14 19h-3v-1h1v-8h-1V9h2v9h1z" style="
+              fill: #00B0EA;
+          "/><path fill="none" d="M0 0h24v24H0z"/></svg></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <div class="ship-sum-col w-full mb-3">
+          <div class="couriers-wtxt d-flex align-items-center mt-4">
+            
+            <div class="content">
+              <label class="switch m5">
+                <input
+                  type="checkbox"
+                  checked=""
+                  (change)="deliveryPoBox($event)"
+                />
+                <small></small>
+              </label>
             </div>
-            <div class="row">
-              <div class="col-md-4 col-xl-4">
-                <div class="inp-group">
-                  <label class="custom_radiobtn">
-                    Commercial
-                    <input
-                      type="radio"
-                      value="commercial"
-                      name="displayOption"
-                      (change)="postRadioValue(true)"
-                      checked
-                    />
-                    <span class="check_radio"></span>
-                  </label>
-                  <label class="custom_radiobtn">
-                    Residential
-                    <input
-                      type="radio"
-                      value="resedential"
-                      name="displayOption"
-                      (change)="postRadioValue(false)"
-                    />
-                    <span class="check_radio"></span>
-                  </label>
-                </div>
-              </div>
+            <div class="only_courierstxt mx-2">
+              <p class="mb-0">PO Box <span><svg width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 2.2a10.3 10.3 0 1 0 10.3 10.3A10.299 10.299 0 0 0 12.5 2.2zm0 3.3a1 1 0 1 1-1 1 1.002 1.002 0 0 1 1-1zM14 19h-3v-1h1v-8h-1V9h2v9h1z" style="
+                fill: #00B0EA;
+            "/><path fill="none" d="M0 0h24v24H0z"/></svg></span></p>
+            </div>
+          </div>
+        </div>
+      
+    </div>
+
+  </div>
+</div>
+<div class="tab_2" *ngIf="!isInternational">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="inp-group">
+        <label for="">Pickup Suburb/Postcode1 </label>
+        <div class="search-container">
+          <input
+            type="text"
+            name="searchInputOne"
+            id="searchInputOne"
+            [(ngModel)]="searchTextOne"
+            (input)="getInputValue($event, 'one')"
+            placeholder="Search Suburb"
+            class="formControl"
+            formControlName="fromSuburb"
+          />
+          <div
+            class="text-danger"
+            *ngIf="
+              (userForm.controls['fromSuburb'].touched ||
+                userForm.controls['fromSuburb'].dirty) &&
+              userForm.controls['fromSuburb'].invalid
+            "
+          >
+            <small> Please select the pickup suburb.</small>
+          </div>
+          <i
+            class="bi bi-x-circle close-icon"
+            *ngIf="searchTextOne && isShowDropdownOne"
+            (click)="clearSearch('one')"
+          ></i>
+          <!-- <div *ngIf="userForm?.get('toSuburb')?.hasError('required')">
+            <small class="error">Please select the destination suburb.</small>
+          </div> -->
+
+          <!-- Dropdown list of suggestions for the first input -->
+          <ul
+            *ngIf="isShowDropdownOne && filteredSuburbsOne.length > 0"
+            class="dropdown-list"
+          >
+            <li
+              *ngFor="let element of filteredSuburbsOne"
+              (click)="selectSuburb(element, 'one')"
+            >
+              {{
+                element.name +
+                  " " +
+                  element.state +
+                  " " +
+                  element.postcode
+              }}
+            </li>
+          </ul>
+          <div *ngIf="isLoadingOne" class="loader"></div>
+        </div>
+      </div>
+      <div class="">
+        <label >Pickup Building type</label>
+        <div class="inp-group">
+          <label class="custom_radiobtn">
+            Commercial
+            <input
+              type="radio"
+              value="commercial"
+              name="displayOption"
+              (change)="postRadioValue(true)"
+              checked
+            />
+            <span class="check_radio"></span>
+          </label>
+          <label class="custom_radiobtn">
+            Residential
+            <input
+              type="radio"
+              value="resedential"
+              name="displayOption"
+              (change)="postRadioValue(false)"
+            />
+            <span class="check_radio"></span>
+          </label>
+        </div>
+      </div>
+      <div class="pickup_items">
+        <label  class="mb-0">Pick Up options</label>
+        <div class="ship-sum-col w-full mb-3">
+          <div class="couriers-wtxt d-flex align-items-center mt-2">
+            
+            <div class="content">
+              <label class="switch m5">
+                <input
+                  type="checkbox"
+                  checked=""
+                  (change)="pickupTail($event)"
+                />
+                <small></small>
+              </label>
+              
+            </div>
+            <div class="only_courierstxt mx-2">
+              <p class="mb-0">Tail Lift <span><svg data-bs-toggle="modal"
+                data-bs-target="#track_modal" (click)="displayTailInfo()" width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 2.2a10.3 10.3 0 1 0 10.3 10.3A10.299 10.299 0 0 0 12.5 2.2zm0 3.3a1 1 0 1 1-1 1 1.002 1.002 0 0 1 1-1zM14 19h-3v-1h1v-8h-1V9h2v9h1z" style="
+                fill: #00B0EA;
+            "/><path fill="none" d="M0 0h24v24H0z"/></svg></span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="inp-group">
+        <label for="">Destination Suburb/Postcode</label>
+        <div class="search-container">
+          <input
+            type="text"
+            name="searchInputTwo"
+            id="searchInputTwo"
+            [(ngModel)]="searchTextTwo"
+            (input)="getInputValue($event, 'two')"
+            placeholder="Search Suburb"
+            class="formControl"
+            formControlName="toSuburb"
+          />
+          <div
+            class="text-danger"
+            *ngIf="
+              (userForm.controls['toSuburb'].touched ||
+                userForm.controls['toSuburb'].dirty) &&
+              userForm.controls['toSuburb'].invalid
+            "
+          >
+            <small> Please select the pickup suburb.</small>
+          </div>
+          <i
+            class="bi bi-x-circle close-icon"
+            *ngIf="searchTextTwo && isShowDropdownTwo"
+            (click)="clearSearch('two')"
+          ></i>
+          <!-- Dropdown list of suggestions for the second input -->
+          <!-- <div *ngIf="userForm?.get('fromSuburb')?.hasError('required')">
+            <small class="error">Please select the pickup suburb.</small>
+          </div> -->
+
+          <ul
+            *ngIf="isShowDropdownTwo && filteredSuburbsTwo.length > 0"
+            class="dropdown-list"
+          >
+            <li
+              *ngFor="let element of filteredSuburbsTwo"
+              (click)="selectSuburb(element, 'two')"
+            >
+              {{
+                element.name +
+                  " " +
+                  element.state +
+                  " " +
+                  element.postcode
+              }}
+            </li>
+          </ul>
+          <div *ngIf="isLoadingTwo" class="loader"></div>
+        </div>
+      </div>
+      <div class="building_items">
+        <label class="">Building type</label>
+        <div class="inp-group">
+          <label class="custom_radiobtn">
+            Commercial
+            <input
+              type="radio"
+              value="commercial"
+              name="displayOption1"
+              (change)="destinationRadioValue(true)"
+              checked
+            />
+            <span class="check_radio"></span>
+          </label>
+          <label class="custom_radiobtn">
+            Residential
+            <input
+              type="radio"
+              value="resedential"
+              name="displayOption1"
+              (change)="destinationRadioValue(false)"
+            />
+            <span class="check_radio"></span>
+          </label>
+        </div>
+      </div>
+      <div class="Delivery_items">
+        <label class="mb-0">Delivery options</label>
+        <div class="d-flex gap-2">
+        <div class="ship-sum-col mb-3 shiper_wth">
+          <div class="couriers-wtxt d-flex align-items-center mt-2">
+           
+            <div class="content">
+              <label class="switch m5">
+                <input
+                  type="checkbox"
+                  checked=""
+                  (change)="deliveryTail($event)"
+                />
+                <small></small>
+              </label>
+            </div>
+            <div class="only_courierstxt mx-2">
+              <p class="mb-0">Tail Lift <span><svg data-bs-toggle="modal"
+                data-bs-target="#track_modal" (click)="displayTailInfo()" width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 2.2a10.3 10.3 0 1 0 10.3 10.3A10.299 10.299 0 0 0 12.5 2.2zm0 3.3a1 1 0 1 1-1 1 1.002 1.002 0 0 1 1-1zM14 19h-3v-1h1v-8h-1V9h2v9h1z" style="
+                fill: #00B0EA;
+            "/><path fill="none" d="M0 0h24v24H0z"/></svg></span></p>
+            </div>
+          </div>
+        </div>
+        <div class="ship-sum-col  mb-3 shiper_wth">
+          <div class="couriers-wtxt d-flex align-items-center mt-2 ms-3">
+           
+            <div class="content">
+              <label class="switch m5">
+                <input
+                  type="checkbox"
+                  checked=""
+                  (change)="deliveryPoBox($event)"
+                />
+                <small></small>
+              </label>
+            </div>
+            <div class="only_courierstxt me-2">
+              <p class="mb-0">PO Box <span><svg data-bs-toggle="modal"
+                data-bs-target="#track_modal" (click)=" displayPoInfo()" width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 2.2a10.3 10.3 0 1 0 10.3 10.3A10.299 10.299 0 0 0 12.5 2.2zm0 3.3a1 1 0 1 1-1 1 1.002 1.002 0 0 1 1-1zM14 19h-3v-1h1v-8h-1V9h2v9h1z" style="
+                fill: #00B0EA;
+            "/><path fill="none" d="M0 0h24v24H0z"/></svg></span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+  
+    </div>
+    <div class="col-md-4">
+      <div class="inp-group">
+        <label for="collection">Collection Date</label>
+        <input
+          type="date"
+          id="birthday"
+          name="birthday"
+          formControlName="collectionDate"
+          [min]="minDate"
+          class="border bg-datePic"
+        />
+      
+        <div
+          class="text-danger"
+          *ngIf="
+            (userForm.controls['collectionDate'].touched ||
+              userForm.controls['collectionDate'].dirty) &&
+            userForm.controls['collectionDate'].invalid
+          "
+        >
+          <small> Please select the pickup suburb.</small>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <div class="">
+
+
+      
+    </div>
+
+  </div>
+</div>
+
+              
             </div>
 
             <div class="row">
+
+      
+             </div>
+
+            <div class="row packing_items">
+              
               <div formArrayName="items">
                 <div
                   *ngFor="let item of items.controls; let i = index"
                   [formGroupName]="i"
                   class="row"
                 >
-                  <!-- <div class="col-md-4 col-xl-2">
-                    <div class="inp-group">
-                      <label for="" >Item Type</label>
-                      <div class="sel-prt">
-                        <select formControlName="contents" name="" id="" >
-                          <option value="" disabled selected>
-                           other
-                          </option>
-                          <option>other</option> 
-                           <option
-                            *ngFor="let content of ContentList"
-                            [value]="content"
-                          >
-                            {{ content }}
-                          </option> 
-                        </select>
-                      </div>
-                    </div>
-                  </div>  -->
-                  <div class="col-md-4 col-xl-2 customInp">
+                <div class="col-12">
+                  <h3 class="title_packaging">Packaging Details</h3>
+                  </div>
+                
+                  <div class="col-md-6 col-xl-2 ">
                     <div class="inp-group">
                       <label for="weight">Weight (kg)</label>
                       <input
@@ -331,25 +668,9 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="col-md-4 col-xl-2 customInp">
-                    <div class="inp-group">
-                      <label for="quantitys">Quantity (cm)</label>
-                      <input
-                      placeholder="quantity"
-                        type="text"
-                        formControlName="quantitys"
-                        id="quantitys"
-                        min="1"
-                        max="200" 
-                        step="1"
-                      />
-                      <div class="text-danger" *ngIf="(item.get('quantitys')?.touched || item.get('quantitys')?.dirty) && item.get('quantitys')?.invalid">
-                        <small>Please enter  quantity.</small>
-                                              </div>
-                    </div>
-                  </div> -->
+                 
 
-                  <div class="col-md-4 col-xl-2 customInp">
+                  <div class="col-md-6 col-xl-2">
                     <div class="inp-group">
                       <label for="length">Length (cm)</label>
                       <input
@@ -373,7 +694,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-4 col-xl-2 customInp">
+                  <div class="col-md-6 col-xl-2">
                     <div class="inp-group">
                       <label for="width">Width (cm)</label>
                       <input
@@ -397,7 +718,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-4 col-xl-2 customInp">
+                  <div class="col-md-6 col-xl-2">
                     <div class="inp-group">
                       <label for="height">Height (cm)</label>
                       <input
@@ -421,7 +742,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-4 col-xl-2 customInp">
+                  <div class="col-md-6 col-xl-2">
                     <div class="inp-group">
                       <label for="quantity">Quantity</label>
                       <input
@@ -446,7 +767,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-4 col-xl-2">
+                  <div class="col-md-6 col-xl-2">
                     <div class="inp-group">
                       <label for="">Package Type</label>
                       <div class="sel-prt">
@@ -602,13 +923,48 @@
           </p>
         </div>
         <div id="Track" class="main_tabcontent">
-          <h3>Track</h3>
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio aut
-            quod aliquam quas quis, non officia nesciunt accusamus, commodi
-            optio animi aperiam ratione itaque quibusdam? Dolorum nesciunt natus
-            fuga quisquam.
-          </p>
+          <form [formGroup]="trackForm">
+            <h3>Track</h3>
+            <!-- <p>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odio aut
+              quod aliquam quas quis, non officia nesciunt accusamus, commodi
+              optio animi aperiam ratione itaque quibusdam? Dolorum nesciunt natus
+              fuga quisquam.
+            </p> -->
+            <div class="inp-group">
+              <label for="">Order id</label>
+              <input
+                type="text"
+                name=""
+                id=""
+                formControlName="orderId"
+                placeholder="Enter order id"
+              />
+              <div
+                class="text-danger"
+                *ngIf="
+                  (trackForm.controls['orderId'].touched ||
+                    trackForm.controls['orderId'].dirty) &&
+                  trackForm.controls['orderId'].invalid
+                "
+              >
+                <small>
+                  You need to enter the order id to view order status.</small
+                >
+              </div>
+            </div>
+
+            <div class="btn-spcprofile">
+              <a
+                class="btn_authenticate"
+                data-bs-toggle="modal"
+                data-bs-target="#track_modal"
+                (click)="trackOrder()"
+                >View</a
+              >
+              <a href="javascript:void(0)" class="btn-cancelation">Cancel</a>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -1063,3 +1419,117 @@
   </div>
 </section>
 <!-- Signup Section End -->
+<div
+  class="modal fade"
+  id="track_modal"
+  tabindex="-1"
+  aria-labelledby="editModalLabel"
+  aria-hidden="true"
+  #track_modal
+>
+  <div class="modal-dialog modal-commissionsz">
+    <div class="modal-body" style="transform: translateY(90%)">
+      <div *ngIf="errorMessage" class="brutalist-card">
+        <div class="brutalist-card__header">
+          <div class="brutalist-card__icon">
+            <svg
+              *ngIf="errorMessage"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+              />
+            </svg>
+          </div>
+
+          <div class="brutalist-card__alert">Oops!</div>
+        </div>
+        <div class="brutalist-card__message">
+          {{ errorMessage }}
+        </div>
+        <div class="brutalist-card__actions">
+          <a
+            class="brutalist-card__button brutalist-card__button--mark"
+            style="color: white"
+          >
+            Okay
+          </a>
+        </div>
+      </div>
+      <div *ngIf="successMessage" class="brutalist-card">
+        <div class="brutalist-card__header">
+          <div class="image">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M20 7L9.00004 18L3.99994 13"
+                  stroke="#000000"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </g>
+            </svg>
+          </div>
+
+          <div class="brutalist-card__alert">Success</div>
+        </div>
+        <div class="brutalist-card__message">Order is valid</div>
+        <div class="brutalist-card__actions">
+          <a
+            class="success-card__button brutalist-card__button--mark"
+            style="color: white"
+          >
+            Okay
+          </a>
+        </div>
+      </div>
+      <div *ngIf="tailInfo" class="brutalist-card">
+        <div class="brutalist-card__header">
+         
+
+          <div class="brutalist-card__alert">Tail Lift</div>
+        </div>
+        <div class="brutalist-card__message">You require a truck with Tail Lift functionality</div>
+        <div class="brutalist-card__actions">
+          <a
+            
+            
+            class="btn btn-danger"
+          >
+            Close
+          </a>
+        </div>
+      </div>
+      <div *ngIf="poInfo" class="brutalist-card">
+        <div class="brutalist-card__header">
+         
+
+          <div class="brutalist-card__alert">PO Box</div>
+        </div>
+        <div class="brutalist-card__message">Only StarTrack & Auspost deliver to PO Boxes so you will only be served with quotes from these carriers. All other carriers only deliver to residential/commerical full addresses.
+        </div>
+        <div class="brutalist-card__actions">
+          <a
+            
+            
+            class="btn btn-danger"
+          >
+            Close
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

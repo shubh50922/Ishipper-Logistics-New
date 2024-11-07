@@ -8,6 +8,11 @@ import { CoreService } from './services/core.service';
 import { LoaderComponent } from './loader/loader.component';
 import { CustomerLayoutComponent } from './layout/customer-layout/customer-layout.component';
 import { InnerLoaderComponent } from './inner-loader/inner-loader.component';
+import { PayLoaderComponent } from './pay-loader/pay-loader.component';
+import { ReactiveFormsModule,FormsModule } from '@angular/forms';
+import { TrackshipmentComponent } from './trackOrderUI/trackshipment/trackshipment.component';
+import { DialogueboxComponent } from './dialoguebox/dialoguebox.component';
+
 
 
 @NgModule({
@@ -19,19 +24,26 @@ import { InnerLoaderComponent } from './inner-loader/inner-loader.component';
     ProjectLayoutComponent,
     CustomerLayoutComponent,
     InnerLoaderComponent,
+    PayLoaderComponent,
+    TrackshipmentComponent,
+    DialogueboxComponent,
     
+   
+   
   
     
   ],
   imports: [
     CommonModule,
     CoreRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,FormsModule
 
   ],
   exports: [
     LoaderComponent,
-    InnerLoaderComponent
+    InnerLoaderComponent,
+    PayLoaderComponent
     
   ]
 })

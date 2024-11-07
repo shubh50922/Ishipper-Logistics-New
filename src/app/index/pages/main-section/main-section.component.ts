@@ -10,24 +10,30 @@ import {
   FormArray,
   FormBuilder,
   Validators,
-
   AbstractControl,
 } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { HotToastService } from '@ngneat/hot-toast';
+import { TrackOrderService } from 'src/app/core/services/track-order.service';
 @Component({
   selector: 'app-main-section',
   templateUrl: './main-section.component.html',
   styleUrls: ['./main-section.component.css'],
 })
 export class MainSectionComponent implements OnInit {
-  fastCourierQuotes!:any[]
+  fastCourierQuotes!: any[];
+  errorMessage: any;
+  trackForm!: FormGroup;
+  viewOrders: any;
+  trackOrderResponse: any;
   isLoading: boolean = false;
   Countries!: any[];
   ContentList: any[] = [];
   isInternational: boolean = true;
-  isResedential:boolean=false
-  isCommercial: boolean = true;
+  isPickupResedential: boolean = false;
+  isDestinationResedential: boolean = false;
+  isPickupCommercial: boolean = true;
+  isDestinationCommercial: boolean = true;
   selectedCountry: string = '';
   selectedOption: string = '';
   selectedCountryCode: string = ''; // Declare and initialize the variable
@@ -58,9 +64,12 @@ export class MainSectionComponent implements OnInit {
   GetRes: boolean = true;
   packagingType!: any[];
   today!: string;
-  
-
-   
+  tailInfo:boolean=false
+poInfo:boolean=false
+  successMessage: boolean = false;
+pTail:boolean=false
+dTail:boolean=false
+dBox:boolean=false
   weightType!: any[];
   minDate!: string;
   getWeights!: string;
@@ -78,7 +87,8 @@ export class MainSectionComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private authService: AuthService,
     private toast: HotToastService,
-    private router: Router
+    private router: Router,
+    private trackOrderService: TrackOrderService
   ) {}
   clearSearch(field: string): void {
     if (field === 'one') {
@@ -89,112 +99,59 @@ export class MainSectionComponent implements OnInit {
       this.isShowDropdownTwo = false; // Hide the dropdown for the second input
     }
   }
-  getDAte(){
-    const changeDate=this.userForm.get('collectionDate')?.value
-console.log("date",changeDate);
-
+  getDAte() {
+    const changeDate = this.userForm.get('collectionDate')?.value;
+    console.log('date', changeDate);
   }
   ngOnInit(): void {
+    this.trackForm = this.fb.group({
+      orderId: ['', Validators.required],
+    });
     const today = new Date();
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, '0');
     const day = today.getDate().toString().padStart(2, '0');
     this.minDate = `${year}-${month}-${day}`;
-   
+
     // console.log('calender date disable', this.minDate);
     this.getUserId();
     this.getCountryInDropdown();
-    
-    this.getPackagingTypeDropdown();
-    // this.onDomesticClick()
-    // this.userForm = new FormGroup({
-    //   pickupSuburb: new FormControl('BRUNSWICK'),
-    //   pickupState: new FormControl('WA'),
-    //   pickupPostcode: new FormControl('6224'),
-    //   pickupBuildingType: new FormControl('commercial'),
-    //   isPickupTailLift: new FormControl(false),
-    //   destinationSuburb: new FormControl('THE UNIVERSITY OF SYDNEY'),
-    //   destinationState: new FormControl('NSW'),
-    //   destinationPostcode: new FormControl('2006'),
-    //   destinationBuildingType: new FormControl('residential'),
-    //   isDropOffTailLift: new FormControl(false),
-    //   isDropOffPOBox: new FormControl(false),
-    //   items: new FormArray([ this.createItem()]),
-    // });
 
-    // this.userForm = this.fb.group({
-    //   pickupSuburb: [''],
-    //   collection: ['collection'],
-    //   pickupState: [''],
-    //   pickupPostcode: [''],
-    //   pickupBuildingType: ['commercial'],
-    //   isPickupTailLift: [false],
-    //   destinationSuburb: [''],
-    //   destinationState: [''],
-    //   destinationPostcode: [''],
-    //   destinationBuildingType: ['residential'],
-    //   isDropOffTailLift: [false],
-    //   isDropOffPOBox: [false],
-    //   items: this.fb.array([]),
-    // });
+    this.getPackagingTypeDropdown();
+    
     this.userForm = this.fb.group({
-      fromSuburb: ['',Validators.required],
-      fromCode: ['',Validators.required],
-      fromState: ['',Validators.required],
-      toSuburb: ['',Validators.required],
-      toCode: ['',Validators.required],
-      toState: ['',Validators.required],
-      countryCode: ['AU',Validators.required],
-      itemType: ['other',Validators.required],
-      weightType: ['kg',Validators.required],
-      weights: ['',Validators.required],
-      lengths: ['',Validators.required],
-      heights: ['',Validators.required],
-      widths: ['',Validators.required],
-      dimensionUnits: ['in',Validators.required],
-      packageType: ['other',Validators.required],
-      contents: ['other',Validators.required],
-      collectionDate: ['',Validators.required],
+      fromSuburb: ['', Validators.required],
+      fromCode: ['', Validators.required],
+      fromState: ['', Validators.required],
+      toSuburb: ['', Validators.required],
+      toCode: ['', Validators.required],
+      toState: ['', Validators.required],
+      countryCode: ['AU', Validators.required],
+      itemType: ['other', Validators.required],
+      weightType: ['kg', Validators.required],
+      weights: ['', Validators.required],
+      lengths: ['', Validators.required],
+      heights: ['', Validators.required],
+      widths: ['', Validators.required],
+      dimensionUnits: ['in', Validators.required],
+      packageType: ['other', Validators.required],
+      contents: ['other', Validators.required],
+      collectionDate: ['', Validators.required],
       quantitys: [1],
       items: new FormArray([this.createItem()]),
       createdby: [this.userId],
-      commercial:[],
-      resedential:[]
+      pickUpBuildingType: ['commercial'],
+      destinationBuildingType: ['commercial'],
+      isPickupTailLift:[true],
+      isDropOffTailLift:[true],
+      isDropOffPOBox:[true]
     });
     // console.log(this.userForm.get('items') as FormArray);
     // this.addItem();
     this.patchInitialFormValues();
   }
   createItem(): FormGroup {
-    // return this.fb.group({
-    //   type: ['box'],
-    //   weight: ['2', [
-    //     Validators.required,
-    //     Validators.min(0.01),
-    //     Validators.max(25),
-    //     Validators.pattern('^[0-9]+(\.[0-9]{1,2})?$') // Allows decimal values with up to 2 decimal places
-    //   ]],
-    //   length: ['2',[
-    //     Validators.required,
-    //     Validators.min(1),
-    //     Validators.max(200),
-    //     Validators.pattern('^[0-9]+$')  // Only integer values
-    //   ]],
-    //   width: ['', [
-    //     Validators.required,
-    //     Validators.min(1),
-    //     Validators.max(200),
-    //     Validators.pattern('^[0-9]+$') // Only integer values
-    //   ]],
-    //   // height: ['', [
-    //   //   Validators.required,
-    //   //   Validators.min(1),
-    //   //   Validators.max(200),
-    //   //   Validators.pattern('^[0-9]+$') // Only integer values
-    //   // ]],
-    //   quantity: ['1'],
-    //   contents: ['alcohol'],
-    // });
+    
 
     return this.fb.group({
       type: ['', Validators.required],
@@ -210,11 +167,104 @@ console.log("date",changeDate);
   get items(): FormArray {
     return this.userForm.get('items') as FormArray;
   }
-
+  pickupTail(event: any): void {
+    this.pTail = event.target.checked;
+    this.userForm.patchValue({
+      isPickupTailLift : this.pTail  // Update form control with true/false
+    });
+  }
+  deliveryTail(event: any): void {
+    this.dTail = event.target.checked;
+    this.userForm.patchValue({
+      isDropOffTailLift : this.dTail  // Update form control with true/false
+    });
+  }
+  deliveryPoBox(event: any): void {
+    this.dBox = event.target.checked;
+    this.userForm.patchValue({
+      isDropOffPOBox : this.dBox  // Update form control with true/false
+    });
+  }
   addItem(): void {
     this.items.push(this.createItem());
   }
+  trackOrder() {
+    this.viewOrders = this.trackForm.value;
+    console.log('view orders', this.viewOrders);
+    const orderId = this.trackForm.get('orderId')?.value;
+    console.log('Order ID:', orderId);
+    if (orderId) {
+      this.isLoading = true;
+      this.errorMessage = '';
+      this.poInfo=false
+      this.tailInfo=false
+      this.trackOrderService.trackOrder(orderId).subscribe(
+        (response: any) => {
+          this.isLoading = false;
+          this.trackOrderResponse = response;
+          if (this.trackOrderResponse) {
+            this.successMessage = true;
+          }
 
+          console.log('track order response', this.trackOrderResponse);
+        },
+        (error: any) => {
+         
+          console.log('error', error);
+          this.successMessage = false;
+          this.poInfo=false
+          this.tailInfo=false
+          this.isLoading = false;
+          // this.handleError(error);
+
+          this.errorMessage = error.error.message;
+        }
+      );
+    }
+  }
+  displayTailInfo(){
+    console.log("tail info");
+    this.poInfo=false
+    this.successMessage = false
+    this.errorMessage=''
+    this.tailInfo=true
+
+   
+  }
+  displayPoInfo(){
+    this.successMessage = false
+    this.errorMessage=''
+    this.poInfo=true
+    this.tailInfo=false
+  }
+  handleError(error: any) {
+    console.error('Error occurred:', error);
+
+    if (error.error) {
+      // Check if the backend sent an error message
+      if (error.error.message) {
+        this.errorMessage = error.error.message; // Use backend-provided error message
+      } else {
+        this.errorMessage =
+          'An unknown error occurred. Please try again later.'; // Fallback if no message
+      }
+    } else if (error.status === 0) {
+      // Handle network errors (CORS, offline, etc.)
+      this.errorMessage =
+        'Network error: Please check your internet connection.';
+    } else if (error.status >= 500) {
+      // Server errors
+      this.errorMessage = 'Server error: Please try again later.';
+    } else if (error.status >= 400) {
+      // Client errors (4xx range)
+      this.errorMessage =
+        'Invalid request: Please check the order details and try again.';
+    } else {
+      // Unexpected errors
+      this.errorMessage =
+        'An unexpected error occurred. Please contact support.';
+    }
+  }
   patchInitialFormValues(): void {
     this.userForm.patchValue({
       fromSuburb: this.suburbNameOne,
@@ -230,38 +280,25 @@ console.log("date",changeDate);
   }
 
   getformControls() {
-    // console.log('From  =--> ', this.suburbNameOne);
-    // console.log('to  =--> ', this.suburbNameTwo);
+   
     const formValue = this.userForm.value;
-    // console.log('value form control', formValue);
-    // console.log('One', this.searchTextOne);
-    // console.log('Two', this.searchTextTwo);
-
+    
     return formValue;
   }
 
-  // createItem(): FormGroup {
-  //   return new FormGroup({
-  //     type: new FormControl('bag'),
-  //     weight: new FormControl('2'),
-  //     length: new FormControl('2'),
-  //     width: new FormControl('2'),
-  //     height: new FormControl('2'),
-  //     quantity: new FormControl('1'),
-  //     contents: new FormControl('alcohol'),
-  //   });
-  // }
 
-  
   getUserId() {
     const getUser: any = localStorage.getItem('user');
-    //  console.log("get user in index", getUser);
-    const decryptUser = this.authService.decrypt(getUser);
-    //  console.log("decrypt user in index",decryptUser);
-    const userData = JSON.parse(decryptUser);
-    //  console.log("parsed data in add user",userData);
-    this.userId = userData.user.id;
-    console.log('user id in index', this.userId);
+    if(getUser){
+ //  console.log("get user in index", getUser);
+ const decryptUser = this.authService.decrypt(getUser);
+ //  console.log("decrypt user in index",decryptUser);
+ const userData = JSON.parse(decryptUser);
+ //  console.log("parsed data in add user",userData);
+ this.userId = userData.user.id;
+ console.log('user id in index', this.userId);
+    }
+   
   }
   getDimensions() {
     // Get the FormArray
@@ -277,8 +314,8 @@ console.log("date",changeDate);
       this.getWidths = firstItemGroup.get('width')?.value;
       this.getHeights = firstItemGroup.get('height')?.value;
       this.getWeights = firstItemGroup.get('weight')?.value;
-const changeDate=this.userForm.get('collectionDate')?.value
-console.log("date",changeDate);
+      const changeDate = this.userForm.get('collectionDate')?.value;
+      console.log('date', changeDate);
 
       // Log the dimensions
       console.log(
@@ -292,10 +329,7 @@ console.log("date",changeDate);
         heights: this.getHeights,
         lengths: this.getLengths,
         widths: this.getWidths,
-       
       });
-
-     
     } else {
       // Handle the case where there are no items in the FormArray
       console.log('No items in the FormArray');
@@ -304,17 +338,7 @@ console.log("date",changeDate);
     console.log('getDimensions called');
   }
 
-  // getDimensions() {
-
-  //   // Assuming you're looping through items or just getting the first one:
-  //   itemsArray.controls.forEach((itemGroup: AbstractControl) => {
-  //     const length = itemGroup.get('length')?.value;
-  //     const width = itemGroup.get('width')?.value;
-  //     const height = itemGroup.get('height')?.value;
-
-  //     console.log(`Dimensions - Length: ${length}, Width: ${width}, Height: ${height}`);
-  //   });
-  // }
+  
 
   getPackagingTypeDropdown() {
     this.indexService.getPackagingType().subscribe((response: any) => {
@@ -339,18 +363,43 @@ console.log("date",changeDate);
     this.isInternational = isInternational;
   }
   postRadioValue(iscommercial: boolean): void {
-    this.isCommercial=iscommercial
-//  this.indexService.toggleRadio(this.isCommercial)
-this.indexService.isCommercial$.next(this.isCommercial)
-this.indexService.isResidential$.next(this.isResedential)
-  }
-  // onDomesticClick() {
-  //   this.isInternational = false; // Set isInternational to false when domestic option is clicked
-  //   if(this.isInternational==false){
-  //     this.selectedCountryCode='AU'
-  //   }
-  // }
+    this.isPickupCommercial = iscommercial;
+    if (this.isPickupCommercial == true) {
+      const value = 'commercial';
+      this.userForm.patchValue({
+        pickUpBuildingType: value,
+      });
+    } else {
+      const value = 'resedential';
+      this.userForm.patchValue({
+        pickUpBuildingType: value,
+      });
+    }
+    console.log(this.isPickupCommercial,"pickup");
 
+    //  this.indexService.toggleRadio(this.isCommercial)
+    this.indexService.isPickupCommercial$.next(this.isPickupCommercial);
+    this.indexService.isPickupResidential$.next(this.isPickupResedential);
+  }
+  destinationRadioValue(iscommercial: boolean): void {
+    this.isDestinationCommercial = iscommercial;
+    if (this.isDestinationCommercial == true) {
+      const value = 'commercial';
+      this.userForm.patchValue({
+        destinationBuildingType  : value,
+      });
+    } else {
+      const value = 'resedential';
+      this.userForm.patchValue({
+        destinationBuildingType: value,
+      });
+    }
+    console.log("destination",this.isDestinationCommercial);
+
+    //  this.indexService.toggleRadio(this.isDestinationCommercial)
+    this.indexService.isDestinationCommercial$.next(this.isDestinationCommercial);
+    this.indexService.isDestinationResidential$.next(this.isDestinationResedential);
+  }
   updateCountryCode(event: Event) {
     const selectElementValue = event.target as HTMLSelectElement;
     this.DisplayCountryCode = selectElementValue.value;
@@ -395,10 +444,16 @@ this.indexService.isResidential$.next(this.isResedential)
       (response: any) => {
         if (dropdown === 'one') {
           this.filteredSuburbsOne = response.data;
+          if (this.filteredSuburbsOne.length === 0) {
+            this.toast.error('Please enter valid subvurb or city');
+          }
           this.isShowDropdownOne = true;
           this.isLoadingOne = false; // Stop loading for first input
         } else if (dropdown === 'two') {
           this.filteredSuburbsTwo = response.data;
+          if (this.filteredSuburbsTwo.length === 0) {
+            this.toast.error('Please enter valid subvurb or city');
+          }
           this.isShowDropdownTwo = true;
           this.isLoadingTwo = false; // Stop loading for second input
         }
@@ -451,25 +506,25 @@ this.indexService.isResidential$.next(this.isResedential)
   removeItem(index: number): void {
     this.items.removeAt(index);
   }
- 
+
   patchphysicalWeight(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     this.userInput = inputElement.value;
-    console.log("Physical weight fetched:", this.userInput);
-    
+    console.log('Physical weight fetched:', this.userInput);
+
     const itemsArray = this.userForm.get('items') as FormArray;
-    console.log("Items array:", itemsArray);
-    
+    console.log('Items array:', itemsArray);
+
     for (let i = 0; i < itemsArray.length; i++) {
       const itemGroup = itemsArray.at(i) as FormGroup; // Correctly cast to FormGroup
-      console.log("Item group:", itemGroup);
-      
+      console.log('Item group:', itemGroup);
+
       itemGroup.patchValue({
-        physicalWeight: this.userInput
+        physicalWeight: this.userInput,
       });
     }
   }
-  
+
   submitForm() {
     this.getDimensions();
     if (this.userForm.invalid) {
@@ -487,80 +542,49 @@ this.indexService.isResidential$.next(this.isResedential)
     const payload = {
       items: this.userForm.value.items,
     };
-   
+
     if (!this.GetRes) {
-      
     } else if (this.GetRes) {
-      console.log('userform',this.userForm.value);
       
-      this.indexService.updateIndexForm(this.userForm.value)
+      console.log('userform', this.userForm.value);
+
+      this.indexService.updateIndexForm(this.userForm.value);
       // localStorage.setItem('formValue', JSON.stringify(this.userForm.value));
       this.isLoading = true;
-      this.indexService.postMergeQuotes(this.userForm.value).subscribe((response:any)=>{
-       
-       
-        if(response)
-          console.log("response from index",response);
-          this.fastCourierQuotes=response.fastCourierResponse.data
-          console.log("response from fastCourierResponse",this.fastCourierQuotes);
-          
+      this.indexService.postMergeQuotes(this.userForm.value).subscribe(
+        (response: any) => {
+          if (response) console.log('response from index', response);
+          this.fastCourierQuotes = response.fastCourierResponse.data;
+          console.log(
+            'response from fastCourierResponse',
+            this.fastCourierQuotes
+          );
+
           this.router.navigate(['/application/replica']);
           this.isLoading = false;
-          // this.toast.success('Form submitted successfully!')
-          // this.userForm.reset();
-        {const quotes=response
-        console.log("quotes",response);
-        if(quotes){
-           localStorage.setItem('quoteid', JSON.stringify(response.userData.quptationId));
-           localStorage.setItem('userid',JSON.stringify(response.userData.userId))
-          // this.indexService.saveMergeResponse(response.userData)
-          this.indexService.mergeResponse$.next(response.userData)
-        }}
-        
-      },(error:any)=>{
-        this.isLoading = false;
-        // this.toast.error('Form submission failed')
-        // this.userForm.reset();
-      })
+          
+          {
+            const quotes = response;
+            console.log('quotes', response);
+            if (quotes) {
+              localStorage.setItem(
+                'quoteid',
+                JSON.stringify(response.userData.quptationId)
+              );
+              localStorage.setItem(
+                'userid',
+                JSON.stringify(response.userData.userId)
+              );
+            
+              this.indexService.mergeResponse$.next(response.userData);
+            }
+          }
+        },
+        (error: any) => {
+          this.isLoading = false;
+         
+        }
+      );
     }
   }
 }
-// {
-//   "quoteId": "KAQVXAKXZQ",
-//   "senderType": "sender",
-//   "pickupFirstName": "John",
-//   "pickupLastName": "Doe",
-//   "pickupCompanyName": "John LTD",
-//   "pickupEmail": "john@gmail.com",
-//   "pickupAddress1": "Street-10",
-//   "pickupAddress2": "Sector-25",
-//   "pickupPhone": "1234567890",
-//   "destinationFirstName": "Ewen",
-//   "destinationLastName": "Luis",
-//   "destinationCompanyName": "Ewen LTD",
-//   "destinationEmail": "ewen@gmail.com",
-//   "destinationAddress1": "Street-15",
-//   "destinationAddress2": "Sector-30",
-//   "destinationPhone": "9876543210",
-//   "collectionDate": "2024-09-06",
-//   "pickupTimeWindow": "9am to 5pm",
-//   "parcelContent": "Lorem Ipsum",
-//   "specialInstructions": "Drop the parcel carefully",
-//   "valueOfContent": 100,
-//   "authorityToLeave": false,
-//   "noPrinter": false,
-//   "extendedLiability": "1",
-//   "insuranceValue": "$500",
-//   "insuranceFee": "$4.00",
-//   "acceptInsuranceConditions": true,
-//   "acceptTermConditions": true,
-//   "acceptAttachment": true,
-//   "acceptNoDangerousGoods": true,
-//   "acceptReadFinancialServiceGuide": true,
-//   "emailForDocuments": "john@gmail.com",
-//   "additionalEmailsForDocuments": [
-//     {
-//       "email":"john@gmail.com"
-//     }
-//   ]
-// }

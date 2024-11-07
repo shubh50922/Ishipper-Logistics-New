@@ -4,15 +4,19 @@ import { ProjectLayoutComponent } from './core/layout/project-layout/project-lay
 import { ALL_ROUTES } from './core/routes/all-routes';
 
 
+
 const routes: Routes = [
   {
     path:'',
     loadChildren:()=>import('./index/index.module').then(m=>m.IndexModule)
   },
+  
   {
     path:'auth',
     loadChildren: ()=>import ('./auth/auth.module').then(m=>m.AuthModule)
   },
+  
+  
 {path:'application',
   component:ProjectLayoutComponent,
   children:ALL_ROUTES

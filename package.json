@@ -28,6 +28,7 @@
     "@googlemaps/extended-component-library": "^0.6.11",
     "@ngneat/hot-toast": "^4.1.1",
     "@ngneat/overview": "^3.0.0",
+    "@progress/kendo-angular-notification": "^4.0.0",
     "@syncfusion/ej2-angular-dropdowns": "^26.1.35",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
@@ -43,7 +44,12 @@
     "owl.carousel": "^2.3.4",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "@progress/kendo-angular-common": "^3.0.0",
+    "@progress/kendo-angular-l10n": "^4.0.0",
+    "@progress/kendo-licensing": "^1.0.2",
+    "@angular/localize": "^14.2.0",
+    "@progress/kendo-theme-default": "^5.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.13",

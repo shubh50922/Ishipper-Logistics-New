@@ -27,14 +27,14 @@
           <label>Collection Date</label>
           <input
             type="text"
-            [placeholder]=" getQuoteById"
-            formControlName="collectionDate"
+            [placeholder]="indexForm.collectionDate"
+            
             readonly
           />
         </div>
         <div class="ship-sum-col">
           <label>Estimated Delivery Date</label>
-          <input type="text" [placeholder]="estimatedDate" readonly />
+          <input type="text" [placeholder]="estimatedinHtml" readonly />
         </div>
         <div class="ship-sum-col">
           <label>Shipment Cost</label>
@@ -123,17 +123,11 @@
             ></i>
           </div>
           <div class="ship-sum-col w-full mb-3" style="position: relative">
-            <label>Address 1</label>
+            <label>Address 2 (optional)</label>
             <input
               type="text"
               placeholder=""
-              [options]="options"
-              ngx-google-places-autocomplete
-              #placesRef2="ngx-places"
-              (onAddressChange)="
-                handleAddressChange($event, 'formattedAddress2')
-              "
-              [(ngModel)]="formattedAddress2"
+              
               style="padding-right: 30px"
               formControlName="pickupAddress2"
             />
@@ -176,6 +170,31 @@
                 <small *ngIf="orderForm.get('pickupEmail')?.errors?.['email']">Please enter a valid email</small>
             </div>
           </div>
+          <div class="ship-sum-col w-full"  *ngIf="rType">
+            <label>Pickup Instructions <span class="tx-red">*</span></label>
+            <input
+              type="text"
+              formControlName="pickupInstructions"
+              
+            />
+            <div class="text-danger" *ngIf="(orderForm.controls['pickupInstructions'].touched || orderForm.controls['pickupInstructions'].dirty ) && orderForm.controls['pickupInstructions'].invalid">
+                <small  *ngIf="orderForm.get('pickupEmail')?.errors?.['required']">Pickup Instruction is required.</small>
+               
+            </div>
+          </div>
+          <div class="ship-sum-col w-full mb-3" *ngIf="isCp">
+            <div class="couriers-wtxt d-flex align-items-center mt-4">
+              <div class="only_courierstxt mx-2">
+                <p>Is Business</p>
+              </div>
+              <div class="content">
+                <label class="switch m5">
+                  <input type="checkbox" checked="" (change)="pickupIsBusiness($event)" />
+                  <small></small>
+                </label>
+                </div>
+              </div>
+            </div>
         </div>
       </div>
       <div class="col-lg-6 col-xl-4 mb-4">
@@ -250,18 +269,12 @@
             ></i>
           </div>
           <div class="ship-sum-col w-full mb-3" style="position: relative">
-            <label>Address 1</label>
+            <label>Address 2 (optional)</label>
             
             <input
               type="text"
               placeholder=""
-              [options]="options"
-              ngx-google-places-autocomplete
-              #placesRef4="ngx-places"
-              (onAddressChange)="
-                handleAddressChange($event, 'formattedAddress4')
-              "
-              [(ngModel)]="formattedAddress4"
+           
               style="padding-right: 30px"
               formControlName="destinationAddress2"
             />
@@ -299,12 +312,38 @@
               placeholder="Johnp@xyz.com"
               formControlName="destinationEmail"
             />
+            <div class="ship-sum-col w-full" *ngIf="rType">
+              <label>destination Instructions <span class="tx-red">*</span></label>
+              <input
+                type="text"
+                formControlName="destinationInstructions"
+              />
+              <div class="text-danger" *ngIf="(orderForm.controls['destinationInstructions'].touched || orderForm.controls['destinationInstructions'].dirty ) && orderForm.controls['destinationInstructions'].invalid">
+                  <small  *ngIf="orderForm.get('destinationEmail')?.errors?.['required']">destination Instruction is required.</small>
+                 
+              </div>
+            </div>
             <div class="text-danger" *ngIf="(orderForm.controls['destinationEmail'].touched || orderForm.controls['destinationEmail'].dirty ) && orderForm.controls['destinationEmail'].invalid">
                 <small  *ngIf="orderForm.get('destinationEmail')?.errors?.['required']">Email is required.</small>
                 <small *ngIf="orderForm.get('destinationEmail')?.errors?.['email']">Please enter a valid email</small>
             </div>
           </div>
+          <div class="ship-sum-col w-full mb-3" *ngIf="isCp">
+            <div class="couriers-wtxt d-flex align-items-center mt-4">
+              <div class="only_courierstxt mx-2">
+                <p>Is Business</p>
+              </div>
+              <div class="content">
+                <label class="switch m5">
+                  <input type="checkbox" checked="" (change)="destinationIsBusiness($event)" />
+                  <small></small>
+                </label>
+              </div>
+              </div>
+            </div>
+        
         </div>
+        
       </div>
       <div class="col-lg-12 col-xl-4">
         <div class="p-4 d_htd_content bg-white h-full">
@@ -333,7 +372,7 @@
           
           <div class="ship-sum-col w-full mb-3">
             <label>Your Reference</label>
-            <input type="text" placeholder="" />
+            <input type="text" placeholder="" formControlName="reference"/>
             
           </div>
           <div class="inp-group">
@@ -346,6 +385,11 @@
                 <small  *ngIf="orderForm.get('pickupTimeWindow')?.errors?.['required']">Select pickup slot.</small>
                 
             </div>
+          </div>
+          <div class="ship-sum-col w-full mb-3" *ngIf="isCp">
+            <label class="mx-2">Select Time:</label>
+            <input type="time"  formControlName="readyTime" value="03:15:00" style="padding:3px 10px; border-radius:10px;
+            border:1px solid rgb(179, 179, 179); font-size:15px" />
           </div>
           <div class="ship-sum-col w-full mb-3">
             <label>Delivery Instructions</label>
@@ -374,9 +418,12 @@
                   <input type="checkbox" checked="" (change)="authorityToLeave($event)" />
                   <small></small>
                 </label>
+                
               </div>
             </div>
           </div>
+          
+          
           <div class="ship-sum-col w-full">
             <p class="tx-small-r">
               Please note no claims can made for lost items after freight
@@ -389,7 +436,7 @@
       <div class="col-md-12">
         <div class="ship-btn-row">
           <button class="cr-btn">Previous Step</button>
-          <button class="cr-btn cr-btn-bor" type="submit"  [routerLink]="'/application/additional'" (click)="onSubmit()"  >Next Step</button>
+          <button class="cr-btn cr-btn-bor" type="submit"  [routerLink]="'/application/cancellation'" (click)="onSubmit()"  >Next Step</button>
         </div>
       </div>
     </div>

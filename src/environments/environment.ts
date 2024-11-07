@@ -4,7 +4,8 @@
 
 export const environment = {
    production: false,
-   apiUrl: 'http://192.168.2.134:8035/api'
+    apiUrl: 'https://gs.mt.cisinlive.com/ishipper/api'
+   
 };
 
 /*

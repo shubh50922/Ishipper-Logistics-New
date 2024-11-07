@@ -1,0 +1,22 @@
+
+<div class="dashboard-wrapBg">
+    <div *ngIf="isLoading" class="loader-overlay">
+        <app-loader></app-loader>
+      </div>
+   <form  [formGroup]="trackForm" >
+    <div class="white_form_card">
+        
+        <div class="inp-group">
+            <label for="">Order id</label>
+            <input type="text" name="" id="" formControlName="orderId" placeholder="Enter order id">
+        </div>
+        
+        <div class="btn-spcprofile">
+            <a  class="btn_authenticate" (click)="trackOrder()" id="#error_modal">View</a>
+            <a href="javascript:void(0)" class="btn-cancelation">Cancel</a>
+        </div>
+       
+    </div>
+   </form>
+</div>
+<!-- Error Modal -->
